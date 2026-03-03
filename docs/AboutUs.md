@@ -1,6 +1,6 @@
 ---
-  layout: default.md
-  title: "About Us"
+layout: default.md
+title: "About Us"
 ---
 
 # About Us
@@ -31,11 +31,12 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Team Lead
 * Responsibilities: UI
 
-### Johnny Doe
+### Ngui Jia Le Sherlena
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/c4rr0t02.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[homepage](sherlena.c4rr0ting.com)]
+[[github](https://github.com/C4RR0T02)]
 
 * Role: Developer
 * Responsibilities: Data
