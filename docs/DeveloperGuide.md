@@ -607,8 +607,8 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Above average typing speed**: 40 words per minute (wpm) or more for regular English text (i.e. not code, not system admin commands)
-* **Valid user command**: A user command that is correctly formatted and does not violate any constraints of the system. For example, `add /n John Doe /p 98765432`
-* **Invalid user command**: A user command that is incorrectly formatted or violates constraints of the system. For example, `add name/John Doe phone/98765432`
+* **Valid user command**: A user command that is correctly formatted and does not violate any constraints of the system.
+* **Invalid user command**: A user command that is incorrectly formatted or violates constraints of the system.
 * **Contact**: A stored record representing a potential candidate that the headhunter is recruiting for.
 * **Contact Group**: A tag used to identify different contacts and group similar contacts. A contact group can have none to many contacts.
 * **Company Profile**: A stored record representing a client company that the headhunter is recruiting for.
