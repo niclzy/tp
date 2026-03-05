@@ -287,20 +287,22 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
-|----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person             |                                                                        |
-| `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name        | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name         | locate a person easily                                                 |
+| Priority | As a …​                                    | I want to …​                    | So that I can…​                                                        |
+|----------|--------------------------------------------|---------------------------------|------------------------------------------------------------------------|
+| `* * *`  | new user                                   | see usage instructions          | refer to instructions when I forget how to use the App                 |
+| `* * *`  | user                                       | add a new person                |                                                                        |
+| `* * *`  | user                                       | delete a person                 | remove entries that I no longer need                                   |
+| `* * *`  | user                                       | find a person by name           | locate details of persons without having to go through the entire list |
+| `* * *`  | Headhunter                                 | create a new contact group      |                                                                        |
+| `* * *`  | Headhunter                                 | add a person to a contact group | organise my contacts into groups                                       |
+| `* *`    | user                                       | hide private contact details    | minimize chance of someone else seeing them by accident                |
+| `*`      | user with many persons in the address book | sort persons by name            | locate a person easily                                                 |
 
 *{More to be added}*
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `HitList` and the **Actor** is the `user`, unless specified otherwise)
 
 **Use case: Add a contact**
 
@@ -334,7 +336,44 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 1a. The requested contact does not exist.
   * 1a1. System shows an error message
 
+      Use case resumes at step 2.
+      For the following use cases (unless otherwise specified):
+* Actor: Headhunter
+* Precondition: App is running
+* System is the HitList
+
+**Use case: Add a contact group**
+* Precondition: App running with Java 17 installed
+* 
+**MSS**
+
+1. User requests to add a contact group 
+2. System creates the contact group 
+3. System informs user that the contact group has been created
+
     Use case ends.
+
+**Extensions**
+
+* 1a. System detects that a company profile with the same name already exists 
+* 1a1. System informs user of the error
+  Use case ends.
+
+**Use case: Delete a contact group**
+* Precondition: App running with Java 17 installed
+* 
+**MSS**
+
+1. User requests to delete a contact group 
+2. System deletes the contact group 
+3. System informs user that the contact group has been deleted
+   Use case ends.
+
+**Extensions**
+
+* 1a. System detects that the contact group does not exist.
+* 1a1. System informs user of the error.
+Use case ends.
 
 **Use case: Add a company profile**
 * Actor: Headhunter
@@ -400,6 +439,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4.  The system should be able to run without internet access.
+5.  The system should respond to the user within 2 seconds for all user commands.
 
 ### Company Profile Non-Functional Requirements
 1.  The company profile feature should support keyboard-first usage for all core actions
@@ -407,11 +448,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 3.  The application should remain responsive while processing invalid company profile commands and should return an appropriate error message promptly
 4.  The company profile feature should support at least 50 company profiles without significant degradation in response time
 
-*{More to be added}*
+### Contact Group Non-Functional Requirements
+1.  The system should be able to support up to 500 contact groups 
+
+*{More to be added}* 
 
 ### Glossary
 
-* **Company Profile**: A stored record representing a client company that the headhunter is recruiting for
+* **Contact Group**: A tag used to identify different contacts and group similar contacts. A contact group can have none to many contacts.
+* **Company Profile**: A stored record representing a client company that the headhunter is recruiting for.
 
 --------------------------------------------------------------------------------------------------------------------
 
