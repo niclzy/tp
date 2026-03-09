@@ -1,0 +1,39 @@
+package hitlist.logic.parser;
+
+import static hitlist.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static hitlist.logic.parser.CliSyntax.PREFIX_REMARK;
+import static java.util.Objects.requireNonNull;
+
+import hitlist.commons.core.index.Index;
+import hitlist.logic.commands.RemarkCommand;
+import hitlist.logic.parser.exceptions.ParseException;
+import hitlist.model.person.Remark;
+
+/**
+ * Parses input arguments and creates a new RemarkCommand object
+ */
+public class RemarkCommandParser implements Parser<RemarkCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the RemarkCommand
+     * and returns a RemarkCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public RemarkCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
+
+        Index index;
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (ParseException pe) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE), pe);
+        }
+
+        String remarkValue = argMultimap.getValue(PREFIX_REMARK).orElse("");
+        Remark remark = new Remark(remarkValue);
+
+        return new RemarkCommand(index, remark);
+    }
+}
