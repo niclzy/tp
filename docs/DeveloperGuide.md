@@ -279,7 +279,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * fast typist
 * headhunts for multiple companies
 * needs to track both candidate and company contacts
-* needs to keep track of candidates' statuses (unemployed/graduating/etc.)
+* needs to keep track of candidates' status (unemployed/graduating/etc.)
 
 **Value proposition**: alleviate the logistics of matching candidates to clients
 
