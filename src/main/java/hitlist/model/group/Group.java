@@ -48,4 +48,23 @@ public class Group {
         return otherGroup != null
                 && otherGroup.getName().equals(getName());
     }
+
+    /**
+     * Returns true if both groups have the same identity and data fields.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof Group)) {
+            return false;
+        }
+
+        Group otherGroup = (Group) other;
+        return name.equals(otherGroup.name)
+               && members.equals(otherGroup.members);
+    }
 }
