@@ -7,6 +7,12 @@ package hitlist.logic.parser;
 public class Prefix {
     private final String prefix;
 
+    /**
+     * Constructs a Prefix with the given string.
+     * If the prefix doesn't start with '/', it will be added automatically.
+     *
+     * @param prefix The prefix string, with or without the leading '/'
+     */
     public Prefix(String prefix) {
         if (prefix != null && !prefix.isEmpty() && !prefix.startsWith("/")) {
             this.prefix = "/" + prefix;
