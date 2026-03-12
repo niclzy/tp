@@ -5,6 +5,10 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import hitlist.commons.util.ToStringBuilder;
+import hitlist.model.company.Company;
+import hitlist.model.company.role.Role;
+import hitlist.model.company.UniqueCompanyList;
+import hitlist.model.company.role.UniqueRoleList;
 import hitlist.model.person.Person;
 import hitlist.model.person.UniquePersonList;
 import javafx.collections.ObservableList;
@@ -16,6 +20,8 @@ import javafx.collections.ObservableList;
 public class HitList implements ReadOnlyHitList {
 
     private final UniquePersonList persons;
+    private final UniqueRoleList roles;
+    private final UniqueCompanyList companies;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -26,6 +32,8 @@ public class HitList implements ReadOnlyHitList {
      */
     {
         persons = new UniquePersonList();
+        roles = new UniqueRoleList();
+        companies = new UniqueCompanyList();
     }
 
     public HitList() {}
@@ -49,12 +57,30 @@ public class HitList implements ReadOnlyHitList {
     }
 
     /**
+     * Replaces the contents of the role list with {@code roles}.
+     * {@code roles} must not contain duplicate roles.
+     */
+    public void setRoles(List<Role> roles) {
+        this.roles.setRoles(roles);
+    }
+
+    /**
+    * Replaces the contents of the company list with {@code companies}.
+    * {@code companies} must not contain duplicate companies.
+    */
+    public void setCompanies(List<Company> companies) {
+        this.companies.setCompanies(companies);
+    }
+
+    /**
      * Resets the existing data of this {@code HitList} with {@code newData}.
      */
     public void resetData(ReadOnlyHitList newData) {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
+        setRoles(newData.getRoleList());
+        setCompanies(newData.getCompanyList());
     }
 
     //// person-level operations
@@ -94,18 +120,104 @@ public class HitList implements ReadOnlyHitList {
         persons.remove(key);
     }
 
+    //// role-level operations
+
+    /**
+     * Returns true if a role with the same identity as {@code role} exists in the address book.
+     */
+    public boolean hasRole(Role role) {
+        requireNonNull(role);
+        return roles.contains(role);
+    }
+
+    /**
+     * Adds a role to the address book.
+     * The role must not already exist in the address book.
+     */
+    public void addRole(Role r) {
+        roles.add(r);
+    }
+
+    /**
+     * Replaces the given role {@code target} in the list with {@code editedRole}.
+     * {@code target} must exist in the address book.
+     * The role identity of {@code editedRole} must not be the same as another existing role in the address book.
+     */
+    public void setRole(Role target, Role editedRole) {
+        requireNonNull(editedRole);
+
+        roles.setRole(target, editedRole);
+    }
+
+    /**
+     * Removes {@code key} from this {@code HitList}.
+     * {@code key} must exist in the address book.
+     */
+    public void removeRole(Role key) {
+        roles.remove(key);
+    }
+
+    //// company-level operations
+
+    /**
+     * Returns true if a company with the same identity as {@code company} exists in the address book.
+     */
+    public boolean hasCompany(Company company) {
+        requireNonNull(company);
+        return companies.contains(company);
+    }
+
+    /**
+     * Adds a company to the address book.
+     * The company must not already exist in the address book.
+     */
+    public void addCompany(Company c) {
+        companies.add(c);
+    }
+
+    /**
+     * Replaces the given company {@code target} in the list with {@code editedCompany}.
+     * {@code target} must exist in the address book.
+     * The company identity of {@code editedCompany} must not be the same as another existing company in the address book.
+     */
+    public void setCompany(Company target, Company editedCompany) {
+        requireNonNull(editedCompany);
+
+        companies.setCompany(target, editedCompany);
+    }
+
+    /**
+     * Removes {@code key} from this {@code HitList}.
+     * {@code key} must exist in the address book.
+     */
+    public void removeCompany(Company key) {
+        companies.remove(key);
+    }
+
     //// util methods
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("persons", persons)
+                .add("roles", roles)
+                .add("companies", companies)
                 .toString();
     }
 
     @Override
     public ObservableList<Person> getPersonList() {
         return persons.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public ObservableList<Role> getRoleList() {
+        return roles.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public ObservableList<Company> getCompanyList() {
+        return companies.asUnmodifiableObservableList();
     }
 
     @Override
