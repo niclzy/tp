@@ -11,7 +11,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * YADA YADA
+ * A list of groups that enforces uniqueness between its elements and does not allow nulls.
+ * A group is considered unique by comparing using {@code Group#isSameGroup(Group)}.
  */
 public class UniqueGroupList implements Iterable<Group> {
 
