@@ -17,6 +17,16 @@ public class Company {
     private final UniqueRoleList uniqueRoleList;
 
     /**
+     * Every field must be present and not null.
+     */
+    public Company(Name name, Description description) {
+        requireAllNonNull(name, description);
+        this.name = name;
+        this.description = description;
+        this.uniqueRoleList = new UniqueRoleList();
+    }
+
+    /**
     * Every field must be present and not null.
     */
     public Company(Name name, Description description, UniqueRoleList uniqueRoleList) {
