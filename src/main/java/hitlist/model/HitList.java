@@ -5,6 +5,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import hitlist.commons.util.ToStringBuilder;
+import hitlist.model.group.Group;
+import hitlist.model.group.UniqueGroupList;
 import hitlist.model.person.Person;
 import hitlist.model.person.UniquePersonList;
 import javafx.collections.ObservableList;
@@ -16,6 +18,7 @@ import javafx.collections.ObservableList;
 public class HitList implements ReadOnlyHitList {
 
     private final UniquePersonList persons;
+    private final UniqueGroupList groups;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -26,6 +29,7 @@ public class HitList implements ReadOnlyHitList {
      */
     {
         persons = new UniquePersonList();
+        groups = new UniqueGroupList();
     }
 
     public HitList() {}
@@ -92,6 +96,30 @@ public class HitList implements ReadOnlyHitList {
      */
     public void removePerson(Person key) {
         persons.remove(key);
+    }
+
+    /**
+     * Returns true if a group with the same identity as {@code group} exists.
+     */
+    boolean hasGroup(Group group) {
+        requireNonNull(group);
+        return groups.contains(group);
+    }
+
+    /**
+     * Adds a group to the address book.
+     * The group must not already exist in the address book.
+     */
+    public void addGroup(Group g) {
+        groups.add(g);
+    }
+
+    /**
+     * Deletes the given group.
+     * {@code group} must already exist.
+     */
+    void deleteGroup(Group group) {
+        groups.remove(group);
     }
 
     //// util methods

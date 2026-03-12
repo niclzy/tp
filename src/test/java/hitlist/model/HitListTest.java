@@ -3,6 +3,7 @@ package hitlist.model;
 import static hitlist.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static hitlist.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static hitlist.testutil.Assert.assertThrows;
+import static hitlist.testutil.TypicalGroups.STUDENTS;
 import static hitlist.testutil.TypicalPersons.ALICE;
 import static hitlist.testutil.TypicalPersons.getTypicalHitList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,6 +17,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import hitlist.model.group.exceptions.DuplicateGroupException;
+import hitlist.model.group.exceptions.GroupNotFoundException;
 import hitlist.model.person.Person;
 import hitlist.model.person.exceptions.DuplicatePersonException;
 import hitlist.testutil.PersonBuilder;
@@ -87,6 +90,44 @@ public class HitListTest {
     public void toStringMethod() {
         String expected = HitList.class.getCanonicalName() + "{persons=" + hitList.getPersonList() + "}";
         assertEquals(expected, hitList.toString());
+    }
+
+    @Test
+    public void hasGroup_nullGroup_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> hitList.hasGroup(null));
+    }
+
+    @Test
+    public void hasGroup_groupNotInAddressBook_returnsFalse() {
+        assertFalse(hitList.hasGroup(STUDENTS));
+    }
+
+    @Test
+    public void hasGroup_groupInAddressBook_returnsTrue() {
+        hitList.addGroup(STUDENTS);
+        assertTrue(hitList.hasGroup(STUDENTS));
+    }
+
+    @Test
+    public void addGroup_groupNotInAddressBook_success() {
+        hitList.addGroup(STUDENTS);
+    }
+
+    @Test
+    public void addGroup_groupInAddressBook_throwsDuplicateGroupException() {
+        hitList.addGroup(STUDENTS);
+        assertThrows(DuplicateGroupException.class, () -> hitList.addGroup(STUDENTS));
+    }
+
+    @Test
+    public void deleteGroup_groupInAddressBook_success() {
+        hitList.addGroup(STUDENTS);
+        hitList.deleteGroup(STUDENTS);
+    }
+
+    @Test
+    public void deleteGroup_groupNotInAddressBook_throwsGroupNotFoundException() {
+        assertThrows(GroupNotFoundException.class, () -> hitList.deleteGroup(STUDENTS));
     }
 
     /**

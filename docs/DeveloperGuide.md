@@ -383,8 +383,8 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 
 **MSS**
 
-1. User requests to delete a contact group 
-2. System deletes the contact group 
+1. User requests to delete a contact group
+2. System deletes the contact group
 3. System informs user that the contact group has been deleted
 
     Use case ends.
@@ -601,7 +601,7 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 
 1. The system should support at least 100 company profiles without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of company profiles.
 
-*{More to be added}* 
+*{More to be added}*
 
 ### Glossary
 

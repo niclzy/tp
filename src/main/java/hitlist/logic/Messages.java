@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import hitlist.logic.parser.Prefix;
+import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 
 /**
@@ -45,6 +46,15 @@ public class Messages {
                 .append(person.getAddress())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
+        return builder.toString();
+    }
+
+    /**
+     * Formats the {@code group} for display to the user.
+     */
+    public static String formatGroup(Group group) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(group.getName());
         return builder.toString();
     }
 

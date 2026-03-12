@@ -3,6 +3,7 @@ package hitlist.logic.parser;
 import static hitlist.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static hitlist.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static hitlist.testutil.Assert.assertThrows;
+import static hitlist.testutil.TypicalGroups.STUDENTS;
 import static hitlist.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import hitlist.logic.commands.AddCommand;
+import hitlist.logic.commands.AddGroupCommand;
 import hitlist.logic.commands.ClearCommand;
 import hitlist.logic.commands.DeleteCommand;
 import hitlist.logic.commands.EditCommand;
@@ -24,9 +26,11 @@ import hitlist.logic.commands.FindCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
 import hitlist.logic.parser.exceptions.ParseException;
+import hitlist.model.person.NameContainsKeywordsPredicate;
 import hitlist.model.person.Person;
 import hitlist.model.person.PersonMatchesFindPredicate;
 import hitlist.testutil.EditPersonDescriptorBuilder;
+import hitlist.testutil.GroupUtil;
 import hitlist.testutil.PersonBuilder;
 import hitlist.testutil.PersonUtil;
 
@@ -86,6 +90,13 @@ public class HitListParserTest {
     public void parseCommand_list() throws Exception {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
+    }
+
+    @Test
+    public void parseCommand_addGroup() throws Exception {
+        Group group = STUDENTS;
+        AddGroupCommand command = (AddGroupCommand) parser.parseCommand(GroupUtil.getAddGroupCommand(group));
+        assertEquals(new AddGroupCommand(group), command);
     }
 
     @Test

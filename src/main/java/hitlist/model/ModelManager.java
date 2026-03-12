@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import hitlist.commons.core.GuiSettings;
 import hitlist.commons.core.LogsCenter;
+import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -109,6 +110,22 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedPerson);
 
         hitList.setPerson(target, editedPerson);
+    }
+
+    @Override
+    public boolean hasGroup(Group group) {
+        requireNonNull(group);
+        return hitList.hasGroup(group);
+    }
+
+    @Override
+    public void addGroup(Group group) {
+        hitList.addGroup(group);
+    }
+
+    @Override
+    public void deleteGroup(Group group) {
+        hitList.deleteGroup(group);
     }
 
     //=========== Filtered Person List Accessors =============================================================

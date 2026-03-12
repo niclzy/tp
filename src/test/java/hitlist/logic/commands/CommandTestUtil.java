@@ -2,6 +2,7 @@ package hitlist.logic.commands;
 
 import static hitlist.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static hitlist.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static hitlist.logic.parser.CliSyntax.PREFIX_GROUP;
 import static hitlist.logic.parser.CliSyntax.PREFIX_NAME;
 import static hitlist.logic.parser.CliSyntax.PREFIX_PHONE;
 import static hitlist.logic.parser.CliSyntax.PREFIX_TAG;
@@ -25,6 +26,13 @@ import hitlist.testutil.EditPersonDescriptorBuilder;
  * Contains helper methods for testing commands.
  */
 public class CommandTestUtil {
+    public static final String VALID_GROUP_NAME_STUDENTS = "Students";
+    public static final String VALID_GROUP_NAME_UNEMPLOYED = "Unemployed";
+
+    public static final String GROUP_NAME_DESC_STUDENTS = " " + PREFIX_GROUP + VALID_GROUP_NAME_STUDENTS;
+    public static final String GROUP_NAME_DESC_UNEMPLOYED = " " + PREFIX_GROUP + VALID_GROUP_NAME_UNEMPLOYED;
+
+    public static final String INVALID_GROUP_NAME_DESC = " " + PREFIX_GROUP + "This&That"; // '&' not allowed in names
 
     public static final String VALID_NAME_AMY = "Amy Bee";
     public static final String VALID_NAME_BOB = "Bob Choo";
