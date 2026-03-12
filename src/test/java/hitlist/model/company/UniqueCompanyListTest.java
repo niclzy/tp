@@ -1,7 +1,7 @@
 package hitlist.model.company;
 
-import static hitlist.logic.commands.CommandTestUtil.VALID_COMPANY_NAME_GOOGLE;
 import static hitlist.logic.commands.CommandTestUtil.VALID_COMPANY_DESCRIPTION_META;
+import static hitlist.logic.commands.CommandTestUtil.VALID_COMPANY_NAME_GOOGLE;
 import static hitlist.testutil.Assert.assertThrows;
 import static hitlist.testutil.TypicalCompanies.GOOGLE;
 import static hitlist.testutil.TypicalCompanies.META;
@@ -11,11 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import hitlist.model.company.exceptions.DuplicateCompanyException;
+import hitlist.model.company.exceptions.CompanyNotFoundException;s
 import hitlist.testutil.CompanyBuilder;
 import org.junit.jupiter.api.Test;
-
-import hitlist.model.company.exceptions.DuplicateCompanyException;
-import hitlist.model.company.exceptions.CompanyNotFoundException;
 
 public class UniqueCompanyListTest {
 

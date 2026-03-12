@@ -1,7 +1,7 @@
 package hitlist.model.company.role;
 
-import static hitlist.logic.commands.CommandTestUtil.VALID_ROLE_NAME_SOFTWARE_ENGINEER;
 import static hitlist.logic.commands.CommandTestUtil.VALID_ROLE_DESCRIPTION_PRODUCT_MANAGER;
+import static hitlist.logic.commands.CommandTestUtil.VALID_ROLE_NAME_SOFTWARE_ENGINEER;
 import static hitlist.testutil.Assert.assertThrows;
 import static hitlist.testutil.TypicalRoles.PRODUCT_MANAGER;
 import static hitlist.testutil.TypicalRoles.SOFTWARE_ENGINEER;
@@ -135,7 +135,7 @@ public class UniqueRoleListTest {
         assertEquals(expectedUniqueRoleList, uniqueRoleList);
     }
 
-     @Test
+    @Test
     public void setRoles_nullUniqueRoleList_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> uniqueRoleList.setRoles((UniqueRoleList) null));
     }

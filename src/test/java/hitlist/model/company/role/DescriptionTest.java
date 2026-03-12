@@ -34,6 +34,7 @@ public class DescriptionTest {
         // valid description
         assertTrue(Description.isValidDescription("Software Engineer")); // alphabets only
         assertTrue(Description.isValidDescription("12345")); // numbers only
-        assertTrue(Description.isValidDescription("An entry-level software engineering role responsible for developing and maintaining software applications.")); // long description
+        assertTrue(Description.isValidDescription("An entry-level software engineering role responsible for "
+                + "developing and maintaining software applications.")); // long description
     }
 }

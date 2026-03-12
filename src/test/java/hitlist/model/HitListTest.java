@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import hitlist.testutil.CompanyBuilder;
 import org.junit.jupiter.api.Test;
 
 import hitlist.model.company.Company;
@@ -26,6 +25,7 @@ import hitlist.model.group.exceptions.DuplicateGroupException;
 import hitlist.model.group.exceptions.GroupNotFoundException;
 import hitlist.model.person.Person;
 import hitlist.model.person.exceptions.DuplicatePersonException;
+import hitlist.testutil.CompanyBuilder;
 import hitlist.testutil.PersonBuilder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

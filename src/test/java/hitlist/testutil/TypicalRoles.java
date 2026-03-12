@@ -12,16 +12,21 @@ import java.util.List;
 import hitlist.model.HitList;
 import hitlist.model.company.role.Role;
 
+/**
+ * A utility class containing a list of {@code Role} objects to be used in tests.
+ */
 public class TypicalRoles {
 
     public static final Role LECTURER = new RoleBuilder()
             .withName("Lecturer")
-            .withDescription("An academic role responsible for teaching and conducting research in a university or college.")
+            .withDescription("An academic role responsible for teaching and conducting research "
+                    + "in a university or college.")
             .build();
 
     public static final Role DATA_SCIENTIST = new RoleBuilder()
             .withName("Data Scientist")
-            .withDescription("A data science role responsible for analyzing and interpreting complex data to help organizations make informed decisions.")
+            .withDescription("A data science role responsible for analyzing and interpreting complex data to help "
+                    + "organizations make informed decisions.")
             .build();
 
     // Manually added - Role's details found in {@code CommandTestUtil}

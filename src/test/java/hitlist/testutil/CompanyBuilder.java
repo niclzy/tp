@@ -11,7 +11,8 @@ import hitlist.model.company.role.UniqueRoleList;
 public class CompanyBuilder {
 
     public static final String DEFAULT_NAME = "Google Inc.";
-    public static final String DEFAULT_DESCRIPTION = "A multinational technology company that specializes in Internet-related services and products.";
+    public static final String DEFAULT_DESCRIPTION =
+            "A multinational technology company that specializes in Internet-related services and products.";
     public static final UniqueRoleList DEFAULT_UNIQUE_ROLE = new UniqueRoleList();
 
     private Name name;
@@ -52,6 +53,9 @@ public class CompanyBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code UniqueRoleList} of the {@code Company} that we are building.
+     */
     public CompanyBuilder withUniqueRoleList(UniqueRoleList uniqueRoleList) {
         this.uniqueRoleList = uniqueRoleList;
         return this;

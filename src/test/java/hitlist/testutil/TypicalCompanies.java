@@ -1,9 +1,9 @@
 package hitlist.testutil;
 
-import static hitlist.logic.commands.CommandTestUtil.VALID_COMPANY_DESCRIPTION_META;
 import static hitlist.logic.commands.CommandTestUtil.VALID_COMPANY_DESCRIPTION_GOOGLE;
-import static hitlist.logic.commands.CommandTestUtil.VALID_COMPANY_NAME_META;
+import static hitlist.logic.commands.CommandTestUtil.VALID_COMPANY_DESCRIPTION_META;
 import static hitlist.logic.commands.CommandTestUtil.VALID_COMPANY_NAME_GOOGLE;
+import static hitlist.logic.commands.CommandTestUtil.VALID_COMPANY_NAME_META;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,12 +19,15 @@ public class TypicalCompanies {
 
     public static final Company MICROSOFT = new CompanyBuilder()
             .withName("Microsoft Corporation")
-            .withDescription("An American multinational technology company with headquarters in Redmond, Washington. It develops, manufactures, licenses, supports and sells computer software, consumer electronics, personal computers, and related services")
+            .withDescription("An American multinational technology company with headquarters in Redmond, Washington. "
+                    + "It develops, manufactures, licenses, supports and sells computer software, consumer electronics,"
+                    + " personal computers, and related services")
             .build();
 
     public static final Company DELL = new CompanyBuilder()
             .withName("Dell Technologies Inc.")
-            .withDescription("An American multinational technology company based in Round Rock, Texas. It develops, sells, repairs, and supports computers and related products and services")
+            .withDescription("An American multinational technology company based in Round Rock, Texas. It develops, "
+                    + "sells, repairs, and supports computers and related products and services")
             .build();
 
     // Manually added - Company's details found in {@code CommandTestUtil}

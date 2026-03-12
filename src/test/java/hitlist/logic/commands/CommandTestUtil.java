@@ -64,16 +64,26 @@ public class CommandTestUtil {
 
     public static final String VALID_COMPANY_NAME_GOOGLE = "Google Inc.";
     public static final String VALID_COMPANY_NAME_META = "Meta Platforms, Inc.";
-    public static final String VALID_COMPANY_DESCRIPTION_GOOGLE = "A multinational technology company that specializes in Internet-related services and products";
-    public static final String VALID_COMPANY_DESCRIPTION_META = "An American multinational technology conglomerate based in Menlo Park, California. It is the parent company of Facebook, Instagram, and WhatsApp, among other subsidiaries";
+    public static final String VALID_COMPANY_DESCRIPTION_GOOGLE =
+            "A multinational technology company that specializes in Internet-related services and products";
+    public static final String VALID_COMPANY_DESCRIPTION_META =
+            "An American multinational technology conglomerate based in Menlo Park, California. "
+                    + "It is the parent company of Facebook, Instagram, and WhatsApp, among other subsidiaries";
 
-    public static final String INVALID_COMPANY_NAME = " " + PREFIX_NAME + "A/B Testing Ltd"; // '/' not allowed in company names
-    public static final String INVALID_COMPANY_DESCRIPTION = "We specialize in B2B/B2C marketing."; // '/' not allowed in company descriptions
+    public static final String INVALID_COMPANY_NAME = " "
+            + PREFIX_NAME
+            + "A/B Testing Ltd"; // '/' not allowed in company names
+    public static final String INVALID_COMPANY_DESCRIPTION =
+            "We specialize in B2B/B2C marketing."; // '/' not allowed in company descriptions
 
     public static final String VALID_ROLE_NAME_PRODUCT_MANAGER = "Product Manager";
     public static final String VALID_ROLE_NAME_SOFTWARE_ENGINEER = "Software Engineer";
-    public static final String VALID_ROLE_DESCRIPTION_PRODUCT_MANAGER = "Responsible for overseeing the development and delivery of a product, ensuring it meets customer needs and business goals.";
-    public static final String VALID_ROLE_DESCRIPTION_SOFTWARE_ENGINEER = "Responsible for designing, developing, and maintaining software applications or systems, ensuring they meet functional and technical requirements.";
+    public static final String VALID_ROLE_DESCRIPTION_PRODUCT_MANAGER =
+            "Responsible for overseeing the development and delivery of a product, "
+                    + "ensuring it meets customer needs and business goals.";
+    public static final String VALID_ROLE_DESCRIPTION_SOFTWARE_ENGINEER =
+            "Responsible for designing, developing, and maintaining software applications or systems, "
+                    + "ensuring they meet functional and technical requirements.";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";

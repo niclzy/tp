@@ -41,7 +41,7 @@ public class NameTest {
     }
 
     @Test
-    public void equals(){
+    public void equals() {
         Name name = new Name("Valid Company Name");
 
         // same values -> returns true
