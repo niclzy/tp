@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,14 +24,13 @@ import hitlist.logic.commands.FindCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
 import hitlist.logic.parser.exceptions.ParseException;
-import hitlist.model.person.NameContainsKeywordsPredicate;
 import hitlist.model.person.Person;
+import hitlist.model.person.PersonMatchesFindPredicate;
 import hitlist.testutil.EditPersonDescriptorBuilder;
 import hitlist.testutil.PersonBuilder;
 import hitlist.testutil.PersonUtil;
 
 public class HitListParserTest {
-
     private final HitListParser parser = new HitListParser();
 
     @Test
@@ -73,7 +73,7 @@ public class HitListParserTest {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords)), command);
+        assertEquals(new FindCommand(new PersonMatchesFindPredicate(keywords, Collections.emptyList())), command);
     }
 
     @Test
@@ -90,8 +90,9 @@ public class HitListParserTest {
 
     @Test
     public void parseCommand_unrecognisedInput_throwsParseException() {
-        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()
-            -> parser.parseCommand(""));
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                     HelpCommand.MESSAGE_USAGE), () -> parser.parseCommand(""));
     }
 
     @Test
@@ -99,3 +100,4 @@ public class HitListParserTest {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
     }
 }
+
