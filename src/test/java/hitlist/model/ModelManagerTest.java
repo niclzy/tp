@@ -2,6 +2,7 @@ package hitlist.model;
 
 import static hitlist.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static hitlist.testutil.Assert.assertThrows;
+import static hitlist.testutil.TypicalGroups.STUDENTS;
 import static hitlist.testutil.TypicalPersons.ALICE;
 import static hitlist.testutil.TypicalPersons.BENSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -86,6 +87,33 @@ public class ModelManagerTest {
     public void hasPerson_personInAddressBook_returnsTrue() {
         modelManager.addPerson(ALICE);
         assertTrue(modelManager.hasPerson(ALICE));
+    }
+
+    @Test
+    public void hasGroup_nullGroup_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasGroup(null));
+    }
+
+    @Test
+    public void hasGroup_groupNotInAddressBook_returnsFalse() {
+        assertFalse(modelManager.hasGroup(STUDENTS));
+    }
+
+    @Test
+    public void hasGroup_groupInAddressBook_returnsTrue() {
+        modelManager.addGroup(STUDENTS);
+        assertTrue(modelManager.hasGroup(STUDENTS));
+    }
+
+    @Test
+    public void addGroup_groupNotInAddressBook_success() {
+        modelManager.addGroup(STUDENTS);
+    }
+
+    @Test
+    public void deleteGroup_groupInAddressBook_success() {
+        modelManager.addGroup(STUDENTS);
+        modelManager.deleteGroup(STUDENTS);
     }
 
     @Test

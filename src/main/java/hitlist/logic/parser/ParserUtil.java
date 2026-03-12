@@ -9,6 +9,7 @@ import java.util.Set;
 import hitlist.commons.core.index.Index;
 import hitlist.commons.util.StringUtil;
 import hitlist.logic.parser.exceptions.ParseException;
+import hitlist.model.group.GroupName;
 import hitlist.model.person.Address;
 import hitlist.model.person.Email;
 import hitlist.model.person.Name;
@@ -120,5 +121,20 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String name} into a {@code GroupName}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code name} is invalid.
+     */
+    public static GroupName parseGroupName(String name) throws ParseException {
+        requireNonNull(name);
+        String trimmedName = name.trim();
+        if (!GroupName.isValidGroupName(trimmedName)) {
+            throw new ParseException(GroupName.MESSAGE_CONSTRAINTS);
+        }
+        return new GroupName(trimmedName);
     }
 }
