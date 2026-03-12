@@ -4,6 +4,7 @@ import static hitlist.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static hitlist.logic.commands.CommandTestUtil.GROUP_NAME_DESC_STUDENTS;
 import static hitlist.logic.commands.CommandTestUtil.GROUP_NAME_DESC_UNEMPLOYED;
 import static hitlist.logic.commands.CommandTestUtil.INVALID_GROUP_NAME_DESC;
+import static hitlist.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static hitlist.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static hitlist.logic.commands.CommandTestUtil.VALID_GROUP_NAME_STUDENTS;
 import static hitlist.logic.parser.CliSyntax.PREFIX_GROUP;
@@ -59,5 +60,9 @@ public class AddGroupCommandParserTest {
     public void parse_invalidValue_failure() {
         // invalid name
         assertParseFailure(parser, INVALID_GROUP_NAME_DESC, GroupName.MESSAGE_CONSTRAINTS);
+
+        // non-empty preamble
+        assertParseFailure(parser, PREAMBLE_NON_EMPTY + GROUP_NAME_DESC_STUDENTS,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddGroupCommand.MESSAGE_USAGE));
     }
 }
