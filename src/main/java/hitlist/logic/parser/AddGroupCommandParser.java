@@ -1,7 +1,7 @@
 package hitlist.logic.parser;
 
 import static hitlist.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static hitlist.logic.parser.CliSyntax.PREFIX_NAME;
+import static hitlist.logic.parser.CliSyntax.PREFIX_GROUP;
 
 import java.util.stream.Stream;
 
@@ -22,15 +22,15 @@ public class AddGroupCommandParser implements Parser<AddGroupCommand> {
      */
     public AddGroupCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME);
+                ArgumentTokenizer.tokenize(args, PREFIX_GROUP);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
+        if (!arePrefixesPresent(argMultimap, PREFIX_GROUP)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddGroupCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME);
-        GroupName name = ParserUtil.parseGroupName(argMultimap.getValue(PREFIX_NAME).get());
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_GROUP);
+        GroupName name = ParserUtil.parseGroupName(argMultimap.getValue(PREFIX_GROUP).get());
 
         Group group = new Group(name);
 

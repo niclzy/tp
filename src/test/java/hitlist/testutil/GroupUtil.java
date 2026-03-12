@@ -1,6 +1,6 @@
 package hitlist.testutil;
 
-import static hitlist.logic.parser.CliSyntax.PREFIX_NAME;
+import static hitlist.logic.parser.CliSyntax.PREFIX_GROUP;
 
 import hitlist.logic.commands.AddGroupCommand;
 import hitlist.model.group.Group;
@@ -22,7 +22,7 @@ public class GroupUtil {
      */
     public static String getGroupDetails(Group group) {
         StringBuilder sb = new StringBuilder();
-        sb.append(PREFIX_NAME + group.getName().fullName + " ");
+        sb.append(PREFIX_GROUP + group.getName().fullName + " ");
         return sb.toString();
     }
 }

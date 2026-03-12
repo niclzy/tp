@@ -6,7 +6,7 @@ import static hitlist.logic.commands.CommandTestUtil.GROUP_NAME_DESC_UNEMPLOYED;
 import static hitlist.logic.commands.CommandTestUtil.INVALID_GROUP_NAME_DESC;
 import static hitlist.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static hitlist.logic.commands.CommandTestUtil.VALID_GROUP_NAME_STUDENTS;
-import static hitlist.logic.parser.CliSyntax.PREFIX_NAME;
+import static hitlist.logic.parser.CliSyntax.PREFIX_GROUP;
 import static hitlist.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static hitlist.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -39,11 +39,11 @@ public class AddGroupCommandParserTest {
 
         // duplicate names
         assertParseFailure(parser, GROUP_NAME_DESC_STUDENTS + validExpectedGroupString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_GROUP));
 
         // multiple names
         assertParseFailure(parser, GROUP_NAME_DESC_UNEMPLOYED + validExpectedGroupString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_GROUP));
     }
 
 

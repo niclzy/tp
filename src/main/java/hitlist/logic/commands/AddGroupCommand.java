@@ -1,6 +1,6 @@
 package hitlist.logic.commands;
 
-import static hitlist.logic.parser.CliSyntax.PREFIX_NAME;
+import static hitlist.logic.parser.CliSyntax.PREFIX_GROUP;
 import static java.util.Objects.requireNonNull;
 
 import hitlist.commons.util.ToStringBuilder;
@@ -18,9 +18,9 @@ public class AddGroupCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a group to the address book. "
             + "Parameters: "
-            + PREFIX_NAME + "NAME "
+            + PREFIX_GROUP + "NAME "
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "Students";
+            + PREFIX_GROUP + "Students";
 
     public static final String MESSAGE_SUCCESS = "New group added: %1$s";
     public static final String MESSAGE_DUPLICATE_GROUP = "This group already exists in the address book";
