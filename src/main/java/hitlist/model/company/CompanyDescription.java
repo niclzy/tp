@@ -4,7 +4,7 @@ import static hitlist.commons.util.AppUtil.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Represents a Company's description in the hitlist.
+ * Represents a Company's description in the hit list.
  * Guarantees: immutable; is valid as declared in {@link #isValidDescription(String)}
  */
 public class CompanyDescription {
@@ -13,7 +13,7 @@ public class CompanyDescription {
             "Company descriptions must be between 2 and 1000 characters long, "
                     + "cannot start with a space, and cannot contain forward slashes (/) or line breaks.";
 
-    /*
+    /**
      * The first character of the description must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      * Forward slashes (/) are banned to prevent command parser conflicts.
@@ -23,10 +23,10 @@ public class CompanyDescription {
     public final String companyDescription;
 
     /**
-    * Constructs a {@code Description}.
-    *
-    * @param companyDescription A valid company description.
-    */
+     * Constructs a {@code CompanyDescription}.
+     *
+     * @param companyDescription A valid company description.
+     */
     public CompanyDescription(String companyDescription) {
         requireNonNull(companyDescription);
         checkArgument(isValidDescription(companyDescription), MESSAGE_CONSTRAINTS);
@@ -34,8 +34,11 @@ public class CompanyDescription {
     }
 
     /**
-    * Returns true if a given string is a valid company description.
-    */
+     * Returns true if a given string is a valid company description.
+     *
+     * @param test The string to test for validity as a company description.
+     * @return True if the string is a valid company description, false otherwise.
+     */
     public static boolean isValidDescription(String test) {
         return test.matches(VALIDATION_REGEX);
     }

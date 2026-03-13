@@ -4,7 +4,7 @@ import static hitlist.commons.util.AppUtil.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Represents a Role's name in the hitlist.
+ * Represents a Role's name in the hit list.
  * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
  */
 public class RoleName {
@@ -13,7 +13,7 @@ public class RoleName {
             "Role names must be between 2 and 50 characters long, "
                     + "cannot start with a space, and cannot contain forward slashes (/) or line breaks.";
 
-    /*
+    /**
      * The first character of the role name must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      * Forward slashes (/) are not allowed to prevent command parser conflicts.
@@ -23,7 +23,7 @@ public class RoleName {
     private final String roleName;
 
     /**
-     * Constructs a {@code Name}.
+     * Constructs a {@code RoleName}.
      *
      * @param roleName A valid role name.
      */
@@ -35,6 +35,9 @@ public class RoleName {
 
     /**
      * Returns true if a given string is a valid role name.
+     *
+     * @param test The string to test for validity as a role name.
+     * @return True if the string is a valid role name, false otherwise.
      */
     public static boolean isValidName(String test) {
         return test.matches(VALIDATION_REGEX);

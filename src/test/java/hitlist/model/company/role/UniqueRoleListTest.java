@@ -7,10 +7,12 @@ import static hitlist.testutil.TypicalRoles.PRODUCT_MANAGER;
 import static hitlist.testutil.TypicalRoles.SOFTWARE_ENGINEER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -40,7 +42,7 @@ public class UniqueRoleListTest {
     }
 
     @Test
-    public void contains_roleWithSameIdentityFieldsInList_returnsTrue() {
+    public void contains_roleWithSameFieldsInList_returnsTrue() {
         uniqueRoleList.add(SOFTWARE_ENGINEER);
         Role editedRole = new RoleBuilder()
                 .withName(VALID_ROLE_NAME_SOFTWARE_ENGINEER)
@@ -85,7 +87,7 @@ public class UniqueRoleListTest {
     }
 
     @Test
-    public void setRole_editedRoleHasSameIdentity_success() {
+    public void setRole_editedRoleHasSameRoleName_success() {
         uniqueRoleList.add(SOFTWARE_ENGINEER);
         Role editedRole = new RoleBuilder()
                 .withName(VALID_ROLE_NAME_SOFTWARE_ENGINEER)
@@ -98,7 +100,7 @@ public class UniqueRoleListTest {
     }
 
     @Test
-    public void setRole_editedRoleHasDifferentIdentity_success() {
+    public void setRole_editedRoleHasDifferentRole_success() {
         uniqueRoleList.add(SOFTWARE_ENGINEER);
         uniqueRoleList.setRole(SOFTWARE_ENGINEER, PRODUCT_MANAGER);
         UniqueRoleList expectedUniqueRoleList = new UniqueRoleList();
@@ -119,7 +121,7 @@ public class UniqueRoleListTest {
     }
 
     @Test
-    public void remove_roleDoesNotExist_throwsRoleNotFoundException() {
+    public void remove_roleDoesNotExist_listRemainsUnchanged() {
         uniqueRoleList.add(PRODUCT_MANAGER);
         UniqueRoleList expectedUniqueRoleList = new UniqueRoleList();
         expectedUniqueRoleList.add(PRODUCT_MANAGER);
@@ -174,6 +176,70 @@ public class UniqueRoleListTest {
     public void asUnmodifiableObservableList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, ()
                 -> uniqueRoleList.asUnmodifiableObservableList().remove(0));
+    }
+
+    @Test
+    public void iterator_defaultList_isNotNull() {
+        assertNotNull(uniqueRoleList.iterator());
+    }
+
+    @Test
+    public void iterator_populatedList_iteratesInOrder() {
+        uniqueRoleList.add(PRODUCT_MANAGER);
+        uniqueRoleList.add(SOFTWARE_ENGINEER);
+
+        Iterator<Role> iterator = uniqueRoleList.iterator();
+
+        assertTrue(iterator.hasNext());
+        assertEquals(PRODUCT_MANAGER, iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(SOFTWARE_ENGINEER, iterator.next());
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void equals_sameObject_returnsTrue() {
+        assertTrue(uniqueRoleList.equals(uniqueRoleList));
+    }
+
+    @Test
+    public void equals_null_returnsFalse() {
+        assertFalse(uniqueRoleList.equals(null));
+    }
+
+    @Test
+    public void equals_differentTypes_returnsFalse() {
+        assertFalse(uniqueRoleList.equals(5)); // Passing an Integer
+    }
+
+    @Test
+    public void equals_listsWithSameRoles_returnsTrue() {
+        uniqueRoleList.add(PRODUCT_MANAGER);
+
+        UniqueRoleList otherList = new UniqueRoleList();
+        otherList.add(PRODUCT_MANAGER);
+
+        assertTrue(uniqueRoleList.equals(otherList));
+    }
+
+    @Test
+    public void equals_listsWithDifferentRoles_returnsFalse() {
+        uniqueRoleList.add(PRODUCT_MANAGER);
+
+        UniqueRoleList otherList = new UniqueRoleList();
+        otherList.add(SOFTWARE_ENGINEER);
+
+        assertFalse(uniqueRoleList.equals(otherList));
+    }
+
+    @Test
+    public void hashCode_listsWithSameRoles_haveSameHashCode() {
+        uniqueRoleList.add(PRODUCT_MANAGER);
+
+        UniqueRoleList otherList = new UniqueRoleList();
+        otherList.add(PRODUCT_MANAGER);
+
+        assertEquals(uniqueRoleList.hashCode(), otherList.hashCode());
     }
 
     @Test

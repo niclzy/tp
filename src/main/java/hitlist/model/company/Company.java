@@ -4,7 +4,6 @@ import static hitlist.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Objects;
 
-import hitlist.commons.util.ToStringBuilder;
 import hitlist.model.company.role.UniqueRoleList;
 
 /**
@@ -17,7 +16,10 @@ public class Company {
     private final UniqueRoleList uniqueRoleList;
 
     /**
-     * Every field must be present and not null.
+     * Constructs a {@code Company} with the given name and description.
+     *
+     * @param name The name of the company.
+     * @param description The description of the company.
      */
     public Company(CompanyName name, CompanyDescription description) {
         requireAllNonNull(name, description);
@@ -27,8 +29,12 @@ public class Company {
     }
 
     /**
-    * Every field must be present and not null.
-    */
+     * Constructs a {@code Company} with the given name, description and list of roles.
+     *
+     * @param name The name of the company.
+     * @param description The description of the company.
+     * @param uniqueRoleList The list of roles associated with the company.
+     */
     public Company(CompanyName name, CompanyDescription description, UniqueRoleList uniqueRoleList) {
         requireAllNonNull(name, description, uniqueRoleList);
         this.name = name;
@@ -36,25 +42,40 @@ public class Company {
         this.uniqueRoleList = uniqueRoleList;
     }
 
-    /* Returns the name of the company. */
+    /**
+     * Gets the name of the company.
+     *
+     * @return The name of the company.
+     */
     public CompanyName getName() {
         return this.name;
     }
 
-    /* Returns the description of the company. */
+    /**
+     * Gets the description of the company.
+     *
+     * @return The description of the company.
+     */
     public CompanyDescription getDescription() {
         return this.description;
     }
 
-    /* Returns the list of roles in the company. */
+    /**
+     * Gets the list of roles associated with the company.
+     *
+     * @return The list of roles associated with the company.
+     */
     public UniqueRoleList getUniqueRoleList() {
         return this.uniqueRoleList;
     }
 
     /**
-     * Returns true if both companies have the same name and description.
-     * This defines a weaker notion of equality between two companies.
-     */
+    * Returns true if both companies have the same name and description.
+    * This defines a weaker notion of equality between two companies.
+    *
+    * @param otherCompany The company to compare with this company.
+    * @return True if both companies have the same name and description, false otherwise.
+    */
     public boolean isSameCompany(Company otherCompany) {
         if (otherCompany == this) {
             return true;
@@ -65,10 +86,6 @@ public class Company {
                 && this.description.equals(otherCompany.description);
     }
 
-    /**
-     * Returns true if both companies have the same fields and data.
-     * This defines a stronger notion of equality between two companies.
-     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -92,10 +109,6 @@ public class Company {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("companyName", name)
-                .add("description", description)
-                .add("roles", uniqueRoleList)
-                .toString();
+        return "companyName=" + name + ", companyDescription=" + description + ", roles=" + uniqueRoleList;
     }
 }

@@ -4,8 +4,6 @@ import static hitlist.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Objects;
 
-import hitlist.commons.util.ToStringBuilder;
-
 /**
  * Represents a Role in the hitlist.
  * Guarantees: details are present and not null, field values are validated, immutable.
@@ -27,20 +25,31 @@ public class Role {
         this.roleDescription = roleDescription;
     }
 
-    /* Returns the name of the role. */
+    /**
+     * Gets the name of the role.
+     *
+     * @return The name of the role.
+     */
     public RoleName getRoleName() {
         return roleName;
     }
 
-    /* Returns the description of the role. */
+    /**
+     * Gets the description of the role.
+     *
+     * @return The description of the role.
+     */
     public RoleDescription getRoleDescription() {
         return roleDescription;
     }
 
     /**
-    * Returns true if both Roles have the same role name
-    * This defines a weaker notion of equality between two Roles.
-    */
+     * Returns true if both roles have the same name.
+     * This defines a weaker notion of equality between two roles.
+     *
+     * @param otherRole The other role to compare with.
+     * @return True if both roles have the same name, false otherwise.
+     */
     public boolean isSameRole(Role otherRole) {
         if (otherRole == this) {
             return true;
@@ -50,10 +59,6 @@ public class Role {
                 && roleName.equals(otherRole.roleName);
     }
 
-    /**
-     * Returns true if both Roles have the same role name and description.
-     * This defines a stronger notion of equality between two Roles.
-     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -77,9 +82,6 @@ public class Role {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("role", roleName)
-                .add("description", roleDescription)
-                .toString();
+        return "role=" + roleName + ", description=" + roleDescription;
     }
 }

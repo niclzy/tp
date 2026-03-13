@@ -1,7 +1,9 @@
 package hitlist.model.company.role;
 
 import static hitlist.testutil.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -38,5 +40,49 @@ public class RoleNameTest {
         assertTrue(RoleName.isValidName("Software Engineer II")); // with capital letters
         assertTrue(RoleName.isValidName("SE I")); // short name
         assertTrue(RoleName.isValidName("Software Engineer I Software E")); // long name (30 characters)
+    }
+
+    @Test
+    public void toString_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new RoleName(null).toString());
+    }
+
+    @Test
+    public void toString_validName_returnsName() {
+        RoleName name = new RoleName("Valid Role Name");
+        assertEquals("Valid Role Name", name.toString());
+    }
+
+    @Test
+    public void equals() {
+        RoleName name = new RoleName("Valid Role Name");
+
+        // same values -> returns true
+        assertTrue(name.equals(new RoleName("Valid Role Name")));
+
+        // same object -> returns true
+        assertTrue(name.equals(name));
+
+        // null -> returns false
+        assertFalse(name.equals(null));
+
+        // different types -> returns false
+        assertFalse(name.equals(5.0f));
+
+        // different values -> returns false
+        assertFalse(name.equals(new RoleName("Other Valid Role Name")));
+    }
+
+    @Test
+    public void hashCodeTest() {
+        RoleName name = new RoleName("Valid Role Name");
+        RoleName sameName = new RoleName("Valid Role Name");
+        RoleName differentName = new RoleName("Other Valid Role Name");
+
+        // same values -> same hash code
+        assertEquals(name.hashCode(), sameName.hashCode());
+
+        // different values -> different hash code
+        assertNotEquals(name.hashCode(), differentName.hashCode());
     }
 }

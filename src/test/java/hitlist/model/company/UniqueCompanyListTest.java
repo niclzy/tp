@@ -7,8 +7,10 @@ import static hitlist.testutil.TypicalCompanies.GOOGLE;
 import static hitlist.testutil.TypicalCompanies.META;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -170,6 +172,70 @@ public class UniqueCompanyListTest {
     public void asUnmodifiableObservableList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, ()
                 -> uniqueCompanyList.asUnmodifiableObservableList().remove(0));
+    }
+
+    @Test
+    public void iterator_defaultList_isNotNull() {
+        assertNotNull(uniqueCompanyList.iterator());
+    }
+
+    @Test
+    public void iterator_populatedList_iteratesInOrder() {
+        uniqueCompanyList.add(GOOGLE);
+        uniqueCompanyList.add(META);
+
+        Iterator<Company> iterator = uniqueCompanyList.iterator();
+
+        assertTrue(iterator.hasNext());
+        assertEquals(GOOGLE, iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(META, iterator.next());
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void equals_sameObject_returnsTrue() {
+        assertTrue(uniqueCompanyList.equals(uniqueCompanyList));
+    }
+
+    @Test
+    public void equals_null_returnsFalse() {
+        assertFalse(uniqueCompanyList.equals(null));
+    }
+
+    @Test
+    public void equals_differentType_returnsFalse() {
+        assertFalse(uniqueCompanyList.equals(5)); // Passing an arbitrary different type
+    }
+
+    @Test
+    public void equals_identicalLists_returnsTrue() {
+        uniqueCompanyList.add(GOOGLE);
+
+        UniqueCompanyList expectedUniqueCompanyList = new UniqueCompanyList();
+        expectedUniqueCompanyList.add(GOOGLE);
+
+        assertTrue(uniqueCompanyList.equals(expectedUniqueCompanyList));
+    }
+
+    @Test
+    public void equals_differentLists_returnsFalse() {
+        uniqueCompanyList.add(GOOGLE);
+
+        UniqueCompanyList otherUniqueCompanyList = new UniqueCompanyList();
+        otherUniqueCompanyList.add(META);
+
+        assertFalse(uniqueCompanyList.equals(otherUniqueCompanyList));
+    }
+
+    @Test
+    public void hashCode_identicalLists_haveSameHashCode() {
+        uniqueCompanyList.add(GOOGLE);
+
+        UniqueCompanyList expectedUniqueCompanyList = new UniqueCompanyList();
+        expectedUniqueCompanyList.add(GOOGLE);
+
+        assertEquals(uniqueCompanyList.hashCode(), expectedUniqueCompanyList.hashCode());
     }
 
     @Test

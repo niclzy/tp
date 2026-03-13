@@ -13,7 +13,7 @@ public class CompanyName {
             "Company names must be between 2 and 30 characters long, "
                     + "cannot start with a space, and cannot contain forward slashes (/), or line breaks.";
 
-    /*
+    /**
      * The first character of the company name must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      * Forward slashes (/) are not allowed to prevent command parser conflicts.
@@ -23,7 +23,7 @@ public class CompanyName {
     private final String companyName;
 
     /**
-     * Constructs a {@code Name}.
+     * Constructs a {@code CompanyName}.
      *
      * @param companyName A valid company name.
      */
@@ -35,6 +35,9 @@ public class CompanyName {
 
     /**
      * Returns true if a given string is a valid company name.
+     *
+     * @param test The string to test for validity as a company name.
+     * @return True if the string is a valid company name, false otherwise.
      */
     public static boolean isValidName(String test) {
         return test.matches(VALIDATION_REGEX);

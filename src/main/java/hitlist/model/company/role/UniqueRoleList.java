@@ -13,11 +13,11 @@ import javafx.collections.ObservableList;
 
 /**
  * A list of roles that enforces uniqueness between its elements and does not allow nulls.
- * A role is considered unique by comparing using {@code Role#isSameRole(Role)}. As such, adding and updating of
- * roles uses Role#isSameRole(Role) for equality so as to ensure that the role being added or updated is
- * unique in terms of identity in the UniqueRoleList. However, the removal of a role uses Role#equals(Object) so
- * as to ensure that the role with exactly the same fields will be removed.
- *
+ * A role is considered unique by comparing using {@link Role#isSameRole(Role)}. As such, adding and updating of
+ * roles uses {@link Role#isSameRole(Role)} for equality to ensure that the role being added or updated is unique in
+ * terms of identity in the UniqueRoleList. However, the removal of a role uses Role#equals(Object) to ensure that the
+ * role with exactly the same fields will be removed.
+ * <br />
  * Supports a minimal set of list operations.
  *
  * @see Role#isSameRole(Role)
@@ -33,6 +33,12 @@ public class UniqueRoleList implements Iterable<Role> {
 
     /**
      * Returns true if the list contains an equivalent role as the given argument.
+     * The role is considered equivalent if it is the same role as determined by
+     * {@link Role#isSameRole(Role)}.
+     * The role must not be null.
+     *
+     * @param toCheck The role to check for existence in the list.
+     * @return True if the list contains an equivalent role, false otherwise.
      */
     public boolean contains(Role toCheck) {
         requireNonNull(toCheck);
@@ -42,6 +48,9 @@ public class UniqueRoleList implements Iterable<Role> {
     /**
      * Adds a role to the list.
      * The role must not already exist in the list.
+     *
+     * @param toAdd The role to add to the list.
+     * @throws DuplicateRoleException If the role already exists in the list.
      */
     public void add(Role toAdd) {
         requireNonNull(toAdd);
@@ -55,6 +64,11 @@ public class UniqueRoleList implements Iterable<Role> {
      * Replaces the role {@code target} in the list with {@code editedRole}.
      * {@code target} must exist in the list.
      * The role identity of {@code editedRole} must not be the same as another existing role in the list.
+     *
+     * @param target The role to be replaced in the list.
+     * @param editedRole The role to replace the target role with.
+     * @throws RoleNotFoundException If the target role does not exist in the list.
+     * @throws DuplicateRoleException If the edited role's identity is the same as another existing role in the list.
      */
     public void setRole(Role target, Role editedRole) {
         requireAllNonNull(target, editedRole);
@@ -74,6 +88,9 @@ public class UniqueRoleList implements Iterable<Role> {
     /**
      * Removes the equivalent role from the list.
      * The role must exist in the list.
+     *
+     * @param toRemove The role to remove from the list.
+     * @throws RoleNotFoundException If no such role could be found in the list.
      */
     public void remove(Role toRemove) {
         requireNonNull(toRemove);
@@ -81,11 +98,10 @@ public class UniqueRoleList implements Iterable<Role> {
     }
 
     /**
-     * Replaces the contents of this list with the roles from the given {@code UniqueRoleList}.
-     * Since the parameter is already a {@code UniqueRoleList}, it is inherently guaranteed
-     * to contain no duplicate roles, so no further validation is needed.
+     * Replaces the contents of this list with {@code replacement}.
+     * {@code replacement} must not be null.
      *
-     * @param replacement The {@code UniqueRoleList} containing the replacement roles.
+     * @param replacement The new list of roles to replace the existing list of roles.
      */
     public void setRoles(UniqueRoleList replacement) {
         requireNonNull(replacement);
@@ -93,12 +109,11 @@ public class UniqueRoleList implements Iterable<Role> {
     }
 
     /**
-     * Replaces the contents of this list with the provided standard list of {@code Role}s.
-     * Because a standard {@code List} does not enforce uniqueness, this method explicitly
-     * checks that all roles are unique before updating the list.
+     * Replaces the contents of this list with {@code roles}.
+     * {@code roles} must not contain duplicate roles.
      *
-     * @param roles The list of roles to set.
-     * @throws DuplicateRoleException If the provided list contains any duplicate roles.
+     * @param roles The new list of roles to replace the existing list of roles.
+     * @throws DuplicateRoleException If {@code roles} contains duplicate roles.
      */
     public void setRoles(List<Role> roles) {
         requireNonNull(roles);
@@ -148,6 +163,9 @@ public class UniqueRoleList implements Iterable<Role> {
 
     /**
      * Returns true if {@code roles} contains only unique roles.
+     *
+     * @param roles The list of roles to check for uniqueness.
+     * @return True if the list of roles contains only unique roles, false otherwise.
      */
     private boolean rolesAreUnique(List<Role> roles) {
         for (int i = 0; i < roles.size(); i++) {

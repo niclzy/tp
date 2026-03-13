@@ -4,7 +4,7 @@ import static hitlist.commons.util.AppUtil.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Represents a Role's description in the hitlist.
+ * Represents a Role's description in the hit list.
  * Guarantees: immutable; is valid as declared in {@link #isValidDescription(String)}
  */
 public class RoleDescription {
@@ -13,14 +13,14 @@ public class RoleDescription {
             "Role description must be between 2 and 1000 characters long, "
                     + "cannot start with a space, and cannot contain forward slashes (/) or line breaks.";
 
-    /*
+    /**
      * The first character of the role name must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      * Forward slashes (/) are not allowed to prevent command parser conflicts.
      */
     public static final String VALIDATION_REGEX = "^[^\\s/][^/\\v]{1,999}$";
 
-    private String roleDescription;
+    private final String roleDescription;
 
     /**
      * Constructs a {@code Description}.
@@ -35,6 +35,9 @@ public class RoleDescription {
 
     /**
      * Returns true if a given string is a valid role description.
+     *
+     * @param test The string to test for validity as a role description.
+     * @return True if the string is a valid role description, false otherwise.
      */
     public static boolean isValidDescription(String test) {
         return test.matches(VALIDATION_REGEX);
