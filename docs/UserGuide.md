@@ -78,7 +78,7 @@ Format: `help`
 
 ### Adding a person: `add`
 
-Adds a person to the contact book.
+Adds a person to the HitList.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
@@ -93,13 +93,13 @@ Examples:
 
 ### Listing all persons : `list`
 
-Shows a list of all persons in the contact book.
+Shows a list of all persons in the HitList.
 
 Format: `list`
 
 ### Editing a person : `edit`
 
-Edits an existing person in the contact book.
+Edits an existing person in the HitList.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
@@ -137,7 +137,7 @@ Examples:
 
 ### Deleting a person : `delete`
 
-Deletes the specified person from the contact book.
+Deletes the specified person from the HitList.
 
 Format: `delete INDEX`
 
@@ -146,12 +146,25 @@ Format: `delete INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the contact book.
+* `list` followed by `delete 2` deletes the 2nd person in the HitList.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+
+### Adding a Company : `cmpadd`
+
+Adds a company to the hitList.
+
+Format: `cmpadd c/COMPANY_NAME d/COMPANY_DESCRIPTION`
+
+* The company name must be unique and not the same as any existing company in the hitList.
+* The company description can be any string which does not include '/' or start with spaces.
+
+Example:
+* `cmpadd c/Google d/Tech giant` adds a company named `Google` with description `Tech giant` to the hitList.
+* `cmpadd c/Meta d/Social media giant` adds a company named `Meta` with description `Social media giant` to the hitList.
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the contact book.
+Clears all entries from the HitList.
 
 Format: `clear`
 
