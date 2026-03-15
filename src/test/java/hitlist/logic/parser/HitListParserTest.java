@@ -3,6 +3,7 @@ package hitlist.logic.parser;
 import static hitlist.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static hitlist.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static hitlist.testutil.Assert.assertThrows;
+import static hitlist.testutil.TypicalCompanies.GOOGLE;
 import static hitlist.testutil.TypicalGroups.STUDENTS;
 import static hitlist.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,6 +14,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import hitlist.logic.commands.AddCompanyCommand;
+import hitlist.model.company.Company;
+import hitlist.testutil.CompanyUtil;
 import org.junit.jupiter.api.Test;
 
 import hitlist.logic.commands.AddCommand;
@@ -97,6 +101,13 @@ public class HitListParserTest {
         Group group = STUDENTS;
         AddGroupCommand command = (AddGroupCommand) parser.parseCommand(GroupUtil.getAddGroupCommand(group));
         assertEquals(new AddGroupCommand(group), command);
+    }
+
+    @Test
+    public void parseCommand_addCompany() throws Exception {
+        Company company = GOOGLE;
+        AddCompanyCommand command = (AddCompanyCommand) parser.parseCommand(CompanyUtil.getAddCompanyCommand(company));
+        assertEquals(new AddCompanyCommand(company), command);
     }
 
     @Test

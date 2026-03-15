@@ -169,7 +169,7 @@ public class ParserUtil {
         requireNonNull(description);
         String trimmedDescription = description.trim();
         if (!CompanyDescription.isValidCompanyDescription(trimmedDescription)) {
-            throw new ParseException(GroupName.MESSAGE_CONSTRAINTS);
+            throw new ParseException(CompanyDescription.MESSAGE_CONSTRAINTS);
         }
         return new CompanyDescription(trimmedDescription);
     }

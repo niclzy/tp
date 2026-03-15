@@ -1,6 +1,8 @@
 package hitlist.logic.commands;
 
 import static hitlist.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static hitlist.logic.parser.CliSyntax.PREFIX_COMPANY;
+import static hitlist.logic.parser.CliSyntax.PREFIX_COMPANY_DESC;
 import static hitlist.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static hitlist.logic.parser.CliSyntax.PREFIX_GROUP;
 import static hitlist.logic.parser.CliSyntax.PREFIX_NAME;
@@ -70,11 +72,17 @@ public class CommandTestUtil {
             "An American multinational technology conglomerate based in Menlo Park, California. "
                     + "It is the parent company of Facebook, Instagram, and WhatsApp, among other subsidiaries";
 
-    public static final String INVALID_COMPANY_NAME = " "
-            + PREFIX_NAME
-            + "A/B Testing Ltd"; // '/' not allowed in company names
+    public static final String INVALID_COMPANY_NAME =
+            " A/B Testing Ltd"; // ' ' not allowed as start character and '/' not allowed in company names
     public static final String INVALID_COMPANY_DESCRIPTION =
             "We specialize in B2B/B2C marketing."; // '/' not allowed in company descriptions
+
+    public static final String COMPANY_NAME_DESC_GOOGLE = " " + PREFIX_COMPANY + VALID_COMPANY_NAME_GOOGLE;
+    public static final String COMPANY_NAME_DESC_META = " " + PREFIX_COMPANY + VALID_COMPANY_NAME_META;
+    public static final String COMPANY_DESC_GOOGLE = " " + PREFIX_COMPANY_DESC + VALID_COMPANY_DESCRIPTION_GOOGLE;
+    public static final String COMPANY_DESC_META = " " + PREFIX_COMPANY_DESC + VALID_COMPANY_DESCRIPTION_META;
+    public static final String INVALID_COMPANY_NAME_DESC = " " + PREFIX_COMPANY + INVALID_COMPANY_NAME;
+    public static final String INVALID_COMPANY_DESC = " " + PREFIX_COMPANY_DESC + INVALID_COMPANY_DESCRIPTION;
 
     public static final String VALID_ROLE_NAME_PRODUCT_MANAGER = "Product Manager";
     public static final String VALID_ROLE_NAME_SOFTWARE_ENGINEER = "Software Engineer";
@@ -84,6 +92,22 @@ public class CommandTestUtil {
     public static final String VALID_ROLE_DESCRIPTION_SOFTWARE_ENGINEER =
             "Responsible for designing, developing, and maintaining software applications or systems, "
                     + "ensuring they meet functional and technical requirements.";
+
+    public static final String INVALID_ROLE_NAME =
+            "A/B Testing"; // '/' not allowed in role names
+    public static final String INVALID_ROLE_DESCRIPTION =
+            "We specialize in B2B/B2C marketing."; // '/' not allowed in role descriptions
+
+    public static final String ROLE_NAME_DESC_PRODUCT_MANAGER = " " + PREFIX_NAME
+            + VALID_ROLE_NAME_PRODUCT_MANAGER;
+    public static final String ROLE_NAME_DESC_SOFTWARE_ENGINEER = " " + PREFIX_NAME
+            + VALID_ROLE_NAME_SOFTWARE_ENGINEER;
+    public static final String ROLE_DESC_PRODUCT_MANAGER = " " + PREFIX_COMPANY_DESC
+            + VALID_ROLE_DESCRIPTION_PRODUCT_MANAGER;
+    public static final String ROLE_DESC_SOFTWARE_ENGINEER = " " + PREFIX_COMPANY_DESC
+            + VALID_ROLE_DESCRIPTION_SOFTWARE_ENGINEER;
+    public static final String INVALID_ROLE_NAME_DESC = " " + PREFIX_NAME + INVALID_ROLE_NAME;
+    public static final String INVALID_ROLE_DESC = " " + PREFIX_COMPANY_DESC + INVALID_ROLE_DESCRIPTION;
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
@@ -135,11 +159,11 @@ public class CommandTestUtil {
     public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage) {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
-        HitList expectedAddressBook = new HitList(actualModel.getHitList());
+        HitList expectedHitList = new HitList(actualModel.getHitList());
         List<Person> expectedFilteredList = new ArrayList<>(actualModel.getFilteredPersonList());
 
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
-        assertEquals(expectedAddressBook, actualModel.getHitList());
+        assertEquals(expectedHitList, actualModel.getHitList());
         assertEquals(expectedFilteredList, actualModel.getFilteredPersonList());
     }
     /**
