@@ -14,12 +14,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import hitlist.logic.commands.AddCompanyCommand;
-import hitlist.model.company.Company;
-import hitlist.testutil.CompanyUtil;
 import org.junit.jupiter.api.Test;
 
 import hitlist.logic.commands.AddCommand;
+import hitlist.logic.commands.AddCompanyCommand;
 import hitlist.logic.commands.AddGroupCommand;
 import hitlist.logic.commands.ClearCommand;
 import hitlist.logic.commands.DeleteCommand;
@@ -30,9 +28,11 @@ import hitlist.logic.commands.FindCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
 import hitlist.logic.parser.exceptions.ParseException;
+import hitlist.model.company.Company;
 import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import hitlist.model.person.PersonMatchesFindPredicate;
+import hitlist.testutil.CompanyUtil;
 import hitlist.testutil.EditPersonDescriptorBuilder;
 import hitlist.testutil.GroupUtil;
 import hitlist.testutil.PersonBuilder;

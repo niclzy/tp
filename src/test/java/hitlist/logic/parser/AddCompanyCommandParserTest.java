@@ -1,13 +1,5 @@
 package hitlist.logic.parser;
 
-import hitlist.logic.Messages;
-import hitlist.logic.commands.AddCompanyCommand;
-import hitlist.model.company.CompanyDescription;
-import hitlist.model.company.CompanyName;
-import hitlist.model.company.role.UniqueRoleList;
-
-import org.junit.jupiter.api.Test;
-
 import static hitlist.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static hitlist.logic.commands.CommandTestUtil.COMPANY_DESC_GOOGLE;
 import static hitlist.logic.commands.CommandTestUtil.COMPANY_DESC_META;
@@ -25,6 +17,14 @@ import static hitlist.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static hitlist.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static hitlist.testutil.TypicalCompanies.GOOGLE;
 import static hitlist.testutil.TypicalRoles.PRODUCT_MANAGER;
+
+import org.junit.jupiter.api.Test;
+
+import hitlist.logic.Messages;
+import hitlist.logic.commands.AddCompanyCommand;
+import hitlist.model.company.CompanyDescription;
+import hitlist.model.company.CompanyName;
+import hitlist.model.company.role.UniqueRoleList;
 
 public class AddCompanyCommandParserTest {
 
@@ -70,7 +70,7 @@ public class AddCompanyCommandParserTest {
     }
 
     @Test
-    public void parse_repeatedNonUniqueFields_Failure() {
+    public void parse_repeatedNonUniqueFields_failure() {
         // multiple company names
         assertParseFailure(parser,
                 PREAMBLE_WHITESPACE
