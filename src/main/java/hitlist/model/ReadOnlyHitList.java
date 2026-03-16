@@ -2,6 +2,7 @@ package hitlist.model;
 
 import hitlist.model.company.Company;
 import hitlist.model.company.role.Role;
+import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import javafx.collections.ObservableList;
 
@@ -27,4 +28,10 @@ public interface ReadOnlyHitList {
      * This list will not contain any duplicate companies.
      */
     ObservableList<Company> getCompanyList();
+
+    /**
+     * Returns an unmodifiable view of the group list.
+     * This list will not contain any duplicate groups.
+     */
+    ObservableList<Group> getGroupList();
 }

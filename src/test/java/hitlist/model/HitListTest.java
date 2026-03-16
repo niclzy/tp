@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import hitlist.model.company.Company;
 import hitlist.model.company.role.Role;
+import hitlist.model.group.Group;
 import hitlist.model.group.exceptions.DuplicateGroupException;
 import hitlist.model.group.exceptions.GroupNotFoundException;
 import hitlist.model.person.Person;
@@ -57,7 +58,7 @@ public class HitListTest {
         Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         List<Person> newPersons = Arrays.asList(ALICE, editedAlice);
-        HitListStub newData = new HitListStub(newPersons, Collections.emptyList(), Collections.emptyList());
+        HitListStub newData = new HitListStub(newPersons, Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         assertThrows(DuplicatePersonException.class, () -> hitList.resetData(newData));
     }
@@ -126,7 +127,8 @@ public class HitListTest {
         String expected = HitList.class.getCanonicalName()
                 + "{persons=" + hitList.getPersonList()
                 + ", roles=" + hitList.getRoleList()
-                + ", companies=" + hitList.getCompanyList() + "}";
+                + ", companies=" + hitList.getCompanyList()
+                + ", groups=" + hitList.getGroupList() + "}";
         assertEquals(expected, hitList.toString());
     }
 
@@ -175,11 +177,16 @@ public class HitListTest {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
         private final ObservableList<Company> companies = FXCollections.observableArrayList();
         private final ObservableList<Role> roles = FXCollections.observableArrayList();
+        private final ObservableList<Group> groups = FXCollections.observableArrayList();
 
-        HitListStub(Collection<Person> persons, Collection<Company> companies, Collection<Role> roles) {
+        HitListStub(Collection<Person> persons,
+                    Collection<Company> companies,
+                    Collection<Role> roles,
+                    Collection<Group> groups) {
             this.persons.setAll(persons);
             this.companies.setAll(companies);
             this.roles.setAll(roles);
+            this.groups.setAll(groups);
         }
 
         @Override
@@ -195,6 +202,11 @@ public class HitListTest {
         @Override
         public ObservableList<Role> getRoleList() {
             return roles;
+        }
+
+        @Override
+        public ObservableList<Group> getGroupList() {
+            return groups;
         }
     }
 }

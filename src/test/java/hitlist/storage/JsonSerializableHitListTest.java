@@ -12,13 +12,16 @@ import hitlist.commons.exceptions.IllegalValueException;
 import hitlist.commons.util.JsonUtil;
 import hitlist.model.HitList;
 import hitlist.testutil.TypicalPersons;
+import hitlist.testutil.TypicalGroups;
 
 public class JsonSerializableHitListTest {
 
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonSerializableHitListTest");
     private static final Path TYPICAL_PERSONS_FILE = TEST_DATA_FOLDER.resolve("typicalPersonsHitList.json");
+    private static final Path TYPICAL_GROUPS_FILE = TEST_DATA_FOLDER.resolve("typicalGroupsHitList.json");
     private static final Path INVALID_PERSON_FILE = TEST_DATA_FOLDER.resolve("invalidPersonHitList.json");
     private static final Path DUPLICATE_PERSON_FILE = TEST_DATA_FOLDER.resolve("duplicatePersonHitList.json");
+    private static final Path DUPLICATE_GROUP_FILE = TEST_DATA_FOLDER.resolve("duplicateGroupHitList.json");
 
     @Test
     public void toModelType_typicalPersonsFile_success() throws Exception {
@@ -27,6 +30,15 @@ public class JsonSerializableHitListTest {
         HitList hitListFromFile = dataFromFile.toModelType();
         HitList typicalPersonsHitList = TypicalPersons.getTypicalHitList();
         assertEquals(hitListFromFile, typicalPersonsHitList);
+    }
+
+    @Test
+    public void toModelType_typicalGroupsFile_success() throws Exception {
+        JsonSerializableHitList dataFromFile = JsonUtil.readJsonFile(TYPICAL_GROUPS_FILE,
+                JsonSerializableHitList.class).get();
+        HitList hitListFromFile = dataFromFile.toModelType();
+        HitList typicalGroupsHitList = TypicalGroups.getTypicalHitList();
+        assertEquals(hitListFromFile, typicalGroupsHitList);
     }
 
     @Test
@@ -44,4 +56,11 @@ public class JsonSerializableHitListTest {
                 dataFromFile::toModelType);
     }
 
+    @Test
+    public void toModelType_duplicateGroups_throwsIllegalValueException() throws Exception {
+        JsonSerializableHitList dataFromFile = JsonUtil.readJsonFile(DUPLICATE_GROUP_FILE,
+                JsonSerializableHitList.class).get();
+        assertThrows(IllegalValueException.class, JsonSerializableHitList.MESSAGE_DUPLICATE_GROUP,
+                dataFromFile::toModelType);
+    }
 }

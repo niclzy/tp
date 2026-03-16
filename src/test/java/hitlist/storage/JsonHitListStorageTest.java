@@ -1,6 +1,9 @@
 package hitlist.storage;
 
 import static hitlist.testutil.Assert.assertThrows;
+import static hitlist.testutil.TypicalGroups.EXPERIENCED;
+import static hitlist.testutil.TypicalGroups.STUDENTS;
+import static hitlist.testutil.TypicalGroups.UNEMPLOYED;
 import static hitlist.testutil.TypicalPersons.ALICE;
 import static hitlist.testutil.TypicalPersons.HOON;
 import static hitlist.testutil.TypicalPersons.IDA;
@@ -80,6 +83,31 @@ public class JsonHitListStorageTest {
 
         // Save and read without specifying file path
         original.addPerson(IDA);
+        jsonHitListStorage.saveHitList(original); // file path not specified
+        readBack = jsonHitListStorage.readHitList().get(); // file path not specified
+        assertEquals(original, new HitList(readBack));
+
+    }
+
+    @Test
+    public void readAndSaveHitList_allInOrderGroups_success() throws Exception {
+        Path filePath = testFolder.resolve("TempHitList.json");
+        HitList original = hitlist.testutil.TypicalGroups.getTypicalHitList();
+        JsonHitListStorage jsonHitListStorage = new JsonHitListStorage(filePath);
+
+        // Save in new file and read back
+        jsonHitListStorage.saveHitList(original, filePath);
+        ReadOnlyHitList readBack = jsonHitListStorage.readHitList(filePath).get();
+        assertEquals(original, new HitList(readBack));
+
+        // Modify data, overwrite exiting file, and read back
+        original.deleteGroup(UNEMPLOYED);
+        jsonHitListStorage.saveHitList(original, filePath);
+        readBack = jsonHitListStorage.readHitList(filePath).get();
+        assertEquals(original, new HitList(readBack));
+
+        // Save and read without specifying file path
+        original.addGroup(EXPERIENCED);
         jsonHitListStorage.saveHitList(original); // file path not specified
         readBack = jsonHitListStorage.readHitList().get(); // file path not specified
         assertEquals(original, new HitList(readBack));

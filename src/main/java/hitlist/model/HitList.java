@@ -77,6 +77,14 @@ public class HitList implements ReadOnlyHitList {
     }
 
     /**
+    * Replaces the contents of the company list with {@code companies}.
+    * {@code companies} must not contain duplicate companies.
+    */
+    public void setGroups(List<Group> groups) {
+        this.groups.setGroups(groups);
+    }
+
+    /**
      * Resets the existing data of this {@code HitList} with {@code newData}.
      */
     public void resetData(ReadOnlyHitList newData) {
@@ -85,6 +93,7 @@ public class HitList implements ReadOnlyHitList {
         setPersons(newData.getPersonList());
         setRoles(newData.getRoleList());
         setCompanies(newData.getCompanyList());
+        setGroups(newData.getGroupList());
     }
 
     //// person-level operations
@@ -201,7 +210,7 @@ public class HitList implements ReadOnlyHitList {
     /**
      * Returns true if a group with the same identity as {@code group} exists.
      */
-    boolean hasGroup(Group group) {
+    public boolean hasGroup(Group group) {
         requireNonNull(group);
         return groups.contains(group);
     }
@@ -218,7 +227,7 @@ public class HitList implements ReadOnlyHitList {
      * Deletes the given group.
      * {@code group} must already exist.
      */
-    void deleteGroup(Group group) {
+    public void deleteGroup(Group group) {
         groups.remove(group);
     }
 
@@ -230,6 +239,7 @@ public class HitList implements ReadOnlyHitList {
                 .add("persons", persons)
                 .add("roles", roles)
                 .add("companies", companies)
+                .add("groups", groups)
                 .toString();
     }
 
@@ -249,6 +259,11 @@ public class HitList implements ReadOnlyHitList {
     }
 
     @Override
+    public ObservableList<Group> getGroupList() {
+        return groups.asUnmodifiableObservableList();
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
@@ -260,7 +275,8 @@ public class HitList implements ReadOnlyHitList {
         }
 
         HitList otherAddressBook = (HitList) other;
-        return persons.equals(otherAddressBook.persons);
+        return persons.equals(otherAddressBook.persons)
+            && groups.equals(otherAddressBook.groups);
     }
 
     @Override
