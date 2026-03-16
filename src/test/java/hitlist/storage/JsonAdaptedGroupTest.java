@@ -5,14 +5,9 @@ import static hitlist.testutil.Assert.assertThrows;
 import static hitlist.testutil.TypicalGroups.STUDENTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.Test;
 
 import hitlist.commons.exceptions.IllegalValueException;
-import hitlist.model.group.Group;
 import hitlist.model.group.GroupName;
 
 public class JsonAdaptedGroupTest {

@@ -2,7 +2,6 @@ package hitlist.storage;
 
 import static hitlist.testutil.Assert.assertThrows;
 import static hitlist.testutil.TypicalGroups.EXPERIENCED;
-import static hitlist.testutil.TypicalGroups.STUDENTS;
 import static hitlist.testutil.TypicalGroups.UNEMPLOYED;
 import static hitlist.testutil.TypicalPersons.ALICE;
 import static hitlist.testutil.TypicalPersons.HOON;

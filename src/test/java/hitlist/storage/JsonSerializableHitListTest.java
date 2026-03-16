@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 import hitlist.commons.exceptions.IllegalValueException;
 import hitlist.commons.util.JsonUtil;
 import hitlist.model.HitList;
-import hitlist.testutil.TypicalPersons;
 import hitlist.testutil.TypicalGroups;
+import hitlist.testutil.TypicalPersons;
 
 public class JsonSerializableHitListTest {
 

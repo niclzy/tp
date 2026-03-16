@@ -58,7 +58,10 @@ public class HitListTest {
         Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         List<Person> newPersons = Arrays.asList(ALICE, editedAlice);
-        HitListStub newData = new HitListStub(newPersons, Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+        HitListStub newData = new HitListStub(newPersons,
+                                              Collections.emptyList(),
+                                              Collections.emptyList(),
+                                              Collections.emptyList());
 
         assertThrows(DuplicatePersonException.class, () -> hitList.resetData(newData));
     }

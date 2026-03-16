@@ -19,7 +19,8 @@ import hitlist.model.person.UniquePersonList;
 class JsonAdaptedGroup {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Group's %s field is missing!";
-    public static final String MESSAGE_DUPLICATE_PERSON_IN_GROUP = "Members list in group contains duplicate person(s).";
+    public static final String MESSAGE_DUPLICATE_PERSON_IN_GROUP =
+        "Members list in group contains duplicate person(s).";
 
     private final String groupName;
     private final List<JsonAdaptedPerson> members = new ArrayList<>();
@@ -28,7 +29,7 @@ class JsonAdaptedGroup {
      * Constructs a {@code JsonAdaptedGroup} with the given group details.
      */
     @JsonCreator
-    public JsonAdaptedGroup(@JsonProperty("groupName") String groupName, 
+    public JsonAdaptedGroup(@JsonProperty("groupName") String groupName,
                             @JsonProperty("members") List<JsonAdaptedPerson> members) {
         this.groupName = groupName;
         if (members != null) {
@@ -42,8 +43,8 @@ class JsonAdaptedGroup {
     public JsonAdaptedGroup(Group source) {
         // Assuming GroupName stores its string value in a field called 'value' or 'fullName'
         // like Address/Phone/Name. Adjust this based on your actual GroupName implementation.
-        this.groupName = source.getName().toString(); 
-        
+        this.groupName = source.getName().toString();
+
         this.members.addAll(source.getMembers().asUnmodifiableObservableList().stream()
                 .map(JsonAdaptedPerson::new)
                 .collect(Collectors.toList()));
@@ -56,7 +57,8 @@ class JsonAdaptedGroup {
      */
     public Group toModelType() throws IllegalValueException {
         if (groupName == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, GroupName.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                                                          GroupName.class.getSimpleName()));
         }
         if (!GroupName.isValidGroupName(groupName)) {
             throw new IllegalValueException(GroupName.MESSAGE_CONSTRAINTS);
@@ -67,10 +69,10 @@ class JsonAdaptedGroup {
 
         // 2. Validate and convert the UniquePersonList (Members)
         final UniquePersonList modelMembers = new UniquePersonList();
-        
+
         for (JsonAdaptedPerson jsonAdaptedMember : members) {
             Person person = jsonAdaptedMember.toModelType();
-            
+
             if (modelMembers.contains(person)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON_IN_GROUP);
             }
