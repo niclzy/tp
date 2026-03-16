@@ -153,14 +153,14 @@ Examples:
 
 Adds a company to the hitList.
 
-Format: `cmpadd c/COMPANY_NAME d/COMPANY_DESCRIPTION`
+Format: `cmpadd /cCOMPANY_NAME /dCOMPANY_DESCRIPTION`
 
 * The company name must be unique and not the same as any existing company in the hitList.
 * The company description can be any string which does not include '/' or start with spaces.
 
 Example:
-* `cmpadd c/Google d/Tech giant` adds a company named `Google` with description `Tech giant` to the hitList.
-* `cmpadd c/Meta d/Social media giant` adds a company named `Meta` with description `Social media giant` to the hitList.
+* `cmpadd /cGoogle /dTech giant` adds a company named `Google` with description `Tech giant` to the hitList.
+* `cmpadd /cMeta /dSocial media giant` adds a company named `Meta` with description `Social media giant` to the hitList.
 
 ### Clearing all entries : `clear`
 

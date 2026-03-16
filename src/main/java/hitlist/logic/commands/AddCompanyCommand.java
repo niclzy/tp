@@ -22,8 +22,8 @@ public class AddCompanyCommand extends Command {
             + PREFIX_COMPANY + " NAME \n"
             + PREFIX_COMPANY_DESC + " DESCRIPTION\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_COMPANY + "Google "
-            + PREFIX_COMPANY_DESC + "A technology company";
+            + PREFIX_COMPANY + " Google"
+            + PREFIX_COMPANY_DESC + " A technology company";
 
     public static final String MESSAGE_SUCCESS = "New Company added: %1$s";
     public static final String MESSAGE_DUPLICATE_COMPANY = "The company %1$s already exists";
