@@ -2,6 +2,7 @@ package hitlist.ui;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,12 +17,17 @@ import javafx.stage.Stage;
 public class MainWindowTest {
 
     static {
+        assumeTrue(JavaFxTestSupport.isFxAvailable(),
+                "Skipping JavaFX UI test in unsupported/headless environment.");
         // Initializes JavaFX runtime for tests.
         new JFXPanel();
     }
 
     @Test
     public void constructor_validDependencies_success() {
+        assumeTrue(JavaFxTestSupport.isFxAvailable(),
+                "Skipping JavaFX UI test in unsupported/headless environment.");
+
         // This test only verifies constructor path does not throw when JavaFX is initialized.
         assertDoesNotThrow(() -> Platform.runLater(() -> {
             Stage stage = new Stage();
@@ -33,6 +39,9 @@ public class MainWindowTest {
 
     @Test
     public void showCompanyListPane_doesNotThrow() {
+        assumeTrue(JavaFxTestSupport.isFxAvailable(),
+                "Skipping JavaFX UI test in unsupported/headless environment.");
+
         assertDoesNotThrow(() -> Platform.runLater(() -> {
             Stage stage = new Stage();
             MainWindowStub window = new MainWindowStub(stage);
@@ -42,6 +51,9 @@ public class MainWindowTest {
 
     @Test
     public void hideCompanyListPane_doesNotThrow() {
+        assumeTrue(JavaFxTestSupport.isFxAvailable(),
+                "Skipping JavaFX UI test in unsupported/headless environment.");
+
         assertDoesNotThrow(() -> Platform.runLater(() -> {
             Stage stage = new Stage();
             MainWindowStub window = new MainWindowStub(stage);
@@ -51,6 +63,9 @@ public class MainWindowTest {
 
     @Test
     public void showPersonListPane_doesNotThrow() {
+        assumeTrue(JavaFxTestSupport.isFxAvailable(),
+                "Skipping JavaFX UI test in unsupported/headless environment.");
+
         assertDoesNotThrow(() -> Platform.runLater(() -> {
             Stage stage = new Stage();
             MainWindowStub window = new MainWindowStub(stage);
@@ -60,6 +75,9 @@ public class MainWindowTest {
 
     @Test
     public void hidePersonListPane_doesNotThrow() {
+        assumeTrue(JavaFxTestSupport.isFxAvailable(),
+                "Skipping JavaFX UI test in unsupported/headless environment.");
+
         assertDoesNotThrow(() -> Platform.runLater(() -> {
             Stage stage = new Stage();
             MainWindowStub window = new MainWindowStub(stage);
@@ -69,6 +87,9 @@ public class MainWindowTest {
 
     @Test
     public void handleHelp_doesNotThrow() {
+        assumeTrue(JavaFxTestSupport.isFxAvailable(),
+                "Skipping JavaFX UI test in unsupported/headless environment.");
+
         assertDoesNotThrow(() -> Platform.runLater(() -> {
             Stage stage = new Stage();
             MainWindowStub window = new MainWindowStub(stage);
