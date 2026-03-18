@@ -7,8 +7,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.application.Platform;
 
 /**
- * Helper to safely initialize JavaFX toolkit for tests.
- * Marks FX unavailable when runtime/pipeline is unsupported.
+ * Shared JavaFX bootstrap helper for UI tests.
+ * Skips tests gracefully when JavaFX toolkit/pipeline is unavailable in CI.
  */
 public final class JavaFxTestSupport {
 
@@ -18,7 +18,7 @@ public final class JavaFxTestSupport {
     private JavaFxTestSupport() {}
 
     /**
-     * Checks if JavaFX is available in the current environment. Initializes toolkit if not already done.
+     * Returns true if JavaFX is available for UI tests.
      */
     public static boolean isFxAvailable() {
         if (!INITIALIZED.get()) {
@@ -31,6 +31,7 @@ public final class JavaFxTestSupport {
         if (!INITIALIZED.compareAndSet(false, true)) {
             return;
         }
+
         try {
             CountDownLatch latch = new CountDownLatch(1);
             Platform.startup(latch::countDown);
@@ -39,9 +40,10 @@ public final class JavaFxTestSupport {
                 fxAvailable = false;
             }
         } catch (UnsupportedOperationException | NoClassDefFoundError e) {
+            // Headless CI or unsupported JavaFX backend.
             fxAvailable = false;
         } catch (IllegalStateException e) {
-            // Toolkit already initialized by another test class.
+            // Toolkit already initialized by another test.
             fxAvailable = true;
         } catch (Exception e) {
             fxAvailable = false;
