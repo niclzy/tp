@@ -14,6 +14,7 @@ import hitlist.logic.commands.AddGroupCommand;
 import hitlist.logic.commands.ClearCommand;
 import hitlist.logic.commands.Command;
 import hitlist.logic.commands.DeleteCommand;
+import hitlist.logic.commands.DeleteCompanyCommand;
 import hitlist.logic.commands.EditCommand;
 import hitlist.logic.commands.ExitCommand;
 import hitlist.logic.commands.FindCommand;
@@ -88,6 +89,9 @@ public class HitListParser {
 
         case ListCompanyCommand.COMMAND_WORD:
             return new ListCompanyCommand();
+
+        case DeleteCompanyCommand.COMMAND_WORD:
+            return new DeleteCompanyCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
