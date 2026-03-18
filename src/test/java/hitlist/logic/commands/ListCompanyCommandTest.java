@@ -1,6 +1,7 @@
 package hitlist.logic.commands;
 
 import static hitlist.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static hitlist.model.Model.PREDICATE_SHOW_ALL_COMPANIES;
 import static hitlist.testutil.TypicalCompanies.getTypicalHitList;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +27,8 @@ public class ListCompanyCommandTest {
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
-        assertCommandSuccess(new ListCompanyCommand(), model, ListCompanyCommand.MESSAGE_SUCCESS, expectedModel);
+        expectedModel.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
+        assertCommandSuccess(new ListCompanyCommand(), model,
+                new CommandResult(ListCompanyCommand.MESSAGE_SUCCESS, false, false, true), expectedModel);
     }
 }

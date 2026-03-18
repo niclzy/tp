@@ -17,8 +17,6 @@ public class CompanyListPanel extends UiPart<Region> {
     private static final String FXML = "CompanyListPanel.fxml";
     private final Logger logger = LogsCenter.getLogger(CompanyListPanel.class);
 
-    private final ObservableList<Company> companyList;
-
     @FXML
     private ListView<Company> companyListView;
 
@@ -27,15 +25,6 @@ public class CompanyListPanel extends UiPart<Region> {
      */
     public CompanyListPanel(ObservableList<Company> companyList) {
         super(FXML);
-        this.companyList = companyList;
-    }
-
-    /**
-     * Initializes the UI components of the company list panel.
-     * This method is called after FXML injection to set up the list view.
-     */
-    @FXML
-    private void initialize() {
         companyListView.setItems(companyList);
         companyListView.setCellFactory(listView -> new CompanyListViewCell());
     }
