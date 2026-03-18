@@ -1,10 +1,13 @@
 package hitlist.ui;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.CountDownLatch;
@@ -19,6 +22,7 @@ import hitlist.logic.commands.CommandResult;
 import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.logic.parser.exceptions.ParseException;
 import javafx.application.Platform;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -26,30 +30,32 @@ import javafx.stage.Stage;
  */
 public class MainWindowTest {
 
-    @BeforeAll
-    public static void setupFxGuard() {
+    @BeforeAll public static void setupFxGuard() {
         assumeTrue(JavaFxTestSupport.isFxAvailable(),
                 "Skipping MainWindowTest: JavaFX unavailable in this environment.");
     }
 
     @Test
-    public void constructor_andGetPrimaryStage_success() throws Exception {
-        AtomicReference<MainWindow> ref = new AtomicReference<>();
+    public void constructor_getPrimaryStage_success() throws Exception {
+        AtomicReference<MainWindow> windowRef = new AtomicReference<>();
+        AtomicReference<Stage> stageRef = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
 
         Platform.runLater(() -> {
-            MainWindow window = new MainWindow(new Stage(), new FixedResultLogicStub(new CommandResult("ok")));
-            ref.set(window);
+            Stage stage = new Stage();
+            stageRef.set(stage);
+            MainWindow window = new MainWindow(stage, new FixedResultLogicStub(new CommandResult("ok")));
+            windowRef.set(window);
             latch.countDown();
         });
 
         assertTrue(latch.await(5, TimeUnit.SECONDS));
-        assertNotNull(ref.get());
-        assertNotNull(ref.get().getPrimaryStage()); // covers getPrimaryStage
+        assertNotNull(windowRef.get());
+        assertSame(stageRef.get(), windowRef.get().getPrimaryStage());
     }
 
     @Test
-    public void fillInnerParts_getPanel_success() throws Exception {
+    public void fillInnerParts_getPanels_success() throws Exception {
         AtomicReference<MainWindow> ref = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
 
@@ -62,19 +68,94 @@ public class MainWindowTest {
 
         assertTrue(latch.await(5, TimeUnit.SECONDS));
         assertNotNull(ref.get());
-        assertNotNull(ref.get().getPersonListPanel()); // covers getPersonListPanel
-        assertNotNull(ref.get().getCompanyListPanel()); // covers getCompanyListPanel
+        assertNotNull(ref.get().getPersonListPanel());
+        assertNotNull(ref.get().getCompanyListPanel());
     }
 
     @Test
-    public void handleHelp_noCrash() throws Exception {
+    public void showHideCompanyPane_updatesVisibleManaged() throws Exception {
+        AtomicReference<MainWindow> ref = new AtomicReference<>();
+        AtomicReference<VBox> companyPaneRef = new AtomicReference<>();
+        CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            try {
+                MainWindow window = new MainWindow(new Stage(), new FixedResultLogicStub(new CommandResult("ok")));
+                window.fillInnerParts();
+
+                Field field = MainWindow.class.getDeclaredField("companyListPane");
+                field.setAccessible(true);
+                VBox companyPane = (VBox) field.get(window);
+
+                window.showCompanyListPane();
+                assertTrue(companyPane.isVisible());
+                assertTrue(companyPane.isManaged());
+
+                window.hideCompanyListPane();
+                assertFalse(companyPane.isVisible());
+                assertFalse(companyPane.isManaged());
+
+                ref.set(window);
+                companyPaneRef.set(companyPane);
+            } catch (Throwable t) {
+                throw new AssertionError(t);
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        assertTrue(latch.await(5, TimeUnit.SECONDS));
+        assertNotNull(ref.get());
+        assertNotNull(companyPaneRef.get());
+    }
+
+    @Test
+    public void showHidePersonPane_updatesVisibleManaged() throws Exception {
+        AtomicReference<MainWindow> ref = new AtomicReference<>();
+        AtomicReference<VBox> personPaneRef = new AtomicReference<>();
+        CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            try {
+                MainWindow window = new MainWindow(new Stage(), new FixedResultLogicStub(new CommandResult("ok")));
+                window.fillInnerParts();
+
+                Field field = MainWindow.class.getDeclaredField("personList");
+                field.setAccessible(true);
+                VBox personPane = (VBox) field.get(window);
+
+                window.showPersonListPane();
+                assertTrue(personPane.isVisible());
+                assertTrue(personPane.isManaged());
+
+                window.hidePersonListPane();
+                assertFalse(personPane.isVisible());
+                assertFalse(personPane.isManaged());
+
+                ref.set(window);
+                personPaneRef.set(personPane);
+            } catch (Throwable t) {
+                throw new AssertionError(t);
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        assertTrue(latch.await(5, TimeUnit.SECONDS));
+        assertNotNull(ref.get());
+        assertNotNull(personPaneRef.get());
+    }
+
+    @Test
+    public void handleHelp_notShowing_showsOrFocuses() throws Exception {
         AtomicReference<Throwable> thrown = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
 
         Platform.runLater(() -> {
             try {
                 MainWindow window = new MainWindow(new Stage(), new FixedResultLogicStub(new CommandResult("ok")));
-                window.handleHelp(); // covers handleHelp
+                window.handleHelp();
+                window.handleHelp();
             } catch (Throwable t) {
                 thrown.set(t);
             } finally {
@@ -89,7 +170,7 @@ public class MainWindowTest {
     }
 
     @Test
-    public void executeCommand_showHelpBranch_covered() throws Exception {
+    public void executeCommand_showHelp_opensHelpWindow() throws Exception {
         AtomicReference<Throwable> thrown = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
 
@@ -116,13 +197,50 @@ public class MainWindowTest {
     }
 
     @Test
-    public void executeCommand_exitBranch_covered() throws Exception {
+    public void executeCommand_showCompanyList_hidesPersonList() throws Exception {
         AtomicReference<Throwable> thrown = new AtomicReference<>();
+        AtomicReference<MainWindow> ref = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
 
         Platform.runLater(() -> {
             try {
                 MainWindow window = new MainWindow(new Stage(),
+                        new FixedResultLogicStub(new CommandResult("companies", false, false, true)));
+                window.fillInnerParts();
+
+                Method executeCommand = MainWindow.class.getDeclaredMethod("executeCommand", String.class);
+                executeCommand.setAccessible(true);
+                executeCommand.invoke(window, "listcompany");
+
+                ref.set(window);
+            } catch (Throwable t) {
+                thrown.set(t);
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        assertTrue(latch.await(5, TimeUnit.SECONDS));
+        if (thrown.get() != null) {
+            throw new AssertionError(thrown.get());
+        }
+        assertNotNull(ref.get());
+        assertNotNull(ref.get().getCompanyListPanel());
+    }
+
+    @Test
+    public void executeCommand_exit_hidesPrimaryStage() throws Exception {
+        AtomicReference<Throwable> thrown = new AtomicReference<>();
+        AtomicReference<Stage> stageRef = new AtomicReference<>();
+        CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            try {
+                Stage stage = new Stage();
+                stage.show();
+                stageRef.set(stage);
+
+                MainWindow window = new MainWindow(stage,
                         new FixedResultLogicStub(new CommandResult("bye", false, true, false)));
                 window.fillInnerParts();
 
@@ -140,10 +258,11 @@ public class MainWindowTest {
         if (thrown.get() != null) {
             throw new AssertionError(thrown.get());
         }
+        assertFalse(stageRef.get().isShowing());
     }
 
     @Test
-    public void executeCommand_catchAndRethrow_commandException() throws Exception {
+    public void executeCommand_exception_setsErrorFeedback_command() throws Exception {
         AtomicReference<Throwable> thrown = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
 
@@ -172,7 +291,7 @@ public class MainWindowTest {
     }
 
     @Test
-    public void executeCommand_catchAndRethrow_parseException() throws Exception {
+    public void executeCommand_exception_setsErrorFeedback_parse() throws Exception {
         AtomicReference<Throwable> thrown = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
 
@@ -201,16 +320,21 @@ public class MainWindowTest {
     }
 
     @Test
-    public void handleExit_coveredViaReflection() throws Exception {
+    public void handleExit_savesGuiSettings_hidesWindows() throws Exception {
         AtomicReference<Throwable> thrown = new AtomicReference<>();
+        AtomicReference<Stage> stageRef = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
 
         Platform.runLater(() -> {
             try {
-                MainWindow window = new MainWindow(new Stage(), new FixedResultLogicStub(new CommandResult("ok")));
+                Stage stage = new Stage();
+                stage.show();
+                stageRef.set(stage);
+
+                MainWindow window = new MainWindow(stage, new FixedResultLogicStub(new CommandResult("ok")));
                 Method handleExit = MainWindow.class.getDeclaredMethod("handleExit");
                 handleExit.setAccessible(true);
-                handleExit.invoke(window); // covers handleExit directly
+                handleExit.invoke(window);
             } catch (Throwable t) {
                 thrown.set(t);
             } finally {
@@ -222,6 +346,7 @@ public class MainWindowTest {
         if (thrown.get() != null) {
             throw new AssertionError(thrown.get());
         }
+        assertFalse(stageRef.get().isShowing());
     }
 
     private static Throwable unwrapInvocationTargetException(Throwable throwable) {
@@ -244,22 +369,19 @@ public class MainWindowTest {
             this.fixedResult = fixedResult;
         }
 
-        @Override
-        public CommandResult execute(String commandText) throws CommandException, ParseException {
+        @Override public CommandResult execute(String commandText) throws CommandException, ParseException {
             return fixedResult;
         }
     }
 
     private static class ThrowingCommandExceptionLogicStub extends LogicStub {
-        @Override
-        public CommandResult execute(String commandText) throws CommandException {
+        @Override public CommandResult execute(String commandText) throws CommandException {
             throw new CommandException("command failure");
         }
     }
 
     private static class ThrowingParseExceptionLogicStub extends LogicStub {
-        @Override
-        public CommandResult execute(String commandText) throws ParseException {
+        @Override public CommandResult execute(String commandText) throws ParseException {
             throw new ParseException("parse failure");
         }
     }
