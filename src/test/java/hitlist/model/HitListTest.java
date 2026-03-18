@@ -141,35 +141,35 @@ public class HitListTest {
     }
 
     @Test
-    public void hasGroup_groupNotInAddressBook_returnsFalse() {
+    public void hasGroup_groupNotInHitList_returnsFalse() {
         assertFalse(hitList.hasGroup(STUDENTS));
     }
 
     @Test
-    public void hasGroup_groupInAddressBook_returnsTrue() {
+    public void hasGroup_groupInHitList_returnsTrue() {
         hitList.addGroup(STUDENTS);
         assertTrue(hitList.hasGroup(STUDENTS));
     }
 
     @Test
-    public void addGroup_groupNotInAddressBook_success() {
+    public void addGroup_groupNotInHitList_success() {
         hitList.addGroup(STUDENTS);
     }
 
     @Test
-    public void addGroup_groupInAddressBook_throwsDuplicateGroupException() {
+    public void addGroup_groupInHitList_throwsDuplicateGroupException() {
         hitList.addGroup(STUDENTS);
         assertThrows(DuplicateGroupException.class, () -> hitList.addGroup(STUDENTS));
     }
 
     @Test
-    public void deleteGroup_groupInAddressBook_success() {
+    public void deleteGroup_groupInHitList_success() {
         hitList.addGroup(STUDENTS);
         hitList.deleteGroup(STUDENTS);
     }
 
     @Test
-    public void deleteGroup_groupNotInAddressBook_throwsGroupNotFoundException() {
+    public void deleteGroup_groupNotInHitList_throwsGroupNotFoundException() {
         assertThrows(GroupNotFoundException.class, () -> hitList.deleteGroup(STUDENTS));
     }
 

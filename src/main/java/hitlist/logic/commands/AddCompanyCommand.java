@@ -11,7 +11,7 @@ import hitlist.model.Model;
 import hitlist.model.company.Company;
 
 /**
- * Adds a company to the company list.
+ * Adds a company to the company list in HitList.
  */
 public class AddCompanyCommand extends Command {
 

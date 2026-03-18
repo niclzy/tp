@@ -29,15 +29,15 @@ public interface Logic {
      *
      * @see Model#getHitList()
      */
-    ReadOnlyHitList getAddressBook();
+    ReadOnlyHitList getHitList();
 
     /** Returns an unmodifiable view of the filtered list of persons */
     ObservableList<Person> getFilteredPersonList();
 
     /**
-     * Returns the user prefs' address book file path.
+     * Returns the user prefs' HitList file path.
      */
-    Path getAddressBookFilePath();
+    Path getHitListFilePath();
 
     /**
      * Returns the user prefs' GUI settings.

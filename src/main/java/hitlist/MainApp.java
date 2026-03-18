@@ -68,22 +68,22 @@ public class MainApp extends Application {
     }
 
     /**
-     * Returns a {@code ModelManager} with the data from {@code storage}'s address book and {@code userPrefs}. <br>
+     * Returns a {@code ModelManager} with data from {@code storage}'s HitList address-book and {@code userPrefs}. <br>
      * The data from the sample address book will be used instead if {@code storage}'s address book is not found,
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         logger.info("Using data file : " + storage.getHitListFilePath());
 
-        Optional<ReadOnlyHitList> addressBookOptional;
+        Optional<ReadOnlyHitList> hitListOptional;
         ReadOnlyHitList initialData;
         try {
-            addressBookOptional = storage.readHitList();
-            if (!addressBookOptional.isPresent()) {
+            hitListOptional = storage.readHitList();
+            if (!hitListOptional.isPresent()) {
                 logger.info("Creating a new data file " + storage.getHitListFilePath()
                         + " populated with a sample HitList.");
             }
-            initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
+            initialData = hitListOptional.orElseGet(SampleDataUtil::getSampleHitList);
         } catch (DataLoadingException e) {
             logger.warning("Data file at " + storage.getHitListFilePath() + " could not be loaded."
                     + " Will be starting with an empty HitList.");

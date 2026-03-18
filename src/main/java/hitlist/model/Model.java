@@ -44,10 +44,10 @@ public interface Model {
     /**
      * Sets the user prefs' hit list file path.
      */
-    void setHitListFilePath(Path addressBookFilePath);
+    void setHitListFilePath(Path hitListFilePath);
 
     /**
-     * Replaces hit list data with the data in {@code hitList}.
+     * Replaces HitList data with the data in {@code hitList}.
      */
     void setHitList(ReadOnlyHitList hitList);
 
@@ -55,26 +55,26 @@ public interface Model {
     ReadOnlyHitList getHitList();
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the hit list.
+     * Returns true if a person with the same identity as {@code person} exists in the HitList.
      */
     boolean hasPerson(Person person);
 
     /**
      * Deletes the given person.
-     * The person must exist in the hit list.
+     * The person must exist in the HitList.
      */
     void deletePerson(Person target);
 
     /**
      * Adds the given person.
-     * {@code person} must not already exist in the hit list.
+     * {@code person} must not already exist in the HitList.
      */
     void addPerson(Person person);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
-     * {@code target} must exist in the hit list.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the hit list.
+     * {@code target} must exist in the HitList.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in the HitList.
      */
     void setPerson(Person target, Person editedPerson);
 

@@ -37,7 +37,7 @@ public class SampleDataUtil {
         };
     }
 
-    public static ReadOnlyHitList getSampleAddressBook() {
+    public static ReadOnlyHitList getSampleHitList() {
         HitList sampleAb = new HitList();
         for (Person samplePerson : getSamplePersons()) {
             sampleAb.addPerson(samplePerson);

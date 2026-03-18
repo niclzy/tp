@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of the HitList data.
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
@@ -26,12 +26,12 @@ public class ModelManager implements Model {
     private final FilteredList<Person> filteredPersons;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given HitList address-book and userPrefs.
      */
     public ModelManager(ReadOnlyHitList hitList, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(hitList, userPrefs);
 
-        logger.fine("Initializing with address book: " + hitList + " and user prefs " + userPrefs);
+        logger.fine("Initializing with HitList address-book: " + hitList + " and user prefs " + userPrefs);
 
         this.hitList = new HitList(hitList);
         this.userPrefs = new UserPrefs(userPrefs);
@@ -149,7 +149,7 @@ public class ModelManager implements Model {
 
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code versionedAddressBook}
+     * {@code versionedHitList}
      */
     @Override
     public ObservableList<Person> getFilteredPersonList() {

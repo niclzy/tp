@@ -16,7 +16,7 @@ import hitlist.model.person.UniquePersonList;
 import javafx.collections.ObservableList;
 
 /**
- * Wraps all data at the address-book level
+ * Wraps all data at the HitList level
  * Duplicates are not allowed (by .isSamePerson comparison)
  */
 public class HitList implements ReadOnlyHitList {
@@ -99,7 +99,7 @@ public class HitList implements ReadOnlyHitList {
     //// person-level operations
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in hitList.
+     * Returns true if a person with the same identity as {@code person} exists in HitList.
      */
     public boolean hasPerson(Person person) {
         requireNonNull(person);
@@ -116,8 +116,8 @@ public class HitList implements ReadOnlyHitList {
 
     /**
      * Replaces the given person {@code target} in the list with {@code editedPerson}.
-     * {@code target} must exist in hitList.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in hitList.
+     * {@code target} must exist in HitList.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in HitList.
      */
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
@@ -127,7 +127,7 @@ public class HitList implements ReadOnlyHitList {
 
     /**
      * Removes {@code key} from this {@code HitList}.
-     * {@code key} must exist in hitList.
+     * {@code key} must exist in HitList.
      */
     public void removePerson(Person key) {
         persons.remove(key);
@@ -136,7 +136,7 @@ public class HitList implements ReadOnlyHitList {
     //// role-level operations
 
     /**
-     * Returns true if a role with the same identity as {@code role} exists in hitList.
+     * Returns true if a role with the same identity as {@code role} exists in HitList.
      */
     public boolean hasRole(Role role) {
         requireNonNull(role);
@@ -145,7 +145,7 @@ public class HitList implements ReadOnlyHitList {
 
     /**
      * Adds a role to hitList.
-     * The role must not already exist in hitList.
+     * The role must not already exist in HitList.
      */
     public void addRole(Role r) {
         roles.add(r);
@@ -153,8 +153,8 @@ public class HitList implements ReadOnlyHitList {
 
     /**
      * Replaces the given role {@code target} in the list with {@code editedRole}.
-     * {@code target} must exist in hitList.
-     * The role identity of {@code editedRole} must not be the same as another existing role in hitList.
+     * {@code target} must exist in HitList.
+     * The role identity of {@code editedRole} must not be the same as another existing role in HitList.
      */
     public void setRole(Role target, Role editedRole) {
         requireNonNull(editedRole);
@@ -164,7 +164,7 @@ public class HitList implements ReadOnlyHitList {
 
     /**
      * Removes {@code key} from this {@code HitList}.
-     * {@code key} must exist in hitList.
+     * {@code key} must exist in HitList.
      */
     public void removeRole(Role key) {
         roles.remove(key);
@@ -173,7 +173,7 @@ public class HitList implements ReadOnlyHitList {
     //// company-level operations
 
     /**
-     * Returns true if a company with the same identity as {@code company} exists in hitList.
+     * Returns true if a company with the same identity as {@code company} exists in HitList.
      */
     public boolean hasCompany(Company company) {
         requireNonNull(company);
@@ -181,8 +181,8 @@ public class HitList implements ReadOnlyHitList {
     }
 
     /**
-     * Adds a company to hitList.
-     * The company must not already exist in hitList.
+     * Adds a company to HitList.
+     * The company must not already exist in HitList.
      */
     public void addCompany(Company c) {
         companies.add(c);
@@ -216,8 +216,8 @@ public class HitList implements ReadOnlyHitList {
     }
 
     /**
-     * Adds a group to hitList.
-     * The group must not already exist in hitList.
+     * Adds a group to HitList.
+     * The group must not already exist in HitList.
      */
     public void addGroup(Group g) {
         groups.add(g);
@@ -274,9 +274,9 @@ public class HitList implements ReadOnlyHitList {
             return false;
         }
 
-        HitList otherAddressBook = (HitList) other;
-        return persons.equals(otherAddressBook.persons)
-            && groups.equals(otherAddressBook.groups);
+        HitList otherHitList = (HitList) other;
+        return persons.equals(otherHitList.persons)
+            && groups.equals(otherHitList.groups);
     }
 
     @Override

@@ -62,7 +62,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ReadOnlyHitList getAddressBook() {
+    public ReadOnlyHitList getHitList() {
         return model.getHitList();
     }
 
@@ -72,7 +72,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public Path getAddressBookFilePath() {
+    public Path getHitListFilePath() {
         return model.getHitListFilePath();
     }
 

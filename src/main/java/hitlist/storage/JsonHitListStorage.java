@@ -45,14 +45,14 @@ public class JsonHitListStorage implements HitListStorage {
     public Optional<ReadOnlyHitList> readHitList(Path filePath) throws DataLoadingException {
         requireNonNull(filePath);
 
-        Optional<JsonSerializableHitList> jsonAddressBook = JsonUtil.readJsonFile(
+        Optional<JsonSerializableHitList> jsonHitList = JsonUtil.readJsonFile(
                 filePath, JsonSerializableHitList.class);
-        if (!jsonAddressBook.isPresent()) {
+        if (!jsonHitList.isPresent()) {
             return Optional.empty();
         }
 
         try {
-            return Optional.of(jsonAddressBook.get().toModelType());
+            return Optional.of(jsonHitList.get().toModelType());
         } catch (IllegalValueException ive) {
             logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
             throw new DataLoadingException(ive);
@@ -60,8 +60,8 @@ public class JsonHitListStorage implements HitListStorage {
     }
 
     @Override
-    public void saveHitList(ReadOnlyHitList addressBook) throws IOException {
-        saveHitList(addressBook, filePath);
+    public void saveHitList(ReadOnlyHitList hitList) throws IOException {
+        saveHitList(hitList, filePath);
     }
 
     /**
@@ -69,12 +69,12 @@ public class JsonHitListStorage implements HitListStorage {
      *
      * @param filePath location of the data. Cannot be null.
      */
-    public void saveHitList(ReadOnlyHitList addressBook, Path filePath) throws IOException {
-        requireNonNull(addressBook);
+    public void saveHitList(ReadOnlyHitList hitList, Path filePath) throws IOException {
+        requireNonNull(hitList);
         requireNonNull(filePath);
 
         FileUtil.createIfMissing(filePath);
-        JsonUtil.saveJsonFile(new JsonSerializableHitList(addressBook), filePath);
+        JsonUtil.saveJsonFile(new JsonSerializableHitList(hitList), filePath);
     }
 
 }

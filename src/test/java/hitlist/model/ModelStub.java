@@ -40,7 +40,7 @@ public abstract class ModelStub implements Model {
     }
 
     @Override
-    public void setHitListFilePath(Path addressBookFilePath) {
+    public void setHitListFilePath(Path hitListFilePath) {
         throw new AssertionError("This method should not be called.");
     }
 
