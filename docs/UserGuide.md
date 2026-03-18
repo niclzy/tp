@@ -6,7 +6,7 @@ pageNav: 3
 
 # HitList User Guide
 
-HitList is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, HitList can get your contact management tasks done faster than traditional GUI apps.
+HitList is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, HitList can get your contact management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -18,7 +18,7 @@ HitList is a **desktop app for managing contacts, optimized for use via a  Line 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+1. Download the latest `.jar` file from [here](https://github.com/AY2526S2-CS2103T-W11-2/tp/releases).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your HitList.
 
@@ -29,9 +29,9 @@ HitList is a **desktop app for managing contacts, optimized for use via a  Line 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all contacts.
-
    * `add /n John Doe /p 98765432` : Adds a contact named `John Doe` to the HitList.
+   
+   * `list` : Lists all contacts.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -46,14 +46,13 @@ HitList is a **desktop app for managing contacts, optimized for use via a  Line 
 ## Features
 
 <box type="info" seamless>
-
 **Notes about the command format:**<br>
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add /n NAME`, `NAME` is a parameter which can be used as `add /n John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g `edit INDEX [/n NAME] [/p PHONE]` can be used as `edit 3 /n John Doe` or as `edit 3 /p 98765432`.
+  e.g. `edit INDEX [/n NAME] [/p PHONE]` can be used as `edit 3 /n John Doe` or as `edit 3 /p 98765432`.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `/n NAME /p PHONE_NUMBER`, `/p PHONE_NUMBER /n NAME` is also acceptable.
@@ -72,10 +71,9 @@ Shows a message explaining how to access the help page.
 
 Format: `help`
 
+### Adding a contact: `add`
 
-### Adding a person: `add`
-
-Adds a person to the HitList.
+Adds a contact to the HitList.
 
 Format: `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`
 
@@ -83,78 +81,68 @@ Format: `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`
 
 Examples:
 * `add /n John Doe /p 98765432`
-* `add /n Betsy Crowe /t friend`
+* `add /n Betsy Crowe /p 87654321 /e betsy.crowe@gmail.com /a 321, Clementi Rd, 123465`
 
-### Listing all persons : `list`
+### Editing a contact : `edit`
 
-Shows a list of all persons in the HitList.
-
-Format: `list`
-
-### Editing a person : `edit`
-
-Edits an existing person in the HitList.
+Edits an existing contact in the HitList.
 
 Format: `edit INDEX [/n NAME] [/p PHONE] [/e EMAIL] [/a ADDRESS] `
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the contact at the specified `INDEX`. The index refers to the index number shown in the displayed HitList. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
 
 Examples:
-*  `edit 1 /p 91234567` Edits the phone number of the first person to `91234567`.
-*  `edit 2 /n Betsy Crower` Edits the name of the 2nd person to be `Betsy Crower`.
+*  `edit 1 /p 91234567` Edits the phone number of the first contact to `91234567`.
+*  `edit 2 /n Betsy Crower` Edits the name of the second contact to be `Betsy Crower`.
 
-### Locating persons: `find`
+### Deleting a contact : `delete`
 
-Finds persons whose names match any given prefix and/or whose tags match any given tag.
-
-Format: `find [KEYWORD]... [/t TAG]...`
-
-- Name search is case-insensitive. e.g. `han` matches `Hans`
-- Name search uses prefix matching. e.g. `Han` matches `Hans`
-- Tag search uses exact but case-insensitive matching. e.g. `/t school` matches `school`
-- If multiple name keywords are given, a person matching any one of them is returned
-- If multiple tags are given, a person matching any one of them is returned
-- If both name keywords and tags are given, a person must satisfy both parts
-- Name keywords and tags may appear in any order
-
-Examples:
-- `find Han`
-- `find Han Bo`
-- `find /t school`
-- `find Han /t school`
-- `find /t school Han`
-
-### Deleting a person : `delete`
-
-Deletes the specified person from the HitList.
+Deletes the specified contact from the HitList.
 
 Format: `delete INDEX`
 
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
+* Deletes the contact at the specified `INDEX`.
+* The index refers to the index number shown in the displayed HitList.
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the HitList.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+* `list` followed by `delete 2` deletes the second contact in HitList.
+* `find Betsy` followed by `delete 1` deletes the first contact in the results of the `find` command.
+
+### Listing all contact : `list`
+
+Shows a list of all contact in the HitList.
+
+Format: `list`
+
+### Locating contact: `find`
+
+Finds contacts whose names match any given prefix.
+
+Format: `find [KEYWORD]...`
+
+- Name search is case-insensitive. e.g. `han` matches `Hans`
+- Name search uses prefix matching. e.g. `Han` matches `Hans`
+- If multiple name keywords are given, a contact matching any one of them is returned
+
+Examples:
+- `find John` returns `john` and `John Doe`
+- `find alex david` returns `Alex Yeoh`, `David Li`<br>
 
 ### Adding a Company : `cmpadd`
 
 Adds a company to the hitList.
 
-Format: `cmpadd /cCOMPANY_NAME /dCOMPANY_DESCRIPTION`
+Format: `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`
 
 * The company name must be unique and not the same as any existing company in the hitList.
 * The company description can be any string which does not include '/' or start with spaces.
 
 Example:
-* `cmpadd /cGoogle /dTech giant` adds a company named `Google` with description `Tech giant` to the hitList.
-* `cmpadd /cMeta /dSocial media giant` adds a company named `Meta` with description `Social media giant` to the hitList.
+* `cmpadd /c Google /d Tech giant` adds a company named `Google` with description `Tech giant` to the hitList.
+* `cmpadd /c Meta /d Social media giant` adds a company named `Meta` with description `Social media giant` to the hitList.
 
 ### Clearing all entries : `clear`
 
@@ -177,7 +165,6 @@ HitList data are saved in the hard disk automatically after any command that cha
 HitList data are saved automatically as a JSON file `[JAR file location]/data/hitlist.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
-
 **Caution:**
 If your changes to the data file makes its format invalid, HitList will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the HitList to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
@@ -205,12 +192,16 @@ _Details coming soon ..._
 
 ## Command summary
 
-Action     | Format, Examples
------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add /n NAME /p PHONE_NUMBER` <br> e.g., `add /n James Ho /p 22224444`
-**Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [/n NAME] [/p PHONE_NUMBER]`<br> e.g.,`edit 2 /n James Lee`
-**Find**   | `find [KEYWORD]... [/t TAG]...`<br> e.g., `find James /t friend`
-**List**   | `list`
-**Help**   | `help`
+| Action                | Format                                                           | Examples                                                                       |
+|-----------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| **Getting Help**      | `help`                                                           | `help`                                                                         |
+| **Add contact**       | `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`            | `add /n James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665` |
+| **Delete contact**    | `delete INDEX`                                                   | `delete 3`                                                                     |
+| **Edit contact**      | `edit INDEX [/n NAME] [/p PHONE_NUMBER] [/e EMAIL] [/a ADDRESS]` | `edit 2 /n James Lee /e jameslee@example.com`                                  |
+| **List contacts**     | `list`                                                           | `list`                                                                         |
+| **Find contact(s)**   | `find [KEYWORD]...`                                              | `find John`                                                                    |
+| **Add contact group** | `grpadd /n GROUP_NAME`                                           | `grpadd /n Students`                                                           |
+| **Add Company**       | `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`                  | `cmpadd /c Google /d Tech giant`                                               |
+| **Delete Company**    | `cmpdel /c COMPANY_NAME`                                         | `cmpdel /c Google`                                                             |
+| **Clear**             | `clear`                                                          | `clear`                                                                        |
+| **Exit**              | `exit`                                                           | `exit`                                                                         |
