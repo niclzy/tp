@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 
 /**
- * An UI component that displays information of a {@code Company}.
+ * A UI component that displays information of a {@code Company}.
  */
 public class CompanyCard extends UiPart<Region> {
 
@@ -31,10 +31,7 @@ public class CompanyCard extends UiPart<Region> {
         super(FXML);
         this.company = company;
         this.displayedIndex = displayedIndex;
-    }
 
-    @FXML
-    private void initialize() {
         id.setText(displayedIndex + ". ");
         name.setText(company.getName().toString());
         description.setText(company.getDescription().toString());

@@ -208,9 +208,19 @@ public class MainWindow extends UiPart<Stage> {
             if (commandResult.isShowCompanyList()) {
                 hidePersonListPane();
                 showCompanyListPane();
+
+                // Force refresh the company list
+                companyListPanel = new CompanyListPanel(logic.getFilteredCompanyList());
+                companyListPanelPlaceholder.getChildren().clear();
+                companyListPanelPlaceholder.getChildren().add(companyListPanel.getRoot());
             } else {
                 showPersonListPane();
                 hideCompanyListPane();
+
+                // Force refresh the person list
+                personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+                personListPanelPlaceholder.getChildren().clear();
+                personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
             }
 
             if (commandResult.isExit()) {
