@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import hitlist.model.HitList;
 import hitlist.model.ReadOnlyHitList;
+import hitlist.model.group.Group;
+import hitlist.model.group.GroupName;
 import hitlist.model.person.Address;
 import hitlist.model.person.Email;
 import hitlist.model.person.Name;
@@ -39,9 +41,24 @@ public class SampleDataUtil {
 
     public static ReadOnlyHitList getSampleAddressBook() {
         HitList sampleAb = new HitList();
+        Group defaultGroup = new Group(new GroupName("Everyone Except David"));
+        Group yGroup = new Group(new GroupName("The Y People"));
+
+        sampleAb.addGroup(defaultGroup);
+        sampleAb.addGroup(yGroup);
+
         for (Person samplePerson : getSamplePersons()) {
             sampleAb.addPerson(samplePerson);
+
+            if (!samplePerson.getName().fullName.startsWith("David")) {
+                defaultGroup.addMember(samplePerson);
+            }
+
+            if (samplePerson.getName().fullName.contains("Y")) {
+                yGroup.addMember(samplePerson);
+            }
         }
+
         return sampleAb;
     }
 
