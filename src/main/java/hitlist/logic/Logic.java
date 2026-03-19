@@ -39,7 +39,7 @@ public interface Logic {
     ObservableList<Company> getFilteredCompanyList();
 
     /**
-     * Returns the user prefs' address book file path.
+     * Returns the user prefs HitList file path.
      */
     Path getAddressBookFilePath();
 
