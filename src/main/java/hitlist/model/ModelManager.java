@@ -140,6 +140,10 @@ public class ModelManager implements Model {
         return Optional.empty();
     }
 
+    public ObservableList<Group> getGroupList() {
+        return hitList.getGroupList();
+    }
+
     @Override
     public void addGroup(Group group) {
         hitList.addGroup(group);

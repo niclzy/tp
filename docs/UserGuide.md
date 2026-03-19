@@ -30,7 +30,7 @@ HitList is a **desktop app for managing contacts, optimized for use via a Comman
    Some example commands you can try:
 
    * `add /n John Doe /p 98765432` : Adds a contact named `John Doe` to the HitList.
-   
+
    * `list` : Lists all contacts.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
@@ -131,6 +131,16 @@ Examples:
 - `find John` returns `john` and `John Doe`
 - `find alex david` returns `Alex Yeoh`, `David Li`<br>
 
+### Deleting a contact group : `grpdel`
+
+Deletes the specified contact group from HitList.
+
+Format: `grpdel /g GROUP_NAME`
+
+Examples:
+* `grpdel /g Students`
+* `grpdel /g Experienced`
+
 ### Adding a Company : `cmpadd`
 
 Adds a company to the hitList.
@@ -213,12 +223,13 @@ _Details coming soon ..._
 | Action                | Format                                                           | Examples                                                                       |
 |-----------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------|
 | **Getting Help**      | `help`                                                           | `help`                                                                         |
-| **Add contact**       | `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`            | `add /n James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665` |
+| **Add contact**       | `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`            | `add /n James Ho /p 22224444 /e jamesho@example.com /a 123, Clementi Rd, 1234665` |
 | **Delete contact**    | `delete INDEX`                                                   | `delete 3`                                                                     |
 | **Edit contact**      | `edit INDEX [/n NAME] [/p PHONE_NUMBER] [/e EMAIL] [/a ADDRESS]` | `edit 2 /n James Lee /e jameslee@example.com`                                  |
 | **List contacts**     | `list`                                                           | `list`                                                                         |
 | **Find contact(s)**   | `find [KEYWORD]...`                                              | `find John`                                                                    |
-| **Add contact group** | `grpadd /n GROUP_NAME`                                           | `grpadd /n Students`                                                           |
+| **Add contact group** | `grpadd /g GROUP_NAME`                                           | `grpadd /g Students`                                                           |
+| **Delete contact group** | `grpdel /g GROUP_NAME`                                        | `grpdel /g Students`                                                           |
 | **Add Company**       | `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`                  | `cmpadd /c Google /d Tech giant`                                               |
 | **Delete Company**    | `cmpdel /c COMPANY_NAME`                                         | `cmpdel /c Google`                                                             |
 | **List Companies**    | `cmplist`                                                        | `cmplist`                                                                      |
