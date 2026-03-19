@@ -303,18 +303,24 @@ public class ModelManagerTest {
         // different addressBook -> returns false
         assertFalse(modelManager.equals(new ModelManager(differentHitList, userPrefs)));
 
-        // different filteredList -> returns false
+        // different userPrefs -> returns false
+        UserPrefs differentUserPrefs = new UserPrefs();
+        differentUserPrefs.setHitListFilePath(Paths.get("differentFilePath"));
+        assertFalse(modelManager.equals(new ModelManager(hitList, differentUserPrefs)));
+
+        // different filteredPersonList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
         modelManager.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(hitList, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        modelManager.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
 
-        // different userPrefs -> returns false
-        UserPrefs differentUserPrefs = new UserPrefs();
-        differentUserPrefs.setHitListFilePath(Paths.get("differentFilePath"));
-        assertFalse(modelManager.equals(new ModelManager(hitList, differentUserPrefs)));
+        // different filteredCompanyList -> returns false
+        modelManager.updateFilteredCompanyList(company -> false);
+        assertFalse(modelManager.equals(new ModelManager(hitList, userPrefs)));
+
+        // resets modelManager to initial state
+        modelManager.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
     }
 }

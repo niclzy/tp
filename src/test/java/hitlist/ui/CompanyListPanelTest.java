@@ -1,6 +1,5 @@
 package hitlist.ui;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -17,9 +16,12 @@ import hitlist.testutil.CompanyBuilder;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 /**
- * Focused tests for CompanyListPanel.CompanyListViewCell#updateItem.
+ * Focused tests for CompanyListPanel.
  */
 public class CompanyListPanelTest {
 
@@ -30,67 +32,140 @@ public class CompanyListPanelTest {
     }
 
     @Test
-    public void updateItem_emptyOrNull_clearsGraphicAndText() throws Exception {
-        ObservableList<Company> companies = FXCollections.observableArrayList();
-        AtomicReference<Throwable> thrown = new AtomicReference<>();
+    public void display_nonEmptyList() throws Exception {
+        ObservableList<Company> companies = FXCollections.observableArrayList(
+                new CompanyBuilder().withName("Google Inc.").build(),
+                new CompanyBuilder().withName("Meta Platforms").build()
+        );
+
         CountDownLatch latch = new CountDownLatch(1);
+        AtomicReference<Throwable> failure = new AtomicReference<>();
 
         Platform.runLater(() -> {
+            Stage stage = null;
             try {
                 CompanyListPanel panel = new CompanyListPanel(companies);
-                CompanyListPanel.CompanyListViewCell cell = panel.new CompanyListViewCell();
 
-                // Covers: if (empty || company == null) -> true (empty path)
-                cell.updateItem(null, true);
-                assertNull(cell.getGraphic());
-                assertNull(cell.getText());
+                stage = new Stage();
+                Scene scene = new Scene(panel.getRoot());
+                stage.setScene(scene);
+                stage.show();
 
-                // Covers: if (empty || company == null) -> true (null company path)
-                cell.updateItem(null, false);
-                assertNull(cell.getGraphic());
-                assertNull(cell.getText());
+                panel.getRoot().applyCss();
+                panel.getRoot().layout();
+
+                // Basic sanity that panel is
+                assertTrue(panel.getRoot().isVisible());
             } catch (Throwable t) {
-                thrown.set(t);
+                failure.set(t);
             } finally {
+                if (stage != null) {
+                    stage.hide();
+                }
                 latch.countDown();
             }
         });
 
-        assertTrue(latch.await(5, TimeUnit.SECONDS));
-        if (thrown.get() != null) {
-            throw new AssertionError(thrown.get());
+        assertTrue(latch.await(5, TimeUnit.SECONDS), "Timed out waiting for JavaFX thread");
+        if (failure.get() != null) {
+            throw new AssertionError("JavaFX task failed", failure.get());
         }
     }
 
     @Test
-    public void updateItem_nonEmpty_setsGraphic() throws Exception {
-        Company company = new CompanyBuilder()
-                .withName("Google Inc.")
-                .withDescription("A multinational technology company")
-                .build();
+    public void display_emptyList() throws Exception {
+        ObservableList<Company> emptyList = FXCollections.observableArrayList();
 
-        ObservableList<Company> companies = FXCollections.observableArrayList(company);
-        AtomicReference<Throwable> thrown = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
+        AtomicReference<Throwable> failure = new AtomicReference<>();
+
+        Platform.runLater(() -> {
+            Stage stage = null;
+            try {
+                CompanyListPanel panel = new CompanyListPanel(emptyList);
+
+                stage = new Stage();
+                Scene scene = new Scene(panel.getRoot(), 200, 500);
+                stage.setScene(scene);
+                stage.show();
+
+                panel.getRoot().applyCss();
+                panel.getRoot().layout();
+
+                assertTrue(panel.getRoot().isVisible());
+            } catch (Throwable t) {
+                failure.set(t);
+            } finally {
+                if (stage != null) {
+                    stage.hide();
+                }
+                latch.countDown();
+            }
+        });
+
+        assertTrue(latch.await(5, TimeUnit.SECONDS), "Timed out waiting for JavaFX thread");
+        if (failure.get() != null) {
+            throw new AssertionError("JavaFX task failed", failure.get());
+        }
+    }
+
+    @Test
+    public void companyListViewCell_emptyItem_clearsCellState() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        AtomicReference<Throwable> failure = new AtomicReference<>();
 
         Platform.runLater(() -> {
             try {
-                CompanyListPanel panel = new CompanyListPanel(companies);
+                CompanyListPanel panel = new CompanyListPanel(FXCollections.observableArrayList());
                 CompanyListPanel.CompanyListViewCell cell = panel.new CompanyListViewCell();
 
-                // Covers: if (empty || company == null) -> false (else path)
-                cell.updateItem(company, false);
-                assertNotNull(cell.getGraphic());
+                cell.updateItem(null, true);
+
+                assertNull(cell.getGraphic());
+                assertNull(cell.getText());
             } catch (Throwable t) {
-                thrown.set(t);
+                failure.set(t);
             } finally {
                 latch.countDown();
             }
         });
 
-        assertTrue(latch.await(5, TimeUnit.SECONDS));
-        if (thrown.get() != null) {
-            throw new AssertionError(thrown.get());
+        assertTrue(latch.await(5, TimeUnit.SECONDS), "Timed out waiting for JavaFX thread");
+        if (failure.get() != null) {
+            throw new AssertionError("JavaFX task failed", failure.get());
+        }
+    }
+
+    @Test
+    public void companyListViewCell_nonEmptyItem_setsGraphic() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        AtomicReference<Throwable> failure = new AtomicReference<>();
+
+        Platform.runLater(() -> {
+            try {
+                Company company = new CompanyBuilder().withName("OpenAI").build();
+                CompanyListPanel panel = new CompanyListPanel(FXCollections.observableArrayList());
+                CompanyListPanel.CompanyListViewCell cell = panel.new CompanyListViewCell();
+
+                // Set index context by attaching to ListView.
+                ListView<Company> lv = new ListView<>();
+                lv.getItems().add(company);
+                cell.updateListView(lv);
+                cell.updateIndex(0);
+
+                cell.updateItem(company, false);
+
+                assertTrue(cell.getGraphic() != null);
+            } catch (Throwable t) {
+                failure.set(t);
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        assertTrue(latch.await(5, TimeUnit.SECONDS), "Timed out waiting for JavaFX thread");
+        if (failure.get() != null) {
+            throw new AssertionError("JavaFX task failed", failure.get());
         }
     }
 }

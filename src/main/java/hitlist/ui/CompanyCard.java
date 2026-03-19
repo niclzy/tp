@@ -1,5 +1,7 @@
 package hitlist.ui;
 
+import java.util.Objects;
+
 import hitlist.model.company.Company;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -35,5 +37,25 @@ public class CompanyCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(company.getName().toString());
         description.setText(company.getDescription().toString());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof CompanyCard)) {
+            return false;
+        }
+
+        CompanyCard card = (CompanyCard) other;
+        return displayedIndex == card.displayedIndex
+                && company.equals(card.company);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(displayedIndex, company);
     }
 }
