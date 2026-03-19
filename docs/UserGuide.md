@@ -21,7 +21,7 @@ HitList is a **desktop app for managing contacts, optimized for use via a Comman
 
 ![Ui](images/Ui.png)
 
-7. Type the command in the command box and press Enter to execute it.  
+7. Type the command in the command box and press Enter to execute it.
    e.g. typing **`help`** and pressing Enter will open the help window.
 8. Some example commands you can try:
    * `add /n John Doe /p 98765432` : Adds a contact named `John Doe` to the HitList.
@@ -37,13 +37,13 @@ HitList is a **desktop app for managing contacts, optimized for use via a Comman
 
 **Notes about the command format:**
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.  
+* Words in `UPPER_CASE` are the parameters to be supplied by the user.
   e.g. in `add /n NAME`, `NAME` is a parameter which can be used as `add /n John Doe`
-* Items in square brackets are optional.  
+* Items in square brackets are optional.
   e.g. `edit INDEX [/n NAME] [/p PHONE]` can be used as `edit 3 /n John Doe` or as `edit 3 /p 98765432`
-* Parameters can be in any order.  
+* Parameters can be in any order.
   e.g. if the command specifies `/n NAME /p PHONE_NUMBER`, `/p PHONE_NUMBER /n NAME` is also acceptable
-* Extraneous parameters for commands that do not take in parameters, such as `help`, `list`, `exit`, and `clear`, will be ignored.  
+* Extraneous parameters for commands that do not take in parameters, such as `help`, `list`, `exit`, and `clear`, will be ignored.
   e.g. if the command specifies `help 123`, it will be interpreted as `help`
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
@@ -110,9 +110,9 @@ Finds contacts whose names match any given prefix.
 
 Format: `find [KEYWORD]...`
 
-* Name search is case-insensitive.  
+* Name search is case-insensitive.
   e.g. `han` matches `Hans`
-* Name search uses prefix matching.  
+* Name search uses prefix matching.
   e.g. `Han` matches `Hans`
 * If multiple name keywords are given, a contact matching any one of them is returned.
 
@@ -229,7 +229,7 @@ _Details coming soon ..._
 
 ## FAQ
 
-**Q**: How do I transfer my data to another Computer?  
+**Q**: How do I transfer my data to another Computer?
 
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous HitList home folder.
 

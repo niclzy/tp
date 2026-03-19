@@ -24,9 +24,6 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Company> PREDICATE_SHOW_ALL_COMPANIES = unused -> true;
 
-    /** {@code Predicate} that always evaluate to true */
-    Predicate<Company> PREDICATE_SHOW_ALL_COMPANIES = unused -> true;
-
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      */
@@ -111,12 +108,6 @@ public interface Model {
     void updateFilteredCompanyList(Predicate<Company> predicate);
 
     /**
-     * Updates the filter of the filtered company list to filter by the given {@code predicate}.
-     * @throws NullPointerException if {@code predicate} is null.
-     */
-    void updateFilteredCompanyList(Predicate<Company> predicate);
-
-    /**
      * Returns true if a group with the same identity as {@code group} exists.
      */
     boolean hasGroup(Group group);
@@ -138,13 +129,6 @@ public interface Model {
      * {@code group} must already exist.
      */
     void deleteGroup(Group group);
-
-    /**
-     * Returns an {@code Optional} containing the group with the same identity as {@code groupName} if it exists,
-     * or an empty {@code Optional} otherwise.
-     */
-    Optional<Group> getGroup(GroupName groupName);
-
     /**
      * Returns all persons whose names exactly match {@code name}.
      */

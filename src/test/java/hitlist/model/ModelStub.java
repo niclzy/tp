@@ -125,11 +125,6 @@ public abstract class ModelStub implements Model {
     }
 
     @Override
-    public Optional<Group> getGroup(GroupName groupName) {
-        throw new AssertionError("This method should not be called.");
-    }
-
-    @Override
     public List<Person> getPersonsByName(Name name) {
         throw new AssertionError("This method should not be called.");
     }

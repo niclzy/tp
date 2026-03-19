@@ -30,7 +30,6 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Company> filteredCompanies;
-    private final FilteredList<Company> filteredCompanies;
 
     /**
      * Initializes a ModelManager with the given HitList and userPrefs.
@@ -43,7 +42,6 @@ public class ModelManager implements Model {
         this.hitList = new HitList(hitList);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.hitList.getPersonList());
-        filteredCompanies = new FilteredList<>(this.hitList.getCompanyList());
         filteredCompanies = new FilteredList<>(this.hitList.getCompanyList());
     }
 
@@ -158,14 +156,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Optional<Group> getGroup(GroupName groupName) {
-        requireNonNull(groupName);
-        return hitList.getGroupList().stream()
-                .filter(group -> group.getName().equals(groupName))
-                .findFirst();
-    }
-
-    @Override
     public List<Person> getPersonsByName(Name name) {
         requireNonNull(name);
         return hitList.getPersonList().stream()
@@ -220,20 +210,9 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public ObservableList<Company> getFilteredCompanyList() {
-        return filteredCompanies;
-    }
-
-    @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
-    }
-
-    @Override
-    public void updateFilteredCompanyList(Predicate<Company> predicate) {
-        requireNonNull(predicate);
-        filteredCompanies.setPredicate(predicate);
     }
 
     @Override
@@ -257,7 +236,7 @@ public class ModelManager implements Model {
         return hitList.equals(otherModelManager.hitList)
                 && userPrefs.equals(otherModelManager.userPrefs)
                 && filteredPersons.equals(otherModelManager.filteredPersons)
-                && filteredCompanies.equals(otherModelManager.filteredCompanies);
+                && filteredCompanies.equals(otherModelManager.filteredCompanies)
                 && filteredPersons.equals(otherModelManager.filteredPersons)
                 && filteredCompanies.equals(otherModelManager.filteredCompanies);
     }
