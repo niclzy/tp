@@ -2,6 +2,7 @@ package hitlist.model.util;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,26 @@ public class SampleDataUtil {
         };
     }
 
+    public static Group[] getSampleGroups() {
+        Person[] samplePersons = getSamplePersons();
+
+        Group studentsGroup = new Group(new GroupName("Students"));
+        Group unemployedGroup = new Group(new GroupName("Unemployed"));
+
+        Group[] groups = new Group[] { studentsGroup, unemployedGroup };
+
+        Random random = new Random();
+
+        // groups are currently disjoint sets
+        for (Person person : samplePersons) {
+            int randomGroupIndex = random.nextInt(groups.length);
+
+            groups[randomGroupIndex].addMember(person);
+        }
+
+        return groups;
+    }
+
     public static Company[] getSampleCompanies() {
         return new Company[] {
             new Company(new CompanyName("Google Inc."),
@@ -64,22 +85,13 @@ public class SampleDataUtil {
 
     public static ReadOnlyHitList getSampleHitList() {
         HitList sampleHitList = new HitList();
-        Group defaultGroup = new Group(new GroupName("Everyone Except David"));
-        Group yGroup = new Group(new GroupName("The Y People"));
-
-        sampleHitList.addGroup(defaultGroup);
-        sampleHitList.addGroup(yGroup);
 
         for (Person samplePerson : getSamplePersons()) {
             sampleHitList.addPerson(samplePerson);
+        }
 
-            if (!samplePerson.getName().fullName.startsWith("David")) {
-                defaultGroup.addMember(samplePerson);
-            }
-
-            if (samplePerson.getName().fullName.contains("Y")) {
-                yGroup.addMember(samplePerson);
-            }
+        for (Group sampleGroup : getSampleGroups()) {
+            sampleHitList.addGroup(sampleGroup);
         }
 
         for (Company sampleCompany : getSampleCompanies()) {
