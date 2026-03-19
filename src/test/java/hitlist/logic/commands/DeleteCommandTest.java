@@ -18,6 +18,7 @@ import hitlist.model.Model;
 import hitlist.model.ModelManager;
 import hitlist.model.UserPrefs;
 import hitlist.model.person.Person;
+import hitlist.testutil.PersonBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
@@ -80,16 +81,46 @@ public class DeleteCommandTest {
     }
 
     @Test
+    public void execute_validName_success() {
+        Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        DeleteCommand deleteCommand = new DeleteCommand(personToDelete.getName());
+
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
+                Messages.format(personToDelete));
+
+        ModelManager expectedModel = new ModelManager(model.getHitList(), new UserPrefs());
+        expectedModel.deletePerson(personToDelete);
+
+        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_invalidName_throwsCommandException() {
+        Person personNotFound = new PersonBuilder().withName("NonExistent").build();
+        DeleteCommand deleteCommand = new DeleteCommand(personNotFound.getName());
+
+        assertCommandFailure(deleteCommand, model, String.format(Messages.MESSAGE_PERSON_NOT_FOUND,
+                personNotFound.getName()));
+    }
+
+    @Test
     public void equals() {
         DeleteCommand deleteFirstCommand = new DeleteCommand(INDEX_FIRST_PERSON);
         DeleteCommand deleteSecondCommand = new DeleteCommand(INDEX_SECOND_PERSON);
+        DeleteCommand deletePersonCommand = new DeleteCommand(new PersonBuilder().withName("Alice").build().getName());
+        DeleteCommand deleteOtherPersonCommand = new DeleteCommand(
+                new PersonBuilder().withName("Bob").build().getName());
 
         // same object -> returns true
         assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
+        assertTrue(deletePersonCommand.equals(deletePersonCommand));
 
         // same values -> returns true
         DeleteCommand deleteFirstCommandCopy = new DeleteCommand(INDEX_FIRST_PERSON);
         assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
+        DeleteCommand deletePersonCommandCopy = new DeleteCommand(
+                new PersonBuilder().withName("Alice").build().getName());
+        assertTrue(deletePersonCommand.equals(deletePersonCommandCopy));
 
         // different types -> returns false
         assertFalse(deleteFirstCommand.equals(1));
@@ -99,13 +130,18 @@ public class DeleteCommandTest {
 
         // different person -> returns false
         assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
+        assertFalse(deletePersonCommand.equals(deleteOtherPersonCommand));
+        assertFalse(deleteFirstCommand.equals(deletePersonCommand));
+        assertFalse(deletePersonCommand.equals(deleteFirstCommand));
     }
 
     @Test
     public void toStringMethod() {
         Index targetIndex = Index.fromOneBased(1);
+        String targetName = null;
         DeleteCommand deleteCommand = new DeleteCommand(targetIndex);
-        String expected = DeleteCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";
+        String expected = DeleteCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + ", "
+                + "targetName=" + targetName + "}";
         assertEquals(expected, deleteCommand.toString());
     }
 
