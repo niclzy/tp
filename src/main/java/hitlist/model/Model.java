@@ -1,10 +1,12 @@
 package hitlist.model;
 
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import hitlist.commons.core.GuiSettings;
 import hitlist.model.company.Company;
+import hitlist.model.company.CompanyName;
 import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import javafx.collections.ObservableList;
@@ -15,6 +17,9 @@ import javafx.collections.ObservableList;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+
+    /** {@code Predicate} that always evaluate to true */
+    Predicate<Company> PREDICATE_SHOW_ALL_COMPANIES = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -84,11 +89,20 @@ public interface Model {
     /** Returns an unmodifiable view of the group list */
     ObservableList<Group> getGroupList();
 
+    /** Returns an unmodifiable view of the filtered company list */
+    ObservableList<Company> getFilteredCompanyList();
+
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Updates the filter of the filtered company list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredCompanyList(Predicate<Company> predicate);
 
     /**
      * Returns true if a group with the same identity as {@code group} exists.
@@ -117,6 +131,12 @@ public interface Model {
     * {@code company} must not already exist.
     */
     void addCompany(Company company);
+
+    /**
+     * Returns an {@code Optional} containing the company with the same identity as {@code companyName} if it exists,
+     * or an empty {@code Optional} otherwise.
+     */
+    Optional<Company> getCompany(CompanyName companyName);
 
     /**
      * Deletes the given company.

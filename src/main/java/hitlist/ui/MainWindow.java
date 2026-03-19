@@ -32,6 +32,7 @@ public class MainWindow extends UiPart<Stage> {
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
+    private CompanyListPanel companyListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
 
@@ -42,7 +43,16 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
+    private javafx.scene.layout.VBox personList;
+
+    @FXML
     private StackPane personListPanelPlaceholder;
+
+    @FXML
+    private StackPane companyListPanelPlaceholder;
+
+    @FXML
+    private javafx.scene.layout.VBox companyListPane;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -113,6 +123,9 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic.getGroupList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
+        companyListPanel = new CompanyListPanel(logic.getFilteredCompanyList());
+        companyListPanelPlaceholder.getChildren().add(companyListPanel.getRoot());
+
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
@@ -163,8 +176,18 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
+    /**
+     * Returns the person list panel.
+     */
     public PersonListPanel getPersonListPanel() {
         return personListPanel;
+    }
+
+    /**
+     * Returns the company list panel.
+     */
+    public CompanyListPanel getCompanyListPanel() {
+        return companyListPanel;
     }
 
     /**
@@ -182,6 +205,24 @@ public class MainWindow extends UiPart<Stage> {
                 handleHelp();
             }
 
+            if (commandResult.isShowCompanyList()) {
+                hidePersonListPane();
+                showCompanyListPane();
+
+                // Force refresh the company list
+                companyListPanel = new CompanyListPanel(logic.getFilteredCompanyList());
+                companyListPanelPlaceholder.getChildren().clear();
+                companyListPanelPlaceholder.getChildren().add(companyListPanel.getRoot());
+            } else {
+                showPersonListPane();
+                hideCompanyListPane();
+
+                // Force refresh the person list
+                personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic.getGroupList());
+                personListPanelPlaceholder.getChildren().clear();
+                personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+            }
+
             if (commandResult.isExit()) {
                 handleExit();
             }
@@ -192,5 +233,37 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
         }
+    }
+
+    /**
+     * Shows the company list pane.
+     */
+    public void showCompanyListPane() {
+        companyListPane.setVisible(true);
+        companyListPane.setManaged(true);
+    }
+
+    /**
+     * Hides the company list pane.
+     */
+    public void hideCompanyListPane() {
+        companyListPane.setVisible(false);
+        companyListPane.setManaged(false);
+    }
+
+    /**
+     * Shows the person list pane.
+     */
+    public void showPersonListPane() {
+        personList.setVisible(true);
+        personList.setManaged(true);
+    }
+
+    /**
+     * Hides the person list pane.
+     */
+    public void hidePersonListPane() {
+        personList.setVisible(false);
+        personList.setManaged(false);
     }
 }

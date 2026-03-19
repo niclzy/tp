@@ -21,12 +21,14 @@ import hitlist.logic.commands.AddCompanyCommand;
 import hitlist.logic.commands.AddGroupCommand;
 import hitlist.logic.commands.ClearCommand;
 import hitlist.logic.commands.DeleteCommand;
+import hitlist.logic.commands.DeleteCompanyCommand;
 import hitlist.logic.commands.EditCommand;
 import hitlist.logic.commands.EditCommand.EditPersonDescriptor;
 import hitlist.logic.commands.ExitCommand;
 import hitlist.logic.commands.FindCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
+import hitlist.logic.commands.ListCompanyCommand;
 import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.company.Company;
 import hitlist.model.group.Group;
@@ -108,6 +110,23 @@ public class HitListParserTest {
         Company company = GOOGLE;
         AddCompanyCommand command = (AddCompanyCommand) parser.parseCommand(CompanyUtil.getAddCompanyCommand(company));
         assertEquals(new AddCompanyCommand(company), command);
+    }
+
+    @Test
+    public void parseCommand_listCompany() throws Exception {
+        assertTrue(parser.parseCommand(ListCompanyCommand.COMMAND_WORD) instanceof ListCompanyCommand);
+        assertTrue(parser.parseCommand(ListCompanyCommand.COMMAND_WORD + " 3") instanceof ListCompanyCommand);
+    }
+
+    @Test
+    public void parseCommand_deleteCompany() throws Exception {
+        Company company = GOOGLE;
+        AddCompanyCommand command = (AddCompanyCommand) parser.parseCommand(CompanyUtil.getAddCompanyCommand(company));
+        assertEquals(new AddCompanyCommand(company), command);
+
+        DeleteCompanyCommand commanddel =
+                (DeleteCompanyCommand) parser.parseCommand(CompanyUtil.getDeleteCompanyCommand(company));
+        assertEquals(new DeleteCompanyCommand(company.getName()), commanddel);
     }
 
     @Test

@@ -1,10 +1,14 @@
 package hitlist.storage;
 
 import static hitlist.testutil.Assert.assertThrows;
+import static hitlist.testutil.TypicalCompanies.GOOGLE;
+import static hitlist.testutil.TypicalCompanies.MICROSOFT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -54,6 +58,39 @@ public class JsonSerializableHitListTest {
                 JsonSerializableHitList.class).get();
         assertThrows(IllegalValueException.class, JsonSerializableHitList.MESSAGE_DUPLICATE_PERSON,
                 dataFromFile::toModelType);
+    }
+
+    @Test
+    public void toModelType_duplicateCompanies_throwsIllegalValueException() throws Exception {
+        List<JsonAdaptedCompany> duplicateCompanies = new ArrayList<>();
+        duplicateCompanies.add(new JsonAdaptedCompany(GOOGLE));
+        duplicateCompanies.add(new JsonAdaptedCompany(GOOGLE));
+
+        JsonSerializableHitList dataFromFile = new JsonSerializableHitList(
+                new ArrayList<>(),
+                duplicateCompanies,
+                new ArrayList<>());
+
+        assertThrows(IllegalValueException.class,
+                JsonSerializableHitList.MESSAGE_DUPLICATE_COMPANY,
+                dataFromFile::toModelType);
+    }
+
+    @Test
+    public void toModelType_validCompanies_success() throws Exception {
+        List<JsonAdaptedCompany> validCompanies = new ArrayList<>();
+        validCompanies.add(new JsonAdaptedCompany(GOOGLE));
+        validCompanies.add(new JsonAdaptedCompany(MICROSOFT));
+
+        JsonSerializableHitList dataFromFile = new JsonSerializableHitList(
+                new ArrayList<>(),
+                validCompanies,
+                new ArrayList<>());
+
+        HitList hitList = dataFromFile.toModelType();
+        assertEquals(2, hitList.getCompanyList().size());
+        assertEquals(GOOGLE, hitList.getCompanyList().get(0));
+        assertEquals(MICROSOFT, hitList.getCompanyList().get(1));
     }
 
     @Test

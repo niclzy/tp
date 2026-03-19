@@ -8,6 +8,7 @@ import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.Model;
 import hitlist.model.ReadOnlyHitList;
+import hitlist.model.company.Company;
 import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import javafx.collections.ObservableList;
@@ -38,8 +39,11 @@ public interface Logic {
     /** Returns an unmodifiable view of the list of groups */
     ObservableList<Group> getGroupList();
 
+    /** Returns an unmodifiable view of the filtered list of companies */
+    ObservableList<Company> getFilteredCompanyList();
+
     /**
-     * Returns the user prefs' address book file path.
+     * Returns the user prefs HitList file path.
      */
     Path getAddressBookFilePath();
 

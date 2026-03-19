@@ -4,19 +4,22 @@ import static hitlist.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import hitlist.commons.core.GuiSettings;
 import hitlist.commons.core.LogsCenter;
 import hitlist.model.company.Company;
+import hitlist.model.company.CompanyName;
 import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of the HitList data.
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
@@ -24,20 +27,25 @@ public class ModelManager implements Model {
     private final HitList hitList;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Company> filteredCompanies;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given HitList and userPrefs.
      */
     public ModelManager(ReadOnlyHitList hitList, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(hitList, userPrefs);
 
-        logger.fine("Initializing with address book: " + hitList + " and user prefs " + userPrefs);
+        logger.fine("Initializing with HitList: " + hitList + " and user prefs " + userPrefs);
 
         this.hitList = new HitList(hitList);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.hitList.getPersonList());
+        filteredCompanies = new FilteredList<>(this.hitList.getCompanyList());
     }
 
+    /**
+     * Initializes a ModelManager with a new HitList and userPrefs.
+     */
     public ModelManager() {
         this(new HitList(), new UserPrefs());
     }
@@ -143,6 +151,19 @@ public class ModelManager implements Model {
     @Override
     public void addCompany(Company company) {
         hitList.addCompany(company);
+        updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
+    }
+
+    @Override
+    public Optional<Company> getCompany(CompanyName companyName) {
+        requireNonNull(companyName);
+        List<Company> companyList = hitList.getCompanyList();
+        for (Company company : companyList) {
+            if (company.getName().equals(companyName)) {
+                return Optional.of(company);
+            }
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -162,9 +183,20 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<Company> getFilteredCompanyList() {
+        return filteredCompanies;
+    }
+
+    @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateFilteredCompanyList(Predicate<Company> predicate) {
+        requireNonNull(predicate);
+        filteredCompanies.setPredicate(predicate);
     }
 
     @Override
@@ -181,6 +213,7 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return hitList.equals(otherModelManager.hitList)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+                && filteredPersons.equals(otherModelManager.filteredPersons)
+                && filteredCompanies.equals(otherModelManager.filteredCompanies);
     }
 }

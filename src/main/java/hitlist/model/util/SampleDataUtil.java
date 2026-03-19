@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 
 import hitlist.model.HitList;
 import hitlist.model.ReadOnlyHitList;
+import hitlist.model.company.Company;
+import hitlist.model.company.CompanyDescription;
+import hitlist.model.company.CompanyName;
 import hitlist.model.group.Group;
 import hitlist.model.group.GroupName;
 import hitlist.model.person.Address;
@@ -39,6 +42,26 @@ public class SampleDataUtil {
         };
     }
 
+    public static Company[] getSampleCompanies() {
+        return new Company[] {
+            new Company(new CompanyName("Google Inc."),
+                    new CompanyDescription("A multinational technology company specializing in "
+                            + "Internet-related services and products")),
+            new Company(new CompanyName("Microsoft Corporation"),
+                    new CompanyDescription("An American multinational technology company with headquarters "
+                            + "in Redmond, Washington")),
+            new Company(new CompanyName("Meta Platforms, Inc."),
+                    new CompanyDescription("An American multinational technology conglomerate based in "
+                            + "Menlo Park, California")),
+            new Company(new CompanyName("Apple Inc."),
+                    new CompanyDescription("An American multinational technology company specializing in "
+                            + "consumer electronics and computer software")),
+            new Company(new CompanyName("Amazon.com, Inc."),
+                    new CompanyDescription("An American multinational technology company focusing on "
+                            + "e-commerce, cloud computing, and digital streaming"))
+        };
+    }
+
     public static ReadOnlyHitList getSampleHitList() {
         HitList sampleHitList = new HitList();
         Group defaultGroup = new Group(new GroupName("Everyone Except David"));
@@ -57,6 +80,10 @@ public class SampleDataUtil {
             if (samplePerson.getName().fullName.contains("Y")) {
                 yGroup.addMember(samplePerson);
             }
+        }
+
+        for (Company sampleCompany : getSampleCompanies()) {
+            sampleHitList.addCompany(sampleCompany);
         }
 
         return sampleHitList;

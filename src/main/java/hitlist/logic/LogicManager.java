@@ -14,6 +14,7 @@ import hitlist.logic.parser.HitListParser;
 import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.Model;
 import hitlist.model.ReadOnlyHitList;
+import hitlist.model.company.Company;
 import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import hitlist.storage.Storage;
@@ -75,6 +76,11 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Group> getGroupList() {
         return model.getGroupList();
+    }
+
+    @Override
+    public ObservableList<Company> getFilteredCompanyList() {
+        return model.getFilteredCompanyList();
     }
 
     @Override
