@@ -4,16 +4,17 @@ import static hitlist.commons.util.AppUtil.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Represents a Person's name in the address book.
+ * Represents a Person's name in the HitList.
  * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
  */
 public class Name {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Invalid contactName: Contact name selected is invalid";
+            "Names should only contain alphabetic characters, dashes,"
+            + " apostrophes, and spaces, and it should not be blank";
 
     /*
-     * Names should only contain alphabet characters, spaces, -, and ', and it should not be blank
+     * Names should only contain alphabetic characters, spaces, -, and ', and it should not be blank
      */
     public static final String VALIDATION_REGEX = "^[A-Za-z’-][A-Za-z\\s'-]*$";
 

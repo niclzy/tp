@@ -4,13 +4,13 @@ import static hitlist.commons.util.AppUtil.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Represents a Group's name in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
+ * Represents a Group's name in the HitList.
+ * Guarantees: immutable; is valid as declared in {@link #isValidGroupName(String)}
  */
 public class GroupName {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Names should only contain alphanumeric characters and spaces, and it should not be blank";
+            "Group names should only contain alphanumeric characters and spaces, and it should not be blank";
 
     /*
      * The first character of the address must not be a whitespace,
@@ -23,7 +23,7 @@ public class GroupName {
     /**
      * Constructs a {@code GroupName}.
      *
-     * @param name A valid name.
+     * @param name A valid group name.
      */
     public GroupName(String name) {
         requireNonNull(name);
@@ -32,7 +32,7 @@ public class GroupName {
     }
 
     /**
-     * Returns true if a given string is a valid name.
+     * Returns true if a given string is a valid group name.
      */
     public static boolean isValidGroupName(String test) {
         return test.matches(VALIDATION_REGEX);

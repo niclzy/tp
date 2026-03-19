@@ -4,26 +4,25 @@ import static hitlist.logic.parser.CliSyntax.PREFIX_GROUP;
 import static java.util.Objects.requireNonNull;
 
 import hitlist.commons.util.ToStringBuilder;
-import hitlist.logic.Messages;
 import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.model.Model;
 import hitlist.model.group.Group;
 
 /**
- * Adds a group to the address book.
+ * Adds a group to the HitList.
  */
 public class AddGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "grpadd";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a group to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a group to the HitList. "
             + "Parameters: "
             + PREFIX_GROUP + " NAME\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_GROUP + " Students";
 
-    public static final String MESSAGE_SUCCESS = "New group added: %1$s";
-    public static final String MESSAGE_DUPLICATE_GROUP = "This group already exists in the address book";
+    public static final String MESSAGE_SUCCESS = "Group %1$s has been created";
+    public static final String MESSAGE_DUPLICATE_GROUP = "Duplicate Group: Group %1$s already exists";
 
     private final Group toAdd;
 
@@ -40,11 +39,11 @@ public class AddGroupCommand extends Command {
         requireNonNull(model);
 
         if (model.hasGroup(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_GROUP);
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_GROUP, toAdd.getName()));
         }
 
         model.addGroup(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.formatGroup(toAdd)));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd.getName()));
     }
 
     @Override

@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Represents a Role's description in the hit list.
- * Guarantees: immutable; is valid as declared in {@link #isValidDescription(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidRoleDescription(String)}
  */
 public class RoleDescription {
 
@@ -29,7 +29,7 @@ public class RoleDescription {
      */
     public RoleDescription(String roleDescription) {
         requireNonNull(roleDescription);
-        checkArgument(isValidDescription(roleDescription), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidRoleDescription(roleDescription), MESSAGE_CONSTRAINTS);
         this.roleDescription = roleDescription.trim();
     }
 
@@ -39,7 +39,7 @@ public class RoleDescription {
      * @param test The string to test for validity as a role description.
      * @return True if the string is a valid role description, false otherwise.
      */
-    public static boolean isValidDescription(String test) {
+    public static boolean isValidRoleDescription(String test) {
         return test.matches(VALIDATION_REGEX);
     }
 

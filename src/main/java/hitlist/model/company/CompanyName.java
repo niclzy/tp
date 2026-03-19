@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Represents a Company's name in the hit list.
- * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidCompanyName(String)}
  */
 public class CompanyName {
 
@@ -29,7 +29,7 @@ public class CompanyName {
      */
     public CompanyName(String companyName) {
         requireNonNull(companyName);
-        checkArgument(isValidName(companyName), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidCompanyName(companyName), MESSAGE_CONSTRAINTS);
         this.companyName = companyName;
     }
 
@@ -39,7 +39,7 @@ public class CompanyName {
      * @param test The string to test for validity as a company name.
      * @return True if the string is a valid company name, false otherwise.
      */
-    public static boolean isValidName(String test) {
+    public static boolean isValidCompanyName(String test) {
         return test.matches(VALIDATION_REGEX);
     }
 

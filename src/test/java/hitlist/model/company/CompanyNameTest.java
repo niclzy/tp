@@ -22,24 +22,24 @@ public class CompanyNameTest {
     }
 
     @Test
-    public void isValidName() {
+    public void isValidCompanyName() {
         // null name
-        assertThrows(NullPointerException.class, () -> CompanyName.isValidName(null));
+        assertThrows(NullPointerException.class, () -> CompanyName.isValidCompanyName(null));
 
         // invalid name
-        assertFalse(CompanyName.isValidName("")); // empty string
-        assertFalse(CompanyName.isValidName(" ")); // spaces only
-        assertFalse(CompanyName.isValidName("/")); // forward slash only
-        assertFalse(CompanyName.isValidName("Company/Name")); // contains forward slash
-        assertFalse(CompanyName.isValidName("Company\nName")); // contains line break
+        assertFalse(CompanyName.isValidCompanyName("")); // empty string
+        assertFalse(CompanyName.isValidCompanyName(" ")); // spaces only
+        assertFalse(CompanyName.isValidCompanyName("/")); // forward slash only
+        assertFalse(CompanyName.isValidCompanyName("Company/Name")); // contains forward slash
+        assertFalse(CompanyName.isValidCompanyName("Company\nName")); // contains line break
 
         // valid name
-        assertTrue(CompanyName.isValidName("Google")); // alphabets only
-        assertTrue(CompanyName.isValidName("12345")); // numbers only
-        assertTrue(CompanyName.isValidName("Google Inc.")); // alphanumeric characters and punctuation
-        assertTrue(CompanyName.isValidName("Google LLC")); // with capital letters
-        assertTrue(CompanyName.isValidName("Google")); // short name
-        assertTrue(CompanyName.isValidName("Google Google Google Google Go")); // long name (30
+        assertTrue(CompanyName.isValidCompanyName("Google")); // alphabets only
+        assertTrue(CompanyName.isValidCompanyName("12345")); // numbers only
+        assertTrue(CompanyName.isValidCompanyName("Google Inc.")); // alphanumeric characters and punctuation
+        assertTrue(CompanyName.isValidCompanyName("Google LLC")); // with capital letters
+        assertTrue(CompanyName.isValidCompanyName("Google")); // short name
+        assertTrue(CompanyName.isValidCompanyName("Google Google Google Google Go")); // long name (30
     }
 
     @Test

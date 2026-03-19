@@ -22,21 +22,21 @@ public class CompanyDescriptionTest {
     }
 
     @Test
-    public void isValidDescription() {
+    public void isValidCompanyDescription() {
         // null description
-        assertThrows(NullPointerException.class, () -> CompanyDescription.isValidDescription(null));
+        assertThrows(NullPointerException.class, () -> CompanyDescription.isValidCompanyDescription(null));
 
         // invalid description
-        assertFalse(CompanyDescription.isValidDescription("")); // empty string
-        assertFalse(CompanyDescription.isValidDescription(" ")); // spaces only
-        assertFalse(CompanyDescription.isValidDescription("/")); // forward slash only
-        assertFalse(CompanyDescription.isValidDescription("Company/Name")); // contains forward slash
-        assertFalse(CompanyDescription.isValidDescription("Company\nDescription")); // contains line break
+        assertFalse(CompanyDescription.isValidCompanyDescription("")); // empty string
+        assertFalse(CompanyDescription.isValidCompanyDescription(" ")); // spaces only
+        assertFalse(CompanyDescription.isValidCompanyDescription("/")); // forward slash only
+        assertFalse(CompanyDescription.isValidCompanyDescription("Company/Name")); // contains forward slash
+        assertFalse(CompanyDescription.isValidCompanyDescription("Company\nDescription")); // contains line break
 
         // valid description
-        assertTrue(CompanyDescription.isValidDescription("Google")); // alphabets only
-        assertTrue(CompanyDescription.isValidDescription("12345")); // numbers only
-        assertTrue(CompanyDescription.isValidDescription("An American multinational technology company with "
+        assertTrue(CompanyDescription.isValidCompanyDescription("Google")); // alphabets only
+        assertTrue(CompanyDescription.isValidCompanyDescription("12345")); // numbers only
+        assertTrue(CompanyDescription.isValidCompanyDescription("An American multinational technology company with "
                 + "headquarters in Redmond, Washington. It develops, manufactures, licenses, supports and sells "
                 + "computer software, consumer electronics, personal computers, "
                 + "and related services")); // long description

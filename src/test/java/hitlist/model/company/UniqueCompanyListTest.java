@@ -114,12 +114,8 @@ public class UniqueCompanyListTest {
     }
 
     @Test
-    public void remove_companyDoesNotExist_listRemainsUnchanged() {
-        uniqueCompanyList.add(META);
-        UniqueCompanyList expectedUniqueCompanyList = new UniqueCompanyList();
-        expectedUniqueCompanyList.add(META);
-        uniqueCompanyList.remove(GOOGLE);
-        assertEquals(expectedUniqueCompanyList, uniqueCompanyList);
+    public void remove_companyDoesNotExist_throwsCompanyNotFoundException() {
+        assertThrows(CompanyNotFoundException.class, () -> uniqueCompanyList.remove(GOOGLE));
     }
 
     @Test

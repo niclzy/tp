@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Represents a Company's description in the hit list.
- * Guarantees: immutable; is valid as declared in {@link #isValidDescription(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidCompanyDescription(String)}
  */
 public class CompanyDescription {
 
@@ -29,7 +29,7 @@ public class CompanyDescription {
      */
     public CompanyDescription(String companyDescription) {
         requireNonNull(companyDescription);
-        checkArgument(isValidDescription(companyDescription), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidCompanyDescription(companyDescription), MESSAGE_CONSTRAINTS);
         this.companyDescription = companyDescription;
     }
 
@@ -39,7 +39,7 @@ public class CompanyDescription {
      * @param test The string to test for validity as a company description.
      * @return True if the string is a valid company description, false otherwise.
      */
-    public static boolean isValidDescription(String test) {
+    public static boolean isValidCompanyDescription(String test) {
         return test.matches(VALIDATION_REGEX);
     }
 

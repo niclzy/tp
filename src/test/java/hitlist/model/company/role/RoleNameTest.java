@@ -22,24 +22,24 @@ public class RoleNameTest {
     }
 
     @Test
-    public void isValidName() {
+    public void isValidRoleName() {
         // null name
-        assertThrows(NullPointerException.class, () -> RoleName.isValidName(null));
+        assertThrows(NullPointerException.class, () -> RoleName.isValidRoleName(null));
 
         // invalid name
-        assertFalse(RoleName.isValidName("")); // empty string
-        assertFalse(RoleName.isValidName(" ")); // spaces only
-        assertFalse(RoleName.isValidName("/")); // forward slash only
-        assertFalse(RoleName.isValidName("Role/Name")); // contains forward slash
-        assertFalse(RoleName.isValidName("Role\nName")); // contains line break
+        assertFalse(RoleName.isValidRoleName("")); // empty string
+        assertFalse(RoleName.isValidRoleName(" ")); // spaces only
+        assertFalse(RoleName.isValidRoleName("/")); // forward slash only
+        assertFalse(RoleName.isValidRoleName("Role/Name")); // contains forward slash
+        assertFalse(RoleName.isValidRoleName("Role\nName")); // contains line break
 
         // valid name
-        assertTrue(RoleName.isValidName("Software Engineer")); // alphabets only
-        assertTrue(RoleName.isValidName("12345")); // numbers only
-        assertTrue(RoleName.isValidName("Software Engineer I")); // alphanumeric characters and punctuation
-        assertTrue(RoleName.isValidName("Software Engineer II")); // with capital letters
-        assertTrue(RoleName.isValidName("SE I")); // short name
-        assertTrue(RoleName.isValidName("Software Engineer I Software E")); // long name (30 characters)
+        assertTrue(RoleName.isValidRoleName("Software Engineer")); // alphabets only
+        assertTrue(RoleName.isValidRoleName("12345")); // numbers only
+        assertTrue(RoleName.isValidRoleName("Software Engineer I")); // alphanumeric characters and punctuation
+        assertTrue(RoleName.isValidRoleName("Software Engineer II")); // with capital letters
+        assertTrue(RoleName.isValidRoleName("SE I")); // short name
+        assertTrue(RoleName.isValidRoleName("Software Engineer I Software E")); // long name (30 characters)
     }
 
     @Test

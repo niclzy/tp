@@ -121,12 +121,8 @@ public class UniqueRoleListTest {
     }
 
     @Test
-    public void remove_roleDoesNotExist_listRemainsUnchanged() {
-        uniqueRoleList.add(PRODUCT_MANAGER);
-        UniqueRoleList expectedUniqueRoleList = new UniqueRoleList();
-        expectedUniqueRoleList.add(PRODUCT_MANAGER);
-        uniqueRoleList.remove(SOFTWARE_ENGINEER);
-        assertEquals(expectedUniqueRoleList, uniqueRoleList);
+    public void remove_roleDoesNotExist_throwsRoleNotFoundException() {
+        assertThrows(RoleNotFoundException.class, () -> uniqueRoleList.remove(SOFTWARE_ENGINEER));
     }
 
     @Test

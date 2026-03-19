@@ -22,21 +22,21 @@ public class RoleDescriptionTest {
     }
 
     @Test
-    public void isValidDescription() {
+    public void isValidRoleDescription() {
         // null description
-        assertThrows(NullPointerException.class, () -> RoleDescription.isValidDescription(null));
+        assertThrows(NullPointerException.class, () -> RoleDescription.isValidRoleDescription(null));
 
         // invalid description
-        assertFalse(RoleDescription.isValidDescription("")); // empty string
-        assertFalse(RoleDescription.isValidDescription(" ")); // spaces only
-        assertFalse(RoleDescription.isValidDescription("/")); // forward slash only
-        assertFalse(RoleDescription.isValidDescription("Role/Description")); // contains forward slash
-        assertFalse(RoleDescription.isValidDescription("Role\nDescription")); // contains line break
+        assertFalse(RoleDescription.isValidRoleDescription("")); // empty string
+        assertFalse(RoleDescription.isValidRoleDescription(" ")); // spaces only
+        assertFalse(RoleDescription.isValidRoleDescription("/")); // forward slash only
+        assertFalse(RoleDescription.isValidRoleDescription("Role/Description")); // contains forward slash
+        assertFalse(RoleDescription.isValidRoleDescription("Role\nDescription")); // contains line break
 
         // valid description
-        assertTrue(RoleDescription.isValidDescription("Software Engineer")); // alphabets only
-        assertTrue(RoleDescription.isValidDescription("12345")); // numbers only
-        assertTrue(RoleDescription.isValidDescription("An entry-level software engineering role responsible for "
+        assertTrue(RoleDescription.isValidRoleDescription("Software Engineer")); // alphabets only
+        assertTrue(RoleDescription.isValidRoleDescription("12345")); // numbers only
+        assertTrue(RoleDescription.isValidRoleDescription("An entry-level software engineering role responsible for "
                 + "developing and maintaining software applications.")); // long description
     }
 

@@ -3,6 +3,7 @@ package hitlist.logic.parser;
 import static hitlist.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static hitlist.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static hitlist.testutil.Assert.assertThrows;
+import static hitlist.testutil.TypicalCompanies.GOOGLE;
 import static hitlist.testutil.TypicalGroups.STUDENTS;
 import static hitlist.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,9 +17,11 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import hitlist.logic.commands.AddCommand;
+import hitlist.logic.commands.AddCompanyCommand;
 import hitlist.logic.commands.AddGroupCommand;
 import hitlist.logic.commands.ClearCommand;
 import hitlist.logic.commands.DeleteCommand;
+import hitlist.logic.commands.DeleteCompanyCommand;
 import hitlist.logic.commands.EditCommand;
 import hitlist.logic.commands.EditCommand.EditPersonDescriptor;
 import hitlist.logic.commands.ExitCommand;
@@ -26,9 +29,11 @@ import hitlist.logic.commands.FindCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
 import hitlist.logic.parser.exceptions.ParseException;
+import hitlist.model.company.Company;
 import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import hitlist.model.person.PersonMatchesFindPredicate;
+import hitlist.testutil.CompanyUtil;
 import hitlist.testutil.EditPersonDescriptorBuilder;
 import hitlist.testutil.GroupUtil;
 import hitlist.testutil.PersonBuilder;
@@ -97,6 +102,24 @@ public class HitListParserTest {
         Group group = STUDENTS;
         AddGroupCommand command = (AddGroupCommand) parser.parseCommand(GroupUtil.getAddGroupCommand(group));
         assertEquals(new AddGroupCommand(group), command);
+    }
+
+    @Test
+    public void parseCommand_addCompany() throws Exception {
+        Company company = GOOGLE;
+        AddCompanyCommand command = (AddCompanyCommand) parser.parseCommand(CompanyUtil.getAddCompanyCommand(company));
+        assertEquals(new AddCompanyCommand(company), command);
+    }
+
+    @Test
+    public void parseCommand_deleteCompany() throws Exception {
+        Company company = GOOGLE;
+        AddCompanyCommand command = (AddCompanyCommand) parser.parseCommand(CompanyUtil.getAddCompanyCommand(company));
+        assertEquals(new AddCompanyCommand(company), command);
+
+        DeleteCompanyCommand commanddel =
+                (DeleteCompanyCommand) parser.parseCommand(CompanyUtil.getDeleteCompanyCommand(company));
+        assertEquals(new DeleteCompanyCommand(company.getName()), commanddel);
     }
 
     @Test

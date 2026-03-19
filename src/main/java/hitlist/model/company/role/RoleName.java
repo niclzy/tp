@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Represents a Role's name in the hit list.
- * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidRoleName(String)}
  */
 public class RoleName {
 
@@ -29,7 +29,7 @@ public class RoleName {
      */
     public RoleName(String roleName) {
         requireNonNull(roleName);
-        checkArgument(isValidName(roleName), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidRoleName(roleName), MESSAGE_CONSTRAINTS);
         this.roleName = roleName;
     }
 
@@ -39,7 +39,7 @@ public class RoleName {
      * @param test The string to test for validity as a role name.
      * @return True if the string is a valid role name, false otherwise.
      */
-    public static boolean isValidName(String test) {
+    public static boolean isValidRoleName(String test) {
         return test.matches(VALIDATION_REGEX);
     }
 

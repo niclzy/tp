@@ -92,9 +92,11 @@ public class UniqueRoleList implements Iterable<Role> {
      * @param toRemove The role to remove from the list.
      * @throws RoleNotFoundException If no such role could be found in the list.
      */
-    public void remove(Role toRemove) {
+    public void remove(Role toRemove) throws RoleNotFoundException {
         requireNonNull(toRemove);
-        internalList.remove(toRemove);
+        if (!internalList.remove(toRemove)) {
+            throw new RoleNotFoundException(ROLE_NOT_FOUND_MESSAGE);
+        }
     }
 
     /**

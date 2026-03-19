@@ -1,0 +1,10 @@
+{
+  "persons": [ ],
+  "groups" : [ {
+    "groupName" : "Students",
+    "members" : [ ]
+  }, {
+    "groupName" : "Unemployed",
+    "members" : [ ]
+  } ]
+}

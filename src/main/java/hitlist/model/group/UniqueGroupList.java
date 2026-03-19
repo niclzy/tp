@@ -1,5 +1,6 @@
 package hitlist.model.group;
 
+import static hitlist.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Iterator;
@@ -49,6 +50,24 @@ public class UniqueGroupList implements Iterable<Group> {
         if (!internalList.remove(toRemove)) {
             throw new GroupNotFoundException();
         }
+    }
+
+    public void setGroups(UniqueGroupList replacement) {
+        requireNonNull(replacement);
+        internalList.setAll(replacement.internalList);
+    }
+
+    /**
+     * Replaces the contents of this list with {@code groups}.
+     * {@code groups} must not contain duplicate groups.
+     */
+    public void setGroups(List<Group> groups) {
+        requireAllNonNull(groups);
+        if (!groupsAreUnique(groups)) {
+            throw new DuplicateGroupException();
+        }
+
+        internalList.setAll(groups);
     }
 
     /**

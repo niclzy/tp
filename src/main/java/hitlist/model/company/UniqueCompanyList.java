@@ -93,9 +93,11 @@ public class UniqueCompanyList implements Iterable<Company> {
     * @param toRemove The company to remove from the list.
     * @throws CompanyNotFoundException If the company does not exist in the list.
     */
-    public void remove(Company toRemove) {
+    public void remove(Company toRemove) throws CompanyNotFoundException {
         requireNonNull(toRemove);
-        internalList.remove(toRemove);
+        if (!internalList.remove(toRemove)) {
+            throw new CompanyNotFoundException(COMPANY_NOT_FOUND_MESSAGE);
+        }
     }
 
     /**
