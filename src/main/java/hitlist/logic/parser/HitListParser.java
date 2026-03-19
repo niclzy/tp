@@ -11,6 +11,7 @@ import hitlist.commons.core.LogsCenter;
 import hitlist.logic.commands.AddCommand;
 import hitlist.logic.commands.AddCompanyCommand;
 import hitlist.logic.commands.AddGroupCommand;
+import hitlist.logic.commands.AssignGroupCommand;
 import hitlist.logic.commands.ClearCommand;
 import hitlist.logic.commands.Command;
 import hitlist.logic.commands.DeleteCommand;
@@ -52,9 +53,6 @@ public class HitListParser {
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
 
-        // Note to developers: Change the log level in config.json to enable lower level (i.e., FINE, FINER and lower)
-        // log messages such as the one below.
-        // Lower level log messages are used sparingly to minimize noise in the code.
         logger.fine("Command word: " + commandWord + "; Arguments: " + arguments);
 
         switch (commandWord) {
@@ -91,6 +89,9 @@ public class HitListParser {
         case AddGroupCommand.COMMAND_WORD:
             return new AddGroupCommandParser().parse(arguments);
 
+        case AssignGroupCommand.COMMAND_WORD:
+            return new AssignGroupCommandParser().parse(arguments);
+
         case DeleteGroupCommand.COMMAND_WORD:
             return new DeleteGroupCommandParser().parse(arguments);
 
@@ -108,5 +109,4 @@ public class HitListParser {
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
     }
-
 }

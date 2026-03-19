@@ -1,6 +1,7 @@
 package hitlist.model;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -9,6 +10,7 @@ import hitlist.model.company.Company;
 import hitlist.model.company.CompanyName;
 import hitlist.model.group.Group;
 import hitlist.model.group.GroupName;
+import hitlist.model.person.Name;
 import hitlist.model.person.Person;
 import javafx.collections.ObservableList;
 
@@ -127,6 +129,10 @@ public interface Model {
      * {@code group} must already exist.
      */
     void deleteGroup(Group group);
+    /**
+     * Returns all persons whose names exactly match {@code name}.
+     */
+    List<Person> getPersonsByName(Name name);
 
     /**
      * Returns true if a company with the same identity as {@code company} exists.

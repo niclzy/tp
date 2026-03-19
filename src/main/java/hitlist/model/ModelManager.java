@@ -15,6 +15,7 @@ import hitlist.model.company.Company;
 import hitlist.model.company.CompanyName;
 import hitlist.model.group.Group;
 import hitlist.model.group.GroupName;
+import hitlist.model.person.Name;
 import hitlist.model.person.Person;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -155,6 +156,14 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public List<Person> getPersonsByName(Name name) {
+        requireNonNull(name);
+        return hitList.getPersonList().stream()
+                .filter(person -> person.getName().equals(name))
+                .toList();
+    }
+
+    @Override
     public boolean hasCompany(Company company) {
         requireNonNull(company);
         return hitList.hasCompany(company);
@@ -163,6 +172,7 @@ public class ModelManager implements Model {
     @Override
     public void addCompany(Company company) {
         hitList.addCompany(company);
+        updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
         updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
     }
 
@@ -225,6 +235,8 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return hitList.equals(otherModelManager.hitList)
                 && userPrefs.equals(otherModelManager.userPrefs)
+                && filteredPersons.equals(otherModelManager.filteredPersons)
+                && filteredCompanies.equals(otherModelManager.filteredCompanies)
                 && filteredPersons.equals(otherModelManager.filteredPersons)
                 && filteredCompanies.equals(otherModelManager.filteredCompanies);
     }
