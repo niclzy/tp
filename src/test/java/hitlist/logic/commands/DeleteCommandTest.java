@@ -106,13 +106,19 @@ public class DeleteCommandTest {
     public void equals() {
         DeleteCommand deleteFirstCommand = new DeleteCommand(INDEX_FIRST_PERSON);
         DeleteCommand deleteSecondCommand = new DeleteCommand(INDEX_SECOND_PERSON);
+        DeleteCommand deletePersonCommand = new DeleteCommand(new PersonBuilder().withName("Alice").build().getName());
+        DeleteCommand deleteOtherPersonCommand = new DeleteCommand(new PersonBuilder().withName("Bob").build().getName());
 
         // same object -> returns true
         assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
+        assertTrue(deletePersonCommand.equals(deletePersonCommand));
 
         // same values -> returns true
         DeleteCommand deleteFirstCommandCopy = new DeleteCommand(INDEX_FIRST_PERSON);
         assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
+        DeleteCommand deletePersonCommandCopy = new DeleteCommand(
+                new PersonBuilder().withName("Alice").build().getName());
+        assertTrue(deletePersonCommand.equals(deletePersonCommandCopy));
 
         // different types -> returns false
         assertFalse(deleteFirstCommand.equals(1));
@@ -122,6 +128,7 @@ public class DeleteCommandTest {
 
         // different person -> returns false
         assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
+        assertFalse(deletePersonCommand.equals(deleteOtherPersonCommand));
     }
 
     @Test
