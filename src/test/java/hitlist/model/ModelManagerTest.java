@@ -23,7 +23,7 @@ import hitlist.commons.core.GuiSettings;
 import hitlist.model.company.Company;
 import hitlist.model.company.CompanyName;
 import hitlist.model.person.NameContainsKeywordsPredicate;
-import hitlist.testutil.AddressBookBuilder;
+import hitlist.testutil.HitListBuilder;
 
 public class ModelManagerTest {
 
@@ -81,7 +81,7 @@ public class ModelManagerTest {
 
     @Test
     public void setHitList_validReadOnlyHitList_replacesData() {
-        HitList hitList = new AddressBookBuilder()
+        HitList hitList = new HitListBuilder()
                 .withPerson(ALICE)
                 .withCompany(GOOGLE)
                 .build();
@@ -277,7 +277,7 @@ public class ModelManagerTest {
 
     @Test
     public void equals() {
-        HitList hitList = new AddressBookBuilder()
+        HitList hitList = new HitListBuilder()
                 .withPerson(ALICE)
                 .withPerson(BENSON)
                 .withCompany(GOOGLE)
