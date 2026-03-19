@@ -30,7 +30,7 @@ HitList is a **desktop app for managing contacts, optimized for use via a Comman
    Some example commands you can try:
 
    * `add /n John Doe /p 98765432` : Adds a contact named `John Doe` to the HitList.
-   
+
    * `list` : Lists all contacts.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
