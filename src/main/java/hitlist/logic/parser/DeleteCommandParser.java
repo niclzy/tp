@@ -31,7 +31,8 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
                 return new DeleteCommand(index);
             } else {
                 // Preamble is not a valid index, treat as name
-                Name name = ParserUtil.parseName(preamble);
+                Name name = ParserUtil.parseName(nameValue.orElseThrow(() -> new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE))));
                 return new DeleteCommand(name);
             }
         } catch (ParseException pe) {
