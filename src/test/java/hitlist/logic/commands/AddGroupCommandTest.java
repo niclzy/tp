@@ -2,6 +2,7 @@ package hitlist.logic.commands;
 
 import static hitlist.testutil.Assert.assertThrows;
 import static hitlist.testutil.TypicalGroups.STUDENTS;
+import static hitlist.testutil.TypicalPersons.ALICE;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,12 +21,18 @@ import hitlist.model.ModelStub;
 import hitlist.model.ReadOnlyHitList;
 import hitlist.model.group.Group;
 import hitlist.model.group.GroupName;
+import hitlist.model.person.Person;
 
 public class AddGroupCommandTest {
 
     @Test
     public void constructor_nullGroup_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new AddGroupCommand(null));
+    }
+
+    @Test
+    public void constructor_nullMembers_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new AddGroupCommand(STUDENTS, null));
     }
 
     @Test
@@ -50,6 +58,18 @@ public class AddGroupCommandTest {
 
         assertThrows(CommandException.class,
                      expectedMessage, () -> addGroupCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_groupWithMembersAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingGroupAddedWithPerson modelStub = new ModelStubAcceptingGroupAddedWithPerson(ALICE);
+        Group validGroup = new Group(new GroupName("My group"));
+
+        CommandResult commandResult = new AddGroupCommand(validGroup, Set.of(ALICE.getName())).execute(modelStub);
+
+        assertEquals(String.format(AddGroupCommand.MESSAGE_SUCCESS, Messages.formatGroup(validGroup)),
+                commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(validGroup), modelStub.groupsAdded);
     }
 
     @Test
@@ -122,6 +142,38 @@ public class AddGroupCommandTest {
         @Override
         public ReadOnlyHitList getHitList() {
             return new HitList();
+        }
+    }
+
+    /**
+     * A Model stub that always accept the group being added.
+     */
+    private class ModelStubAcceptingGroupAddedWithPerson extends ModelStub {
+        final ArrayList<Group> groupsAdded;
+        final Person person;
+
+        public ModelStubAcceptingGroupAddedWithPerson(Person person) {
+            this.groupsAdded = new ArrayList<>();
+            this.person = person;
+        }
+
+        @Override
+        public boolean hasGroup(Group group) {
+            requireNonNull(group);
+            return groupsAdded.stream().anyMatch(group::isSameGroup);
+        }
+
+        @Override
+        public void addGroup(Group group) {
+            requireNonNull(group);
+            groupsAdded.add(group);
+        }
+
+        @Override
+        public ReadOnlyHitList getHitList() {
+            HitList hitList = new HitList();
+            hitList.addPerson(person);
+            return hitList;
         }
     }
 }

@@ -31,6 +31,8 @@ public class ParserUtilTest {
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = "Rachel Walker";
+    private static final String VALID_NAME_1 = "Alan Walker";
+    private static final String VALID_NAME_2 = "Bryan Walker";
     private static final String VALID_PHONE = "123456";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
@@ -88,6 +90,29 @@ public class ParserUtilTest {
         String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
         Name expectedName = new Name(VALID_NAME);
         assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
+    }
+
+    @Test
+    public void parseNames_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseNames(null));
+    }
+
+    @Test
+    public void parseNames_collectionWithInvalidNames_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseNames(Arrays.asList(VALID_NAME, INVALID_NAME)));
+    }
+
+    @Test
+    public void parseNames_emptyCollection_returnsEmptySet() throws Exception {
+        assertTrue(ParserUtil.parseNames(Collections.emptyList()).isEmpty());
+    }
+
+    @Test
+    public void parseNames_collectionWithValidNames_returnsTagSet() throws Exception {
+        Set<Name> actualNameSet = ParserUtil.parseNames(Arrays.asList(VALID_NAME_1, VALID_NAME_2));
+        Set<Name> expectedNameSet = new HashSet<Name>(Arrays.asList(new Name(VALID_NAME_1), new Name(VALID_NAME_2)));
+
+        assertEquals(expectedNameSet, actualNameSet);
     }
 
     @Test
