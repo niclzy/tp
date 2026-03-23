@@ -38,8 +38,6 @@ public class AddCompanyCommand extends Command {
     public AddCompanyCommand(Company company) {
         requireNonNull(company);
         this.company = company;
-
-        assert this.company != null : "Company should not be null after command initialization";
     }
 
     @Override
@@ -51,8 +49,6 @@ public class AddCompanyCommand extends Command {
         }
 
         model.addCompany(company);
-
-        assert model.hasCompany(company) : "Model should contain the newly added company";
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.formatCompany(company)),
                 false, false, true);

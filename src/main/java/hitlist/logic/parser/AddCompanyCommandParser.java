@@ -26,8 +26,6 @@ public class AddCompanyCommandParser implements Parser<AddCompanyCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public AddCompanyCommand parse(String args) throws ParseException {
-        assert args != null : "The arguments string to parse should not be null";
-
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_COMPANY, PREFIX_COMPANY_DESC);
 
@@ -37,10 +35,6 @@ public class AddCompanyCommandParser implements Parser<AddCompanyCommand> {
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_COMPANY, PREFIX_COMPANY_DESC);
-
-        assert argMultimap.getValue(PREFIX_COMPANY).isPresent() : "Prefix company value should be present";
-        assert argMultimap.getValue(PREFIX_COMPANY_DESC).isPresent()
-                : "Prefix company description value should be present";
 
         CompanyName companyName = ParserUtil.parseCompanyName(argMultimap.getValue(PREFIX_COMPANY).get());
         CompanyDescription companyDesc =

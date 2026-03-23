@@ -31,8 +31,6 @@ public class CompanyDescription {
         requireNonNull(companyDescription);
         checkArgument(isValidCompanyDescription(companyDescription.trim()), MESSAGE_CONSTRAINTS);
         this.companyDescription = companyDescription.trim();
-        assert this.companyDescription != null : "Company description should not be null after initialization";
-        assert isValidCompanyDescription(this.companyDescription) : "Company description must match validation rules";
     }
 
     /**
@@ -42,7 +40,6 @@ public class CompanyDescription {
      * @return True if the string is a valid company description, false otherwise.
      */
     public static boolean isValidCompanyDescription(String test) {
-        assert test != null : "String to test for description validity should not be null";
         return test.matches(VALIDATION_REGEX);
     }
 

@@ -31,7 +31,6 @@ public class CompanyName {
         requireNonNull(companyName);
         checkArgument(isValidCompanyName(companyName.trim()), MESSAGE_CONSTRAINTS);
         this.companyName = companyName.trim();
-        assert isValidCompanyName(this.companyName) : "Company name must match validation rules";
     }
 
     /**
@@ -41,7 +40,6 @@ public class CompanyName {
      * @return True if the string is a valid company name, false otherwise.
      */
     public static boolean isValidCompanyName(String test) {
-        assert test != null : "String to test for name validity should not be null";
         return test.matches(VALIDATION_REGEX);
     }
 

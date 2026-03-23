@@ -31,7 +31,6 @@ public class RoleName {
         requireNonNull(roleName);
         checkArgument(isValidRoleName(roleName.trim()), MESSAGE_CONSTRAINTS);
         this.roleName = roleName.trim();
-        assert isValidRoleName(this.roleName) : "Role name must match validation rules";
     }
 
     /**
@@ -41,7 +40,6 @@ public class RoleName {
      * @return True if the string is a valid role name, false otherwise.
      */
     public static boolean isValidRoleName(String test) {
-        assert test != null : "String to test for role name validity should not be null";
         return test.matches(VALIDATION_REGEX);
     }
 
