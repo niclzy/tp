@@ -195,6 +195,21 @@ Shows a list of all companies in the hitList.
 
 Format: `cmplist`
 
+### Adding a role to a company : `roleadd`
+
+Adds a role to a specified existing company in the HitList.
+
+Format: `roleadd /r ROLE_NAME /d ROLE_DESCRIPTION /c COMPANY_NAME`
+
+* The role name must be unique within the company and not the same as any existing role in that company.
+* The role description can be any string which does not include `/` or start with spaces.
+* The company name must be an existing company in HitList.
+* The company name typed must be the exact company name registered in HitList.
+
+Examples:
+* `roleadd /r Software Engineer /d Develops software /c Google` adds a role named `Software Engineer` to the company `Google`.
+* `roleadd /r Product Manager /d Manages products /c Meta` adds a role named `Product Manager` to the company `Meta`.
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the HitList.
