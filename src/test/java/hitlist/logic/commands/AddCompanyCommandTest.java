@@ -99,6 +99,14 @@ public class AddCompanyCommandTest {
     }
 
     @Test
+    public void toString_containsCompanyName() {
+        AddCompanyCommand command = new AddCompanyCommand(
+                new CompanyBuilder().withName("Google Inc.").withDescription("Desc").build());
+
+        assertTrue(command.toString().contains("Google Inc."));
+    }
+
+    @Test
     public void toStringMethod() {
         AddCompanyCommand addCompanyCommand = new AddCompanyCommand(GOOGLE);
         String expectedString = AddCompanyCommand.class.getCanonicalName()

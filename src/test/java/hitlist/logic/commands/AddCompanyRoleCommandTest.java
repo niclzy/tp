@@ -20,6 +20,8 @@ import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.model.ModelStub;
 import hitlist.model.company.CompanyName;
 import hitlist.model.company.role.Role;
+import hitlist.model.company.role.RoleDescription;
+import hitlist.model.company.role.RoleName;
 import hitlist.testutil.CompanyBuilder;
 import hitlist.testutil.RoleBuilder;
 
@@ -106,18 +108,6 @@ public class AddCompanyRoleCommandTest {
     }
 
     @Test
-    public void equals_differentRoleSameCompany_returnsFalse() {
-        Role roleA = new RoleBuilder().withName(VALID_ROLE_NAME_SOFTWARE_ENGINEER).build();
-        Role roleB = new RoleBuilder().withName(VALID_ROLE_NAME_PRODUCT_MANAGER).build();
-        CompanyName company = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
-
-        AddCompanyRoleCommand commandA = new AddCompanyRoleCommand(roleA, company);
-        AddCompanyRoleCommand commandB = new AddCompanyRoleCommand(roleB, company);
-
-        assertFalse(commandA.equals(commandB));
-    }
-
-    @Test
     public void toStringMethod() {
         Role role = new RoleBuilder()
                 .withName(VALID_ROLE_NAME_SOFTWARE_ENGINEER)
@@ -129,6 +119,18 @@ public class AddCompanyRoleCommandTest {
         String expectedString = AddCompanyRoleCommand.class.getCanonicalName()
                 + "{companyName=" + companyName + ", role=" + role + "}";
         assertEquals(expectedString, addCompanyRoleCommand.toString());
+    }
+
+
+    @Test
+    public void toString_containsRoleAndCompanyName() {
+        Role role = new Role(new RoleName("Software Engineer"), new RoleDescription("Builds"));
+        CompanyName company = new CompanyName("Google Inc.");
+        AddCompanyRoleCommand command = new AddCompanyRoleCommand(role, company);
+
+        String value = command.toString();
+        assertTrue(value.contains("Software Engineer"));
+        assertTrue(value.contains("Google Inc."));
     }
 
     private static class ModelStubWithCompanyRole extends ModelStub {

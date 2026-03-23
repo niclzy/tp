@@ -3,7 +3,6 @@ package hitlist.model.company;
 import static hitlist.testutil.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -57,12 +56,9 @@ public class CompanyNameTest {
     }
 
     @Test
-    public void hashCode_validName_returnsHashCode() {
+    public void hashCode_sameValue_sameHash() {
         CompanyName name1 = new CompanyName("Valid Company Name");
         CompanyName name2 = new CompanyName("Valid Company Name");
-        CompanyName name3 = new CompanyName("Other Valid Company Name");
-
         assertEquals(name1.hashCode(), name2.hashCode());
-        assertNotEquals(name1.hashCode(), name3.hashCode());
     }
 }

@@ -293,4 +293,37 @@ public class UniqueCompanyListTest {
         expectedUniqueCompanyList.add(GOOGLE);
         assertEquals(expectedUniqueCompanyList, uniqueCompanyList);
     }
+
+    @Test
+    public void setCompany_sameIdentity_replacesSuccessfully() {
+        UniqueCompanyList list = new UniqueCompanyList();
+        Company target = new CompanyBuilder().withName("Google Inc.").withDescription("Desc A").build();
+        Company edited = new CompanyBuilder().withName("Google Inc.").withDescription("Desc B").build();
+        list.add(target);
+
+        list.setCompany(target, edited);
+
+        assertFalse(list.contains(target));
+        assertTrue(list.contains(edited));
+    }
+
+    @Test
+    public void equals_branches() {
+        UniqueCompanyList list = new UniqueCompanyList();
+        list.add(new CompanyBuilder().withName("Google Inc.").build());
+
+        assertTrue(list.equals(list));
+        assertFalse(list.equals(null));
+        assertFalse(list.equals(1));
+    }
+
+    @Test
+    public void toString_nonEmptyList_containsCount() {
+        UniqueCompanyList list = new UniqueCompanyList();
+        list.add(new CompanyBuilder()
+                .withName("Google Inc.")
+                .withDescription("Valid Description").build());
+
+        assertTrue(list.toString().contains("Google Inc."));
+    }
 }

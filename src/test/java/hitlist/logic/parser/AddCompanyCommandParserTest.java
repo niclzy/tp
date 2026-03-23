@@ -113,4 +113,22 @@ public class AddCompanyCommandParserTest {
 
         assertParseFailure(parser, COMPANY_DESC_GOOGLE, expectedMessage);
     }
+
+    @Test
+    public void parse_nonEmptyPreamble_failure() {
+        assertParseFailure(parser,
+                "preamble /c Google Inc. /d A technology company",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCompanyCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_duplicatePrefixes_failure() {
+        assertParseFailure(parser,
+                " /c Google Inc. /c Meta /d A technology company",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_COMPANY));
+
+        assertParseFailure(parser,
+                " /c Google Inc. /d Desc A /d Desc B",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_COMPANY_DESC));
+    }
 }

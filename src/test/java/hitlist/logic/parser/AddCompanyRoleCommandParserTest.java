@@ -151,4 +151,26 @@ public class AddCompanyRoleCommandParserTest {
 
         assertParseFailure(parser, ROLE_DESC_PRODUCT_MANAGER + COMPANY_NAME_DESC_GOOGLE, expectedMessage);
     }
+
+    @Test
+    public void parse_nonEmptyPreamble_failure() {
+        assertParseFailure(parser,
+                "preamble /r Software Engineer /d Builds software /c Google Inc.",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCompanyRoleCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_duplicatePrefixes_failure() {
+        assertParseFailure(parser,
+                " /r Software Engineer /r PM /d Builds software /c Google Inc.",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ROLE));
+
+        assertParseFailure(parser,
+                " /r Software Engineer /d Builds software /d Owns roadmap /c Google Inc.",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ROLE_DESC));
+
+        assertParseFailure(parser,
+                " /r Software Engineer /d Builds software /c Google Inc. /c Meta",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_COMPANY));
+    }
 }

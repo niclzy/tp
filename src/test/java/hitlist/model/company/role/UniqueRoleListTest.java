@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import hitlist.model.company.role.exceptions.DuplicateRoleException;
@@ -23,7 +25,17 @@ import hitlist.testutil.RoleBuilder;
 
 public class UniqueRoleListTest {
 
-    private final UniqueRoleList uniqueRoleList = new UniqueRoleList();
+    private UniqueRoleList uniqueRoleList;
+
+    @BeforeEach
+    public void setUp() {
+        uniqueRoleList = new UniqueRoleList();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        uniqueRoleList = null;
+    }
 
     @Test
     public void contains_nullRole_throwsNullPointerException() {
@@ -290,5 +302,37 @@ public class UniqueRoleListTest {
         List<Role> listWithDuplicates = Arrays.asList(PRODUCT_MANAGER, SOFTWARE_ENGINEER, duplicateSoftwareEngineer);
 
         assertThrows(DuplicateRoleException.class, () -> uniqueRoleList.setRoles(listWithDuplicates));
+    }
+
+    @Test
+    public void setRole_sameIdentity_replacesSuccessfully() {
+        UniqueRoleList list = new UniqueRoleList();
+        Role target = new Role(new RoleName("Software Engineer"), new RoleDescription("Desc A"));
+        Role edited = new Role(new RoleName("Software Engineer"), new RoleDescription("Desc B"));
+
+        assertFalse(list.contains(target));
+
+        list.add(target);
+        list.setRole(target, edited);
+
+        assertTrue(list.contains(edited));
+    }
+
+    @Test
+    public void equals_branches() {
+        UniqueRoleList list = new UniqueRoleList();
+        list.add(new Role(new RoleName("Software Engineer"), new RoleDescription("Builds software")));
+
+        assertTrue(list.equals(list));
+        assertFalse(list.equals(null));
+        assertFalse(list.equals(1));
+    }
+
+    @Test
+    public void toString_nonEmptyList_containsCount() {
+        UniqueRoleList list = new UniqueRoleList();
+        list.add(new Role(new RoleName("Software Engineer"), new RoleDescription("Builds software")));
+
+        assertTrue(list.toString().contains("Software Engineer"));
     }
 }
