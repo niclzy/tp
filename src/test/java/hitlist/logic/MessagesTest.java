@@ -11,10 +11,12 @@ import org.junit.jupiter.api.Test;
 import hitlist.model.company.Company;
 import hitlist.model.company.CompanyDescription;
 import hitlist.model.company.CompanyName;
+import hitlist.model.company.role.Role;
 import hitlist.model.group.Group;
 import hitlist.model.group.GroupName;
 import hitlist.model.person.Person;
 import hitlist.testutil.PersonBuilder;
+import hitlist.testutil.RoleBuilder;
 
 /**
  * Tests for {@link Messages}.
@@ -83,5 +85,31 @@ public class MessagesTest {
 
         String expectedStart = "Name: Meta; Description: Social platform";
         assertEquals(expectedStart, formatted);
+    }
+
+    @Test
+    public void formatCompanyRole_validRole_success() {
+        Role role = new RoleBuilder()
+                .withName("Software Engineer")
+                .withDescription("Develops software")
+                .build();
+
+        String formatted = Messages.formatCompanyRole(role);
+
+        assertTrue(formatted.contains("Software Engineer"));
+        assertTrue(formatted.contains("Develops software"));
+    }
+
+    @Test
+    public void formatCompanyRole_exactOutput_success() {
+        Role role = new RoleBuilder()
+                .withName("Product Manager")
+                .withDescription("Manages product roadmap")
+                .build();
+
+        String formatted = Messages.formatCompanyRole(role);
+
+        String expected = "Role: Product Manager; Description: Manages product roadmap";
+        assertEquals(expected, formatted);
     }
 }

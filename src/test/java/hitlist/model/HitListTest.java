@@ -527,6 +527,99 @@ public class HitListTest {
         assertFalse(first.equals(second));
     }
 
+    @Test
+    public void equals_sameObject_returnsTrue() {
+        HitList hitList = new HitList();
+        assertTrue(hitList.equals(hitList));
+    }
+
+    @Test
+    public void equals_nullObject_returnsFalse() {
+        HitList hitList = new HitList();
+        assertFalse(hitList.equals(null));
+    }
+
+    @Test
+    public void equals_differentType_returnsFalse() {
+        HitList hitList = new HitList();
+        assertFalse(hitList.equals("NotAHitList"));
+    }
+
+    @Test
+    public void equals_sameDataDifferentLists_returnsTrue() {
+        HitList first = new HitList();
+        HitList second = new HitList();
+
+        Person person = new PersonBuilder().withName("Equal").withPhone("90000000").build();
+        Company company = new CompanyBuilder().withName("EqualCo").withDescription("EqualDesc").build();
+        Group group = new Group(new GroupName("EqualGroup"));
+
+        first.addPerson(person);
+        first.addCompany(company);
+        first.addGroup(group);
+
+        second.addPerson(person);
+        second.addCompany(company);
+        second.addGroup(group);
+
+        assertTrue(first.equals(second));
+    }
+
+    @Test
+    public void hashCode_sameData_equalHashCodes() {
+        HitList first = new HitList();
+        HitList second = new HitList();
+
+        Person person = new PersonBuilder().withName("Same").withPhone("90000001").build();
+        Company company = new CompanyBuilder().withName("SameCo").withDescription("SameDesc").build();
+        Group group = new Group(new GroupName("SameGroup"));
+
+        first.addPerson(person);
+        first.addCompany(company);
+        first.addGroup(group);
+
+        second.addPerson(person);
+        second.addCompany(company);
+        second.addGroup(group);
+
+        assertEquals(first.hashCode(), second.hashCode());
+    }
+
+    @Test
+    public void setPerson_personInGroup_updatesGroupMembership() {
+        Person originalPerson = new PersonBuilder().withName("Original").withPhone("90000001").build();
+        Person editedPerson = new PersonBuilder().withName("Edited").withPhone("90000002").build();
+        Group group = new Group(new GroupName("TestGroup"));
+
+        hitList.addPerson(originalPerson);
+        hitList.addGroup(group);
+        group.addMember(originalPerson);
+
+        hitList.setPerson(originalPerson, editedPerson);
+
+        assertTrue(group.getMembers().contains(editedPerson));
+        assertFalse(group.getMembers().contains(originalPerson));
+    }
+
+    @Test
+    public void removePerson_personInMultipleGroups_removesFromAllGroups() {
+        Person person = new PersonBuilder().withName("MultiGroup").withPhone("90000003").build();
+        Group group1 = new Group(new GroupName("Group1"));
+        Group group2 = new Group(new GroupName("Group2"));
+
+        hitList.addPerson(person);
+        hitList.addGroup(group1);
+        hitList.addGroup(group2);
+        group1.addMember(person);
+        group2.addMember(person);
+
+        hitList.removePerson(person);
+
+        assertFalse(group1.getMembers().contains(person));
+        assertFalse(group2.getMembers().contains(person));
+        assertFalse(hitList.hasPerson(person));
+    }
+
     /**
      * A stub ReadOnlyHitList whose persons list can violate interface constraints.
      */
