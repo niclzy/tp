@@ -24,7 +24,7 @@ public class RoleDescriptionTest {
 
     @Test
     public void isValidRoleDescription() {
-        assertThrows(AssertionError.class, () -> RoleDescription.isValidRoleDescription(null));
+        assertThrows(NullPointerException.class, () -> RoleDescription.isValidRoleDescription(null));
 
         assertFalse(RoleDescription.isValidRoleDescription(""));
         assertFalse(RoleDescription.isValidRoleDescription(" "));
