@@ -17,6 +17,7 @@ import hitlist.logic.commands.ClearCommand;
 import hitlist.logic.commands.Command;
 import hitlist.logic.commands.DeleteCommand;
 import hitlist.logic.commands.DeleteCompanyCommand;
+import hitlist.logic.commands.DeleteCompanyRoleCommand;
 import hitlist.logic.commands.DeleteGroupCommand;
 import hitlist.logic.commands.EditCommand;
 import hitlist.logic.commands.ExitCommand;
@@ -107,6 +108,9 @@ public class HitListParser {
 
         case AddCompanyRoleCommand.COMMAND_WORD:
             return new AddCompanyRoleCommandParser().parse(arguments);
+
+        case DeleteCompanyRoleCommand.COMMAND_WORD:
+            return new DeleteCompanyRoleCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

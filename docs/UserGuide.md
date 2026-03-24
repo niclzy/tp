@@ -295,6 +295,27 @@ Examples:
 
 <img width="738" height="601" alt="Addition of DevOps Engineers role to company Meta Platforms, Inc." src="images/ug/Roleadd_Devops.png" />
 
+### Deleting a role from a company : `roledel`
+
+Deletes a role from a specified existing company in the HitList.
+
+Format: `roledel /r ROLE_NAME /c COMPANY_NAME` or `roledel INDEX /c COMPANY_NAME`
+
+* Deletes a role from the company by either specifying the role name or the role's index number.
+* The role name must be an existing role within the company.
+* The index refers to the position of the role in the company's role list (1-based indexing).
+* The company name must be an existing company in HitList.
+* The company name typed must be the exact company name registered in HitList.
+
+Examples:
+* `roledel /r "Quality Assurance Engineer" /c Google Inc.` deletes the role named `Quality Assurance Engineer` from the company `Google Inc.`
+
+<img width="738" height="601" alt="Deletion of Quality Assurance Engineer role from company Google Inc." src="images/ug/Roledel_QualityAssurance.png" />
+
+* `roledel 1 /c Meta Platforms, Inc.` deletes the first role listed in the company `Meta Platforms, Inc.`'s role list.
+
+<img width="738" height="601" alt="Deletion of first role from company Meta Platforms, Inc." src="images/ug/Roledel_Index.png" />
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the HitList.
@@ -363,6 +384,7 @@ _Details coming soon ..._
 | **Add Company**             | `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`                  | `cmpadd /c Google /d Tech giant`                                                      |
 | **Delete Company**          | `cmpdel /c COMPANY_NAME`                                         | `cmpdel /c Google`                                                                    |
 | **List Companies**          | `cmplist`                                                        | `cmplist`                                                                             |
-| **Add Role to Company       | `roleadd /r ROLE_NAME /d ROLE_DESCRIPTION /c COMPANY_NAME`       | `roleadd /r Software Tester /d Tests provided software /c Google Inc.`                |
+| **Add Role to Company**     | `roleadd /r ROLE_NAME /d ROLE_DESCRIPTION /c COMPANY_NAME`       | `roleadd /r Software Tester /d Tests provided software /c Google Inc.`                |
+| **Delete Role from Company** | `roledel /r ROLE_NAME /c COMPANY_NAME` or `roledel INDEX /c COMPANY_NAME` | `roledel /r "Software Engineer" /c Google Inc.`<br>`roledel 1 /c Google Inc.` |
 | **Clear**                   | `clear`                                                          | `clear`                                                                               |
 | **Exit**                    | `exit`                                                           | `exit`                                                                                |
