@@ -26,6 +26,11 @@ public class ListGroupCommandTest {
     }
 
     @Test
+    public void constructor_noArguments_success() {
+        new ListGroupCommand();
+    }
+
+    @Test
     public void execute_validGroupName_successful() throws Exception {
         Group validGroup = new Group(new GroupName("My group"));
 
@@ -33,7 +38,20 @@ public class ListGroupCommandTest {
         CommandResult commandResult = new ListGroupCommand(validGroup.getName()).execute(modelStub);
 
         String expectedMessage =
-            String.format(ListGroupCommand.MESSAGE_SUCCESS, validGroup.getName());
+            String.format(ListGroupCommand.MESSAGE_SUCCESS_1, validGroup.getName());
+
+        assertEquals(expectedMessage,
+                     commandResult.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_listAll_successful() throws Exception {
+        Group validGroup = new Group(new GroupName("My group"));
+
+        ModelStub modelStub = new ModelStubWithGroup(validGroup);
+        CommandResult commandResult = new ListGroupCommand().execute(modelStub);
+
+        String expectedMessage = ListGroupCommand.MESSAGE_SUCCESS_2;
 
         assertEquals(expectedMessage,
                      commandResult.getFeedbackToUser());
@@ -61,6 +79,15 @@ public class ListGroupCommandTest {
 
         // different content -> returns false
         assertFalse(listGroupACommand.equals(listGroupBCommand));
+
+        ListGroupCommand listAllCommandA = new ListGroupCommand();
+        ListGroupCommand listAllCommandB = new ListGroupCommand();
+
+        // same object -> returns true
+        assertTrue(listAllCommandA.equals(listAllCommandA));
+
+        // same values (zero-argument case) -> returns true
+        assertTrue(listAllCommandA.equals(listAllCommandB));
     }
 
     @Test
