@@ -125,7 +125,7 @@ Format `delete /n CONTACT_NAME`
 * Deletes the contact with the specified name from HitList.
 * The contact name must exactly match an existing contact in HitList.
 
-Example: 
+Example:
 * `list` followed by `delete /n David Li` deletes the contact named `David Li` from HitList
 
 <img width="738" height="601" alt="Listing of HitList" src="images/ug/BeforeDelete_ByName.png" />
