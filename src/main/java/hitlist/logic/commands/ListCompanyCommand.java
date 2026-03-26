@@ -51,9 +51,10 @@ public class ListCompanyCommand extends Command {
         requireNonNull(model);
         if (isListAllCompanies()) {
             model.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
-            return new CommandResult(DEFAULT_MESSAGE_SUCCESS, false, false, true, false);
+            return new CommandResult(DEFAULT_MESSAGE_SUCCESS, false, false, true);
         } else {
-            return new CommandResult(String.format(MESSAGE_SUCCESS, name), false, false, false, true);
+            model.updateRoleList(name);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, name), false, false, false, false, true);
         }
     }
 }

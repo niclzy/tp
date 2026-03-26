@@ -46,7 +46,7 @@ public abstract class ModelStub implements Model {
     }
 
     @Override
-    public void setHitListFilePath(Path addressBookFilePath) {
+    public void setHitListFilePath(Path hitListFilePath) {
         throw new AssertionError("This method should not be called.");
     }
 
@@ -86,6 +86,11 @@ public abstract class ModelStub implements Model {
     }
 
     @Override
+    public ObservableList<Group> getGroupList() {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
     public ObservableList<Company> getFilteredCompanyList() {
         throw new AssertionError("This method should not be called.");
     }
@@ -96,12 +101,12 @@ public abstract class ModelStub implements Model {
     }
 
     @Override
-    public ObservableList<Group> getGroupList() {
+    public void updateFilteredCompanyList(Predicate<Company> predicate) {
         throw new AssertionError("This method should not be called.");
     }
 
     @Override
-    public void updateFilteredCompanyList(Predicate<Company> predicate) {
+    public void updateRoleList(CompanyName companyName) {
         throw new AssertionError("This method should not be called.");
     }
 
@@ -147,6 +152,31 @@ public abstract class ModelStub implements Model {
 
     @Override
     public void deleteCompany(Company company) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public boolean hasCompanyRole(CompanyName companyName, Role role) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public void addCompanyRole(CompanyName companyName, Role role) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public Optional<Role> getCompanyRole(CompanyName companyName, String roleName) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public void setCompanyRole(CompanyName companyName, Role target, Role editedRole) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public void deleteCompanyRole(CompanyName companyName, Role role) {
         throw new AssertionError("This method should not be called.");
     }
 

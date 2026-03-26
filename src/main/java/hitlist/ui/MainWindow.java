@@ -33,6 +33,7 @@ public class MainWindow extends UiPart<Stage> {
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
     private CompanyListPanel companyListPanel;
+    private GroupListPanel groupListPanel;
     private RoleListPanel roleListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
@@ -54,6 +55,12 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private javafx.scene.layout.VBox companyListPane;
+
+    @FXML
+    private javafx.scene.layout.VBox groupListPane;
+
+    @FXML
+    private StackPane groupListPanelPlaceholder;
 
     @FXML
     private javafx.scene.layout.VBox roleListPane;
@@ -132,6 +139,9 @@ public class MainWindow extends UiPart<Stage> {
 
         companyListPanel = new CompanyListPanel(logic.getFilteredCompanyList());
         companyListPanelPlaceholder.getChildren().add(companyListPanel.getRoot());
+
+        groupListPanel = new GroupListPanel(logic.getGroupList());
+        groupListPanelPlaceholder.getChildren().add(groupListPanel.getRoot());
 
         roleListPanel = new RoleListPanel(logic.getRoleList());
         roleListPanelPlaceholder.getChildren().add(roleListPanel.getRoot());
@@ -224,6 +234,7 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.isShowCompanyList()) {
                 hidePersonListPane();
+                hideGroupListPane();
                 showCompanyListPane();
                 hideRoleListPane();
 
@@ -231,8 +242,19 @@ public class MainWindow extends UiPart<Stage> {
                 companyListPanel = new CompanyListPanel(logic.getFilteredCompanyList());
                 companyListPanelPlaceholder.getChildren().clear();
                 companyListPanelPlaceholder.getChildren().add(companyListPanel.getRoot());
+            } else if (commandResult.isShowGroupList()) {
+                hidePersonListPane();
+                showGroupListPane();
+                hideCompanyListPane();
+                hideRoleListPane();
+
+                // Force refresh the group list
+                groupListPanel = new GroupListPanel(logic.getGroupList());
+                groupListPanelPlaceholder.getChildren().clear();
+                groupListPanelPlaceholder.getChildren().add(groupListPanel.getRoot());
             } else if (commandResult.isShowRoleList()) {
                 hideCompanyListPane();
+                hideGroupListPane();
                 hidePersonListPane();
                 showRoleListPane();
 
@@ -240,8 +262,9 @@ public class MainWindow extends UiPart<Stage> {
                 roleListPanel = new RoleListPanel(logic.getRoleList());
                 roleListPanelPlaceholder.getChildren().clear();
                 roleListPanelPlaceholder.getChildren().add(roleListPanel.getRoot());
-            } else {
+            } else { // person list
                 showPersonListPane();
+                hideGroupListPane();
                 hideCompanyListPane();
                 hideRoleListPane();
 
@@ -277,6 +300,22 @@ public class MainWindow extends UiPart<Stage> {
     public void hidePersonListPane() {
         personList.setVisible(false);
         personList.setManaged(false);
+    }
+
+    /**
+     * Shows the group list pane.
+     */
+    public void showGroupListPane() {
+        groupListPane.setVisible(true);
+        groupListPane.setManaged(true);
+    }
+
+    /**
+     * Hides the group list pane.
+     */
+    public void hideGroupListPane() {
+        groupListPane.setVisible(false);
+        groupListPane.setManaged(false);
     }
 
     /**

@@ -18,10 +18,10 @@ public interface ReadOnlyHitList {
     ObservableList<Person> getPersonList();
 
     /**
-     * Returns an unmodifiable view of the roles list.
-     * This list will not contain any duplicate roles.
+     * Returns an unmodifiable view of the group list.
+     * This list will not contain any duplicate groups.
      */
-    ObservableList<Role> getRoleList();
+    ObservableList<Group> getGroupList();
 
     /**
      * Returns an unmodifiable view of the companies list.
@@ -30,8 +30,8 @@ public interface ReadOnlyHitList {
     ObservableList<Company> getCompanyList();
 
     /**
-     * Returns an unmodifiable view of the group list.
-     * This list will not contain any duplicate groups.
+     * Returns an unmodifiable view of the roles list.
+     * This list will not contain any duplicate roles.
      */
-    ObservableList<Group> getGroupList();
+    ObservableList<Role> getRoleList();
 }

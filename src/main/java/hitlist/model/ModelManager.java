@@ -14,10 +14,12 @@ import hitlist.commons.core.LogsCenter;
 import hitlist.model.company.Company;
 import hitlist.model.company.CompanyName;
 import hitlist.model.company.role.Role;
+import hitlist.model.company.role.UniqueRoleList;
 import hitlist.model.group.Group;
 import hitlist.model.group.GroupName;
 import hitlist.model.person.Name;
 import hitlist.model.person.Person;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
@@ -31,6 +33,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Company> filteredCompanies;
+    private final ObservableList<Role> updatedRoles;
 
     /**
      * Initializes a ModelManager with the given HitList and userPrefs.
@@ -44,6 +47,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.hitList.getPersonList());
         filteredCompanies = new FilteredList<>(this.hitList.getCompanyList());
+        updatedRoles = this.hitList.getRoleList();
     }
 
     /**
@@ -174,7 +178,6 @@ public class ModelManager implements Model {
     public void addCompany(Company company) {
         hitList.addCompany(company);
         updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
-        updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
     }
 
     @Override
@@ -195,8 +198,41 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasCompanyRole(CompanyName companyName, Role role) {
+        requireAllNonNull(role, companyName);
+        return hitList.hasCompanyRole(companyName, role);
+    }
+
+    @Override
+    public void addCompanyRole(CompanyName companyName, Role role) {
+        requireAllNonNull(companyName, role);
+        hitList.addCompanyRole(companyName, role);
+        updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
+    }
+
+    @Override
+    public Optional<Role> getCompanyRole(CompanyName companyName, String roleName) {
+        requireAllNonNull(companyName, roleName);
+        return hitList.getCompanyRole(companyName, roleName);
+    }
+
+    @Override
+    public void setCompanyRole(CompanyName companyName, Role target, Role editedRole) {
+        requireAllNonNull(companyName, target, editedRole);
+        hitList.setCompanyRole(companyName, target, editedRole);
+        updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
+    }
+
+    @Override
+    public void deleteCompanyRole(CompanyName companyName, Role role) {
+        requireAllNonNull(companyName, role);
+        hitList.removeCompanyRole(companyName, role);
+        updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
+    }
+
+    @Override
     public ObservableList<Role> getRoleList() {
-        return hitList.getRoleList();
+        return FXCollections.emptyObservableList();
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -228,21 +264,31 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void updateRoleList(CompanyName companyName) {
+        requireNonNull(companyName);
+        Optional<Company> companyOptional = getCompany(companyName);
+        if (companyOptional.isPresent()) {
+            Company company = companyOptional.get();
+            UniqueRoleList roleList = company.getUniqueRoleList();
+            updatedRoles.setAll(roleList.asUnmodifiableObservableList());
+        } else {
+            updatedRoles.clear();
+        }
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
 
         // instanceof handles nulls
-        if (!(other instanceof ModelManager)) {
+        if (!(other instanceof ModelManager otherModelManager)) {
             return false;
         }
 
-        ModelManager otherModelManager = (ModelManager) other;
         return hitList.equals(otherModelManager.hitList)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons)
-                && filteredCompanies.equals(otherModelManager.filteredCompanies)
                 && filteredPersons.equals(otherModelManager.filteredPersons)
                 && filteredCompanies.equals(otherModelManager.filteredCompanies);
     }

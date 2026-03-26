@@ -110,17 +110,21 @@ public interface Model {
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
-     *
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     /**
      * Updates the filter of the filtered company list to filter by the given {@code predicate}.
-     *
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredCompanyList(Predicate<Company> predicate);
+
+    /**
+     * Updates the role list of the specified company.
+     * @throws NullPointerException if {@code companyName} is null.
+     */
+    void updateRoleList(CompanyName companyName);
 
     /**
      * Returns true if a group with the same identity as {@code group} exists.
@@ -174,8 +178,43 @@ public interface Model {
     void deleteCompany(Company company);
 
     /**
-     * Returns an unmodifiable view of the role list
-     * @return
+     * Returns true if a company role with the same identity as {@code role} exists.
+     */
+    boolean hasCompanyRole(CompanyName companyName, Role role);
+
+    /**
+     * Adds the given company role to the company with the given company name.
+     * {@code companyName} must already exist.
+     * {@code role} must not already exist for the company.
+     */
+    void addCompanyRole(CompanyName companyName, Role role);
+
+    /**
+     * Returns an {@code Optional} containing the company role with the same identity as {@code roleName}
+     * for the company with the given company name if it exists,
+     * or an empty {@code Optional} otherwise.
+     */
+    Optional<Role> getCompanyRole(CompanyName companyName, String roleName);
+
+    /**
+     * Replaces the given company role {@code target} with {@code editedRole} in the company with the given
+     * company name.
+     * {@code companyName} must already exist.
+     * {@code target} must already exist for the company.
+     * The company role identity of {@code editedRole} must not be the same as another existing company role
+     * for the company.
+     */
+    void setCompanyRole(CompanyName companyName, Role target, Role editedRole);
+
+    /**
+     * Deletes the given company role from the company with the given company name.
+     * {@code companyName} must already exist.
+     * {@code role} must already exist for the company.
+     */
+    void deleteCompanyRole(CompanyName companyName, Role role);
+
+    /**
+     * Returns an unmodifiable view of the role list of the specified company.
      */
     ObservableList<Role> getRoleList();
 }

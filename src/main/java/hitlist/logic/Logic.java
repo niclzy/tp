@@ -45,6 +45,7 @@ public interface Logic {
 
     /** Returns an unmodifiable view of the list of roles */
     ObservableList<Role> getRoleList();
+
     /**
      * Returns the user prefs HitList file path.
      */

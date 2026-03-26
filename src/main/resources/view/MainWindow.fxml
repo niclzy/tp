@@ -52,6 +52,13 @@
           <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
         </VBox>
 
+        <VBox styleClass="pane-with-border" minWidth="340" prefWidth="340" VBox.vgrow="ALWAYS" fx:id="groupListPane" visible="false" managed="false">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <StackPane fx:id="groupListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+        </VBox>
+
         <VBox styleClass="pane-with-border" minWidth="340" prefWidth="340" VBox.vgrow="ALWAYS" fx:id="companyListPane" visible="false" managed="false">
           <padding>
             <Insets top="10" right="10" bottom="10" left="10" />
