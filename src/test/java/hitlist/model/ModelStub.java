@@ -106,6 +106,11 @@ public abstract class ModelStub implements Model {
     }
 
     @Override
+    public void updateRoleList(CompanyName companyName) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
     public boolean hasGroup(Group group) {
         throw new AssertionError("This method should not be called.");
     }
@@ -132,6 +137,11 @@ public abstract class ModelStub implements Model {
 
     @Override
     public boolean hasCompany(Company company) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public boolean hasCompanyByName(CompanyName companyName) {
         throw new AssertionError("This method should not be called.");
     }
 
@@ -172,6 +182,11 @@ public abstract class ModelStub implements Model {
 
     @Override
     public void deleteCompanyRole(CompanyName companyName, Role role) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public ObservableList<Role> getRoleList() {
         throw new AssertionError("This method should not be called.");
     }
 }

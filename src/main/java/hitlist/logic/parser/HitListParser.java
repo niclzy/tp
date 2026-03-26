@@ -105,7 +105,7 @@ public class HitListParser {
             return new AddCompanyCommandParser().parse(arguments);
 
         case ListCompanyCommand.COMMAND_WORD:
-            return new ListCompanyCommand();
+            return new ListCompanyCommandParser().parse(arguments);
 
         case DeleteCompanyCommand.COMMAND_WORD:
             return new DeleteCompanyCommandParser().parse(arguments);

@@ -119,7 +119,6 @@ public class HitListParserTest {
     @Test
     public void parseCommand_listCompany() throws Exception {
         assertTrue(parser.parseCommand(ListCompanyCommand.COMMAND_WORD) instanceof ListCompanyCommand);
-        assertTrue(parser.parseCommand(ListCompanyCommand.COMMAND_WORD + " 3") instanceof ListCompanyCommand);
     }
 
     @Test

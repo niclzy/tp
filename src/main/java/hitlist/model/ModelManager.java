@@ -14,6 +14,7 @@ import hitlist.commons.core.LogsCenter;
 import hitlist.model.company.Company;
 import hitlist.model.company.CompanyName;
 import hitlist.model.company.role.Role;
+import hitlist.model.company.role.UniqueRoleList;
 import hitlist.model.group.Group;
 import hitlist.model.group.GroupName;
 import hitlist.model.person.Name;
@@ -31,6 +32,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Company> filteredCompanies;
+    private final ObservableList<Role> roleList;
 
     /**
      * Initializes a ModelManager with the given HitList and userPrefs.
@@ -44,6 +46,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.hitList.getPersonList());
         filteredCompanies = new FilteredList<>(this.hitList.getCompanyList());
+        roleList = this.hitList.getRoleList();
     }
 
     /**
@@ -171,6 +174,13 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasCompanyByName(CompanyName companyName) {
+        requireNonNull(companyName);
+        return hitList.getCompanyList().stream()
+                .anyMatch(company -> company.getName().equals(companyName));
+    }
+
+    @Override
     public void addCompany(Company company) {
         hitList.addCompany(company);
         updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
@@ -230,7 +240,7 @@ public class ModelManager implements Model {
 
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code versionedAddressBook}
+     * {@code versionedHitList}
      */
     @Override
     public ObservableList<Person> getFilteredPersonList() {
@@ -243,6 +253,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<Role> getRoleList() {
+        return this.roleList;
+    }
+
+    @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
@@ -252,6 +267,19 @@ public class ModelManager implements Model {
     public void updateFilteredCompanyList(Predicate<Company> predicate) {
         requireNonNull(predicate);
         filteredCompanies.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateRoleList(CompanyName companyName) {
+        requireNonNull(companyName);
+        Optional<Company> companyOptional = getCompany(companyName);
+        if (companyOptional.isPresent()) {
+            Company company = companyOptional.get();
+            UniqueRoleList roleList = company.getUniqueRoleList();
+            this.roleList.setAll(roleList.asUnmodifiableObservableList());
+        } else {
+            roleList.clear();
+        }
     }
 
     @Override

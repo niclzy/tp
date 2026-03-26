@@ -498,6 +498,29 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void updateRoleList_companyDoesNotExist_clearsRoleList() {
+        modelManager.addCompany(GOOGLE);
+
+        Role role = new RoleBuilder().withName("Engineer").withDescription("desc").build();
+        modelManager.addCompanyRole(GOOGLE.getName(), role);
+
+        // populate roleList initially
+        modelManager.updateRoleList(GOOGLE.getName());
+        assertFalse(modelManager.getRoleList().isEmpty());
+
+        // use a non-existing company
+        CompanyName missing = new CompanyName("NonExistent");
+        modelManager.updateRoleList(missing);
+
+        assertTrue(modelManager.getRoleList().isEmpty());
+    }
+
+    @Test
+    public void updateRoleList_nullCompanyName_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.updateRoleList(null));
+    }
+
+    @Test
     public void equals() {
         HitList hitList = new HitListBuilder()
                 .withPerson(ALICE)

@@ -9,6 +9,7 @@ import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.Model;
 import hitlist.model.ReadOnlyHitList;
 import hitlist.model.company.Company;
+import hitlist.model.company.role.Role;
 import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import javafx.collections.ObservableList;
@@ -31,7 +32,7 @@ public interface Logic {
      *
      * @see Model#getHitList()
      */
-    ReadOnlyHitList getAddressBook();
+    ReadOnlyHitList getHitList();
 
     /** Returns an unmodifiable view of the filtered list of persons */
     ObservableList<Person> getFilteredPersonList();
@@ -41,6 +42,9 @@ public interface Logic {
 
     /** Returns an unmodifiable view of the filtered list of companies */
     ObservableList<Company> getFilteredCompanyList();
+
+    /** Returns an unmodifiable view of the list of roles */
+    ObservableList<Role> getRoleList();
 
     /**
      * Returns the user prefs HitList file path.

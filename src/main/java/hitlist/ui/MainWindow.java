@@ -34,6 +34,7 @@ public class MainWindow extends UiPart<Stage> {
     private PersonListPanel personListPanel;
     private CompanyListPanel companyListPanel;
     private GroupListPanel groupListPanel;
+    private RoleListPanel roleListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
 
@@ -60,6 +61,12 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane groupListPanelPlaceholder;
+
+    @FXML
+    private javafx.scene.layout.VBox roleListPane;
+
+    @FXML
+    private StackPane roleListPanelPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -136,6 +143,9 @@ public class MainWindow extends UiPart<Stage> {
         groupListPanel = new GroupListPanel(logic.getGroupList());
         groupListPanelPlaceholder.getChildren().add(groupListPanel.getRoot());
 
+        roleListPanel = new RoleListPanel(logic.getRoleList());
+        roleListPanelPlaceholder.getChildren().add(roleListPanel.getRoot());
+
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
@@ -201,6 +211,13 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
+     * Returns the role list panel.
+     */
+    public RoleListPanel getRoleListPanel() {
+        return roleListPanel;
+    }
+
+    /**
      * Executes the command and returns the result.
      *
      * @see hitlist.logic.Logic#execute(String)
@@ -219,6 +236,7 @@ public class MainWindow extends UiPart<Stage> {
                 hidePersonListPane();
                 hideGroupListPane();
                 showCompanyListPane();
+                hideRoleListPane();
 
                 // Force refresh the company list
                 companyListPanel = new CompanyListPanel(logic.getFilteredCompanyList());
@@ -226,17 +244,29 @@ public class MainWindow extends UiPart<Stage> {
                 companyListPanelPlaceholder.getChildren().add(companyListPanel.getRoot());
             } else if (commandResult.isShowGroupList()) {
                 hidePersonListPane();
-                hideCompanyListPane();
                 showGroupListPane();
+                hideCompanyListPane();
+                hideRoleListPane();
 
                 // Force refresh the group list
                 groupListPanel = new GroupListPanel(logic.getGroupList());
                 groupListPanelPlaceholder.getChildren().clear();
                 groupListPanelPlaceholder.getChildren().add(groupListPanel.getRoot());
-            } else { // person list
-                showPersonListPane();
+            } else if (commandResult.isShowRoleList()) {
                 hideCompanyListPane();
                 hideGroupListPane();
+                hidePersonListPane();
+                showRoleListPane();
+
+                // Force refresh the role list
+                roleListPanel = new RoleListPanel(logic.getRoleList());
+                roleListPanelPlaceholder.getChildren().clear();
+                roleListPanelPlaceholder.getChildren().add(roleListPanel.getRoot());
+            } else { // person list
+                showPersonListPane();
+                hideGroupListPane();
+                hideCompanyListPane();
+                hideRoleListPane();
 
                 // Force refresh the person list
                 personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic.getGroupList());
@@ -254,6 +284,22 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
         }
+    }
+
+    /**
+     * Shows the person list pane.
+     */
+    public void showPersonListPane() {
+        personList.setVisible(true);
+        personList.setManaged(true);
+    }
+
+    /**
+     * Hides the person list pane.
+     */
+    public void hidePersonListPane() {
+        personList.setVisible(false);
+        personList.setManaged(false);
     }
 
     /**
@@ -289,18 +335,18 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Shows the person list pane.
+     * Shows the role list pane.
      */
-    public void showPersonListPane() {
-        personList.setVisible(true);
-        personList.setManaged(true);
+    private void showRoleListPane() {
+        roleListPane.setVisible(true);
+        roleListPane.setManaged(true);
     }
 
     /**
-     * Hides the person list pane.
+     * Hides the role list pane.
      */
-    public void hidePersonListPane() {
-        personList.setVisible(false);
-        personList.setManaged(false);
+    private void hideRoleListPane() {
+        roleListPane.setVisible(false);
+        roleListPane.setManaged(false);
     }
 }

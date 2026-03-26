@@ -19,10 +19,14 @@ import javafx.collections.ObservableList;
  * The API of the Model component.
  */
 public interface Model {
-    /** {@code Predicate} that always evaluate to true */
+    /**
+     * {@code Predicate} that always evaluate to true
+     */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
-    /** {@code Predicate} that always evaluate to true */
+    /**
+     * {@code Predicate} that always evaluate to true
+     */
     Predicate<Company> PREDICATE_SHOW_ALL_COMPANIES = unused -> true;
 
     /**
@@ -60,7 +64,9 @@ public interface Model {
      */
     void setHitList(ReadOnlyHitList hitList);
 
-    /** Returns the HitList */
+    /**
+     * Returns the HitList
+     */
     ReadOnlyHitList getHitList();
 
     /**
@@ -87,13 +93,19 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
-    /** Returns an unmodifiable view of the filtered person list */
+    /**
+     * Returns an unmodifiable view of the filtered person list
+     */
     ObservableList<Person> getFilteredPersonList();
 
-    /** Returns an unmodifiable view of the group list */
+    /**
+     * Returns an unmodifiable view of the group list
+     */
     ObservableList<Group> getGroupList();
 
-    /** Returns an unmodifiable view of the filtered company list */
+    /**
+     * Returns an unmodifiable view of the filtered company list
+     */
     ObservableList<Company> getFilteredCompanyList();
 
     /**
@@ -107,6 +119,12 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredCompanyList(Predicate<Company> predicate);
+
+    /**
+     * Updates the role list of the specified company.
+     * @throws NullPointerException if {@code companyName} is null.
+     */
+    void updateRoleList(CompanyName companyName);
 
     /**
      * Returns true if a group with the same identity as {@code group} exists.
@@ -130,6 +148,7 @@ public interface Model {
      * {@code group} must already exist.
      */
     void deleteGroup(Group group);
+
     /**
      * Returns all persons whose names exactly match {@code name}.
      */
@@ -141,9 +160,16 @@ public interface Model {
     boolean hasCompany(Company company);
 
     /**
-    * Adds the given company.
-    * {@code company} must not already exist.
-    */
+     * Returns true if a company with the same identity as {@code companyName} exists.
+     * @param companyName
+     * @return
+     */
+    boolean hasCompanyByName(CompanyName companyName);
+
+    /**
+     * Adds the given company.
+     * {@code company} must not already exist.
+     */
     void addCompany(Company company);
 
     /**
@@ -193,4 +219,9 @@ public interface Model {
      * {@code role} must already exist for the company.
      */
     void deleteCompanyRole(CompanyName companyName, Role role);
+
+    /**
+     * Returns an unmodifiable view of the role list of the specified company.
+     */
+    ObservableList<Role> getRoleList();
 }

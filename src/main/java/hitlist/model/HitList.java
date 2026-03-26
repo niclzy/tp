@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import hitlist.commons.util.ToStringBuilder;
 import hitlist.model.company.Company;
@@ -16,6 +17,7 @@ import hitlist.model.group.Group;
 import hitlist.model.group.UniqueGroupList;
 import hitlist.model.person.Person;
 import hitlist.model.person.UniquePersonList;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -290,6 +292,13 @@ public class HitList implements ReadOnlyHitList {
     @Override
     public ObservableList<Group> getGroupList() {
         return groups.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public ObservableList<Role> getRoleList() {
+        return companies.asUnmodifiableObservableList().stream()
+                .flatMap(company -> company.getUniqueRoleList().asUnmodifiableObservableList().stream())
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 
     @Override

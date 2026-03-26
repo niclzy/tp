@@ -653,5 +653,10 @@ public class HitListTest {
         public ObservableList<Group> getGroupList() {
             return groups;
         }
+
+        @Override
+        public ObservableList<Role> getRoleList() {
+            return roles;
+        }
     }
 }

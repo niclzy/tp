@@ -46,10 +46,10 @@ public class LogicManagerTest {
 
     @BeforeEach
     public void setUp() {
-        JsonHitListStorage addressBookStorage =
-                new JsonHitListStorage(temporaryFolder.resolve("addressBook.json"));
+        JsonHitListStorage hitListStorage =
+                new JsonHitListStorage(temporaryFolder.resolve("hitList.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        StorageManager storage = new StorageManager(hitListStorage, userPrefsStorage);
         logic = new LogicManager(model, storage);
     }
 
@@ -74,7 +74,7 @@ public class LogicManagerTest {
     @Test
     public void execute_validCompanyCommand_success() throws Exception {
         String listCompanyCommand = ListCompanyCommand.COMMAND_WORD;
-        assertCommandSuccess(listCompanyCommand, ListCompanyCommand.MESSAGE_SUCCESS, model);
+        assertCommandSuccess(listCompanyCommand, ListCompanyCommand.DEFAULT_MESSAGE_SUCCESS, model);
     }
 
     @Test

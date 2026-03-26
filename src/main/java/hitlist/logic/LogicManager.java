@@ -15,6 +15,7 @@ import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.Model;
 import hitlist.model.ReadOnlyHitList;
 import hitlist.model.company.Company;
+import hitlist.model.company.role.Role;
 import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import hitlist.storage.Storage;
@@ -64,7 +65,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ReadOnlyHitList getAddressBook() {
+    public ReadOnlyHitList getHitList() {
         return model.getHitList();
     }
 
@@ -81,6 +82,11 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Company> getFilteredCompanyList() {
         return model.getFilteredCompanyList();
+    }
+
+    @Override
+    public ObservableList<Role> getRoleList() {
+        return model.getRoleList();
     }
 
     @Override

@@ -9,6 +9,7 @@ import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.HitList;
 import hitlist.model.ReadOnlyHitList;
 import hitlist.model.company.Company;
+import hitlist.model.company.role.Role;
 import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import javafx.collections.FXCollections;
@@ -31,7 +32,7 @@ public class LogicStub implements Logic {
     }
 
     @Override
-    public ReadOnlyHitList getAddressBook() {
+    public ReadOnlyHitList getHitList() {
         return hitList;
     }
 
@@ -48,6 +49,11 @@ public class LogicStub implements Logic {
     @Override
     public ObservableList<Company> getFilteredCompanyList() {
         return FXCollections.unmodifiableObservableList(filteredCompanies);
+    }
+
+    @Override
+    public ObservableList<Role> getRoleList() {
+        return hitList.getRoleList();
     }
 
     @Override
