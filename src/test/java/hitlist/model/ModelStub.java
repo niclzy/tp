@@ -96,7 +96,7 @@ public abstract class ModelStub implements Model {
     }
 
     @Override
-    public void updateFilteredPersonList(Predicate<Person> predicate) {
+    public ObservableList<Company> getFilteredCompanyList() {
         throw new AssertionError("This method should not be called.");
     }
 
