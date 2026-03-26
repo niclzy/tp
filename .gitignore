@@ -3,6 +3,10 @@
 /build/
 src/main/resources/docs/
 
+# VS Code files
+/.vscode/
+/.history/
+
 # IDEA files
 /.idea/
 /out/
