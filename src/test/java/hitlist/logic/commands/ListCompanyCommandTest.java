@@ -36,11 +36,11 @@ public class ListCompanyCommandTest {
     @Test
     public void execute_listSpecificCompany_showsCompany() {
         // Assume "Google" exists in typical hit list
-        CompanyName companyName = new CompanyName("Google");
+        CompanyName companyName = new CompanyName("Google Inc.");
         ListCompanyCommand command = new ListCompanyCommand(companyName);
 
         // Execute branch that lists a specific company
-        expectedModel.updateRoleList(companyName); // sets model to only show Google
+        expectedModel.updateRoleList(companyName); // sets model to only show Google's roles
         assertCommandSuccess(command, model,
                 new CommandResult(String.format(ListCompanyCommand.MESSAGE_SUCCESS, companyName),
                         false, false, false, false, true),

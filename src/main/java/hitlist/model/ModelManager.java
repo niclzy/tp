@@ -174,6 +174,13 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasCompanyByName(CompanyName companyName) {
+        requireNonNull(companyName);
+        return hitList.getCompanyList().stream()
+                .anyMatch(company -> company.getName().equals(companyName));
+    }
+
+    @Override
     public void addCompany(Company company) {
         hitList.addCompany(company);
         updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);

@@ -141,6 +141,11 @@ public abstract class ModelStub implements Model {
     }
 
     @Override
+    public boolean hasCompanyByName(CompanyName companyName) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
     public void addCompany(Company company) {
         throw new AssertionError("This method should not be called.");
     }

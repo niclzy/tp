@@ -18,6 +18,8 @@ public class ListCompanyCommand extends Command {
 
     public static final String DEFAULT_MESSAGE_SUCCESS = "Listed all companies";
 
+    public static final String MESSAGE_NO_COMPANY_FOUND = "No company found with the name: %1$s";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists the company details of the company that matches"
             + " the searched company. If no company is searched, lists all companies\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_COMPANY + " Google\n"
@@ -52,9 +54,11 @@ public class ListCompanyCommand extends Command {
         if (isListAllCompanies()) {
             model.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
             return new CommandResult(DEFAULT_MESSAGE_SUCCESS, false, false, true);
-        } else {
+        } else if (model.hasCompanyByName(name)) {
             model.updateRoleList(name);
             return new CommandResult(String.format(MESSAGE_SUCCESS, name), false, false, false, false, true);
+        } else {
+            return new CommandResult(String.format(MESSAGE_NO_COMPANY_FOUND, name), false, false, true);
         }
     }
 }

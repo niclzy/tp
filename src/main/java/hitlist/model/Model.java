@@ -160,6 +160,13 @@ public interface Model {
     boolean hasCompany(Company company);
 
     /**
+     * Returns true if a company with the same identity as {@code companyName} exists.
+     * @param companyName
+     * @return
+     */
+    boolean hasCompanyByName(CompanyName companyName);
+
+    /**
      * Adds the given company.
      * {@code company} must not already exist.
      */
