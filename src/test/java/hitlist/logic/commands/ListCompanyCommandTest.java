@@ -47,4 +47,20 @@ public class ListCompanyCommandTest {
                 new CommandResult(String.format(ListCompanyCommand.MESSAGE_SUCCESS, companyName), SHOW_ROLE_LIST),
                 expectedModel);
     }
+
+    @Test
+    public void execute_companyDoesNotExist_showsNoCompanyFoundMessage() {
+        // Use a name that is NOT in the typical hit list
+        CompanyName companyName = new CompanyName("NonExistentCompany");
+        ListCompanyCommand command = new ListCompanyCommand(companyName);
+
+        // Expected model should remain unchanged except for filtered list reset
+        expectedModel.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
+
+        assertCommandSuccess(command, model,
+                new CommandResult(
+                        String.format(ListCompanyCommand.MESSAGE_NO_COMPANY_FOUND, companyName),
+                        SHOW_COMPANY_LIST),
+                expectedModel);
+    }
 }
