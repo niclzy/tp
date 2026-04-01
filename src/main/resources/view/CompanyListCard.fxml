@@ -33,7 +33,7 @@
         <padding>
           <Insets top="10" right="2" bottom="2" left="0" />
         </padding>
-        
+
         <Label text="Roles:" styleClass="cell_small_label" />
         <FlowPane fx:id="roles" />
       </HBox>
