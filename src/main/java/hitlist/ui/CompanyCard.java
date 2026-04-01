@@ -3,8 +3,10 @@ package hitlist.ui;
 import java.util.Objects;
 
 import hitlist.model.company.Company;
+import hitlist.model.company.role.UniqueRoleList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 
@@ -26,6 +28,13 @@ public class CompanyCard extends UiPart<Region> {
     @FXML
     private Label description;
 
+    @FXML
+    private Label rolesCount;
+    @FXML
+    private FlowPane roles;
+    @FXML
+    private HBox rolesWrapper;
+
     /**
      * Creates a {@code CompanyCard} with the given {@code Company} and index to display.
      */
@@ -37,6 +46,21 @@ public class CompanyCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(company.getName().toString());
         description.setText(company.getDescription().toString());
+
+        UniqueRoleList roleList = company.getUniqueRoleList();
+
+        roleList.asUnmodifiableObservableList().stream()
+            .forEach(role -> {
+                Label roleLabel = new Label(role.getRoleName().toString());
+
+                roleLabel.getStyleClass().add("tag-label");
+                roles.getChildren().add(roleLabel);
+            });
+
+        if (roles.getChildren().isEmpty()) {
+            rolesWrapper.setVisible(false);
+            rolesWrapper.setManaged(false);
+        }
     }
 
     @Override
