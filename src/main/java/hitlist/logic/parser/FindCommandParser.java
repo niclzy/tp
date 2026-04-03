@@ -1,8 +1,6 @@
 package hitlist.logic.parser;
 
 import static hitlist.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static hitlist.logic.parser.CliSyntax.PREFIX_NAME;
-import static hitlist.logic.parser.CliSyntax.PREFIX_TAG;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
@@ -36,20 +34,22 @@ public class FindCommandParser implements Parser<FindCommand> {
 
             nameKeywords.add(token);
 
-//            if (token.equals(PREFIX_TAG.getPrefix())) {
-//                if (i + 1 >= tokens.length || !Tag.isValidTagName(tokens[i + 1])) {
-//                    throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
-//                }
-//                tagKeywords.add(tokens[++i]);
-//            } else if (token.startsWith(PREFIX_TAG.getPrefix())) {
-//                String tagName = token.substring(PREFIX_TAG.getPrefix().length());
-//                if (tagName.isEmpty() || !Tag.isValidTagName(tagName)) {
-//                    throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
-//                }
-//                tagKeywords.add(tagName);
-//            } else {
-//                nameKeywords.add(token);
-//            }
+            /*
+            if (token.equals(PREFIX_TAG.getPrefix())) {
+                if (i + 1 >= tokens.length || !Tag.isValidTagName(tokens[i + 1])) {
+                    throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
+                }
+                tagKeywords.add(tokens[++i]);
+            } else if (token.startsWith(PREFIX_TAG.getPrefix())) {
+                String tagName = token.substring(PREFIX_TAG.getPrefix().length());
+                if (tagName.isEmpty() || !Tag.isValidTagName(tagName)) {
+                    throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
+                }
+                tagKeywords.add(tagName);
+            } else {
+                nameKeywords.add(token);
+            }
+            */
         }
 
         if (nameKeywords.isEmpty()) {

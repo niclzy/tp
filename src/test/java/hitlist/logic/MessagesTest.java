@@ -46,7 +46,6 @@ public class MessagesTest {
                 .withPhone("88888888")
                 .withEmail("amy@example.com")
                 .withAddress("123 Clementi Ave")
-                .withTags("friends")
                 .build();
 
         String formatted = Messages.format(person);
@@ -55,7 +54,6 @@ public class MessagesTest {
         assertTrue(formatted.contains("88888888"));
         assertTrue(formatted.contains("amy@example.com"));
         assertTrue(formatted.contains("123 Clementi Ave"));
-        assertTrue(formatted.contains("friends"));
     }
 
     @Test

@@ -1,10 +1,7 @@
 package hitlist.model.util;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import hitlist.model.HitList;
 import hitlist.model.ReadOnlyHitList;

@@ -5,13 +5,7 @@ import static hitlist.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static hitlist.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static hitlist.logic.parser.CliSyntax.PREFIX_NAME;
 import static hitlist.logic.parser.CliSyntax.PREFIX_PHONE;
-import static hitlist.logic.parser.CliSyntax.PREFIX_TAG;
 import static java.util.Objects.requireNonNull;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
 
 import hitlist.commons.core.index.Index;
 import hitlist.logic.commands.EditCommand;

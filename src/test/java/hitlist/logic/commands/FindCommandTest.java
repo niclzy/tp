@@ -31,9 +31,9 @@ public class FindCommandTest {
     @Test
     public void equals() {
         PersonMatchesFindPredicate firstPredicate =
-                new PersonMatchesFindPredicate(Collections.singletonList("first"), Collections.emptyList());
+                new PersonMatchesFindPredicate(Collections.singletonList("first"));
         PersonMatchesFindPredicate secondPredicate =
-                new PersonMatchesFindPredicate(Collections.singletonList("second"), Collections.emptyList());
+                new PersonMatchesFindPredicate(Collections.singletonList("second"));
 
         FindCommand findFirstCommand = new FindCommand(firstPredicate);
         FindCommand findSecondCommand = new FindCommand(secondPredicate);
@@ -75,7 +75,7 @@ public class FindCommandTest {
     @Test
     public void toStringMethod() {
         PersonMatchesFindPredicate predicate =
-                new PersonMatchesFindPredicate(Arrays.asList("keyword"), Collections.emptyList());
+                new PersonMatchesFindPredicate(Arrays.asList("keyword"));
         FindCommand findCommand = new FindCommand(predicate);
 
         String expected = FindCommand.class.getCanonicalName() + "{predicate=" + predicate + "}";
@@ -86,6 +86,6 @@ public class FindCommandTest {
      * Parses {@code userInput} into a {@code PersonMatchesFindPredicate}.
      */
     private PersonMatchesFindPredicate preparePredicate(String userInput) {
-        return new PersonMatchesFindPredicate(Arrays.asList(userInput.split("\\s+")), Collections.emptyList());
+        return new PersonMatchesFindPredicate(Arrays.asList(userInput.split("\\s+")));
     }
 }
