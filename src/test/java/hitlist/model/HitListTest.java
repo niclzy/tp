@@ -2,7 +2,6 @@ package hitlist.model;
 
 import static hitlist.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static hitlist.logic.commands.CommandTestUtil.VALID_COMPANY_DESCRIPTION_GOOGLE;
-import static hitlist.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static hitlist.testutil.Assert.assertThrows;
 import static hitlist.testutil.TypicalCompanies.GOOGLE;
 import static hitlist.testutil.TypicalGroups.STUDENTS;
@@ -64,7 +63,7 @@ public class HitListTest {
 
     @Test
     public void resetData_withDuplicatePersons_throwsDuplicatePersonException() {
-        Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
+        Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB)
                 .build();
         List<Person> newPersons = Arrays.asList(ALICE, editedAlice);
         HitListStub newData = new HitListStub(newPersons,
@@ -94,7 +93,7 @@ public class HitListTest {
     @Test
     public void hasPerson_personWithSameIdentityFieldsInHitList_returnsTrue() {
         hitList.addPerson(ALICE);
-        Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
+        Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB)
                 .build();
         assertTrue(hitList.hasPerson(editedAlice));
     }

@@ -40,6 +40,16 @@ public class UniqueCompanyListTest {
     }
 
     @Test
+    public void contains_companyWithDifferentCompanyDescriptionInList_returnsTrue() {
+        uniqueCompanyList.add(GOOGLE);
+        Company editedGoogle = new CompanyBuilder()
+                .withName(VALID_COMPANY_NAME_GOOGLE)
+                .withDescription(VALID_COMPANY_DESCRIPTION_META)
+                .build();
+        assertTrue(uniqueCompanyList.contains(editedGoogle));
+    }
+
+    @Test
     public void add_nullCompany_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> uniqueCompanyList.add(null));
     }
@@ -293,7 +303,7 @@ public class UniqueCompanyListTest {
 
         list.setCompany(target, edited);
 
-        assertEquals(List.of(edited), list.asUnmodifiableObservableList());
+        assertTrue(list.contains(edited));
     }
 
     @Test

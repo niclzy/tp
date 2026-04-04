@@ -2,14 +2,10 @@ package hitlist.model.person;
 
 import static hitlist.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 import hitlist.commons.util.ToStringBuilder;
-import hitlist.model.tag.Tag;
 
 /**
  * Represents a Person in the HitList.
@@ -24,18 +20,16 @@ public class Person {
 
     // Data fields
     private final Optional<Address> address;
-    private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Optional<Email> email, Optional<Address> address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, tags);
+    public Person(Name name, Phone phone, Optional<Email> email, Optional<Address> address) {
+        requireAllNonNull(name, phone);
         this.name = name;
         this.phone = phone;
         this.email = email == null ? Optional.empty() : email;
         this.address = address == null ? Optional.empty() : address;
-        this.tags.addAll(tags);
     }
 
     public Name getName() {
@@ -52,14 +46,6 @@ public class Person {
 
     public Optional<Address> getAddress() {
         return address;
-    }
-
-    /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(tags);
     }
 
     /**
@@ -94,14 +80,13 @@ public class Person {
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+                && address.equals(otherPerson.address);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address);
     }
 
     @Override
@@ -111,7 +96,6 @@ public class Person {
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
-                .add("tags", tags)
                 .toString();
     }
 

@@ -19,7 +19,6 @@ import hitlist.model.person.Address;
 import hitlist.model.person.Email;
 import hitlist.model.person.Name;
 import hitlist.model.person.Phone;
-import hitlist.model.tag.Tag;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -145,33 +144,6 @@ public class ParserUtil {
                 .orElseThrow(() -> new ParseException(Email.MESSAGE_CONSTRAINTS));
 
         return Optional.of(validEmail);
-    }
-
-    /**
-     * Parses a {@code String tag} into an {@code Tag}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws ParseException if the given {@code tag} is invalid.
-     */
-    public static Tag parseTag(String tag) throws ParseException {
-        requireNonNull(tag);
-        String trimmedTag = tag.trim();
-        if (!Tag.isValidTagName(trimmedTag)) {
-            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
-        }
-        return new Tag(trimmedTag);
-    }
-
-    /**
-     * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
-     */
-    public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
-        requireNonNull(tags);
-        final Set<Tag> tagSet = new HashSet<>();
-        for (String tagName : tags) {
-            tagSet.add(parseTag(tagName));
-        }
-        return tagSet;
     }
 
     /**
