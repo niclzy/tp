@@ -22,6 +22,7 @@ import hitlist.logic.commands.DeleteGroupCommand;
 import hitlist.logic.commands.EditCommand;
 import hitlist.logic.commands.ExitCommand;
 import hitlist.logic.commands.FindCommand;
+import hitlist.logic.commands.FindCompanyCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
 import hitlist.logic.commands.ListCompanyCommand;
@@ -109,6 +110,9 @@ public class HitListParser {
 
         case DeleteCompanyCommand.COMMAND_WORD:
             return new DeleteCompanyCommandParser().parse(arguments);
+
+        case FindCompanyCommand.COMMAND_WORD:
+            return new FindCompanyCommandParser().parse(arguments);
 
         case AddCompanyRoleCommand.COMMAND_WORD:
             return new AddCompanyRoleCommandParser().parse(arguments);
