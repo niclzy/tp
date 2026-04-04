@@ -98,7 +98,10 @@ public class SampleDataUtil {
                             + "consumer electronics and computer software"), new UniqueRoleList()),
             new Company(new CompanyName("Amazon.com, Inc."),
                     new CompanyDescription("An American multinational technology company focusing on "
-                            + "e-commerce, cloud computing, and digital streaming"), new UniqueRoleList())
+                            + "e-commerce, cloud computing, and digital streaming"), new UniqueRoleList()),
+            new Company(new CompanyName("Netflix"),
+                    new CompanyDescription("An American subscription streaming service and production company"),
+                    new UniqueRoleList())
         };
     }
 
