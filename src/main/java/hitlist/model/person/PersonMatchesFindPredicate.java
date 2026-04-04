@@ -3,7 +3,6 @@ package hitlist.model.person;
 import java.util.List;
 import java.util.function.Predicate;
 
-import hitlist.commons.util.StringUtil;
 import hitlist.commons.util.ToStringBuilder;
 
 /**
