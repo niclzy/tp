@@ -12,14 +12,12 @@ import hitlist.commons.util.ToStringBuilder;
  */
 public class PersonMatchesFindPredicate implements Predicate<Person> {
     private final List<String> nameKeywords;
-    private final List<String> tagKeywords;
 
     /**
-     * Creates a predicate with the given name and tag keywords.
+     * Creates a predicate with the given name keywords.
      */
-    public PersonMatchesFindPredicate(List<String> nameKeywords, List<String> tagKeywords) {
+    public PersonMatchesFindPredicate(List<String> nameKeywords) {
         this.nameKeywords = nameKeywords;
-        this.tagKeywords = tagKeywords;
     }
 
     @Override
@@ -29,13 +27,7 @@ public class PersonMatchesFindPredicate implements Predicate<Person> {
                 .anyMatch(keyword ->
                         StringUtil.containsPrefixIgnoreCase(person.getName().fullName, keyword));
 
-        boolean matchesTag = tagKeywords.isEmpty()
-                || person.getTags().stream()
-                .map(tag -> tag.tagName)
-                .anyMatch(tagName ->
-                        tagKeywords.stream().anyMatch(tagName::equalsIgnoreCase));
-
-        return matchesName && matchesTag;
+        return matchesName;
     }
 
     @Override
@@ -47,15 +39,13 @@ public class PersonMatchesFindPredicate implements Predicate<Person> {
             return false;
         }
         PersonMatchesFindPredicate otherPredicate = (PersonMatchesFindPredicate) other;
-        return nameKeywords.equals(otherPredicate.nameKeywords)
-                && tagKeywords.equals(otherPredicate.tagKeywords);
+        return nameKeywords.equals(otherPredicate.nameKeywords);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("nameKeywords", nameKeywords)
-                .add("tagKeywords", tagKeywords)
                 .toString();
     }
 }

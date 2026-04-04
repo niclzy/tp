@@ -1,7 +1,6 @@
 package hitlist.logic.parser;
 
 import static hitlist.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static hitlist.logic.parser.CliSyntax.PREFIX_TAG;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.List;
 import hitlist.logic.commands.FindCommand;
 import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.person.PersonMatchesFindPredicate;
-import hitlist.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new {@code FindCommand} object.
@@ -34,6 +32,9 @@ public class FindCommandParser implements Parser<FindCommand> {
         for (int i = 0; i < tokens.length; i++) {
             String token = tokens[i];
 
+            nameKeywords.add(token);
+
+            /*
             if (token.equals(PREFIX_TAG.getPrefix())) {
                 if (i + 1 >= tokens.length || !Tag.isValidTagName(tokens[i + 1])) {
                     throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
@@ -48,13 +49,17 @@ public class FindCommandParser implements Parser<FindCommand> {
             } else {
                 nameKeywords.add(token);
             }
+            */
         }
 
-        if (nameKeywords.isEmpty() && tagKeywords.isEmpty()) {
+        // Since Line 23 already checks for empty arguments, the nameKeywords list would have at least one entry.
+        /*
+        if (nameKeywords.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
+        */
 
-        return new FindCommand(new PersonMatchesFindPredicate(nameKeywords, tagKeywords));
+        return new FindCommand(new PersonMatchesFindPredicate(nameKeywords));
     }
 }

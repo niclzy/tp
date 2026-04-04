@@ -1,16 +1,12 @@
 package hitlist.testutil;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import hitlist.model.person.Address;
 import hitlist.model.person.Email;
 import hitlist.model.person.Name;
 import hitlist.model.person.Person;
 import hitlist.model.person.Phone;
-import hitlist.model.tag.Tag;
-import hitlist.model.util.SampleDataUtil;
 
 /**
  * A utility class to help with building Person objects.
@@ -26,7 +22,6 @@ public class PersonBuilder {
     private Phone phone;
     private Optional<Email> email;
     private Optional<Address> address;
-    private Set<Tag> tags;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -36,7 +31,6 @@ public class PersonBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = Optional.of(new Email(DEFAULT_EMAIL));
         address = Optional.of(new Address(DEFAULT_ADDRESS));
-        tags = new HashSet<>();
     }
 
     /**
@@ -47,7 +41,6 @@ public class PersonBuilder {
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
-        tags = new HashSet<>(personToCopy.getTags());
     }
 
     /**
@@ -55,14 +48,6 @@ public class PersonBuilder {
      */
     public PersonBuilder withName(String name) {
         this.name = new Name(name);
-        return this;
-    }
-
-    /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
-     */
-    public PersonBuilder withTags(String ... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
 
@@ -91,7 +76,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, tags);
+        return new Person(name, phone, email, address);
     }
 
 }

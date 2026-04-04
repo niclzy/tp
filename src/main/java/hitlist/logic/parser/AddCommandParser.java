@@ -5,10 +5,8 @@ import static hitlist.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static hitlist.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static hitlist.logic.parser.CliSyntax.PREFIX_NAME;
 import static hitlist.logic.parser.CliSyntax.PREFIX_PHONE;
-import static hitlist.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import hitlist.logic.commands.AddCommand;
@@ -18,7 +16,6 @@ import hitlist.model.person.Email;
 import hitlist.model.person.Name;
 import hitlist.model.person.Person;
 import hitlist.model.person.Phone;
-import hitlist.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -32,7 +29,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -44,9 +41,8 @@ public class AddCommandParser implements Parser<AddCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Optional<Email> email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL));
         Optional<Address> address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS));
-        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Person person = new Person(name, phone, email, address, tagList);
+        Person person = new Person(name, phone, email, address);
 
         return new AddCommand(person);
     }

@@ -47,8 +47,8 @@ public class Messages {
                 .append(person.getEmail().map(e -> e.toString()).orElse(""))
                 .append("; Address: ")
                 .append(person.getAddress().map(e -> e.toString()).orElse(""))
-                .append("; Tags: ");
-        person.getTags().forEach(builder::append);
+                .append(";");
+
         return builder.toString();
     }
 
