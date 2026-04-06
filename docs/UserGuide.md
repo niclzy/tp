@@ -283,11 +283,18 @@ Example:
 
 ### Listing all Companies : `cmplist`
 
-Shows a list of all companies in the hitList.
+Shows a list of all companies in the HitList.
 
-Format: `cmplist`
+Format: `cmplist [/c COMPANY_NAME]`
+* If the company name is specified, shows the details of that company and its roles.
+* If the company name is not specified, shows a list of all companies in HitList.
 
+Example:
+* `cmplist`
 <img width="738" height="601" alt="List all companies in HitList" src="images/ug/Cmplist.png" />
+
+* `cmplist /c Google Inc.`
+<img width="738" height="601" alt="List details of company Google in HitList" src="images/ug/Cmplist_Google.png" />
 
 ### Adding a role to a company : `roleadd`
 
