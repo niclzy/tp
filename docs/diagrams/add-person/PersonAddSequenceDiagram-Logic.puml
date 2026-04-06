@@ -13,23 +13,26 @@ box Model MODEL_COLOR_T1
 participant ":Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute("add /n John Doe /p 98765432 /e johnd@example.com /a 311, Clementi Ave 2, #02-25")
+[-> LogicManager : execute("add /n John Doe /p 98765432 ...")
 activate LogicManager
-LogicManager -> HitListParser : parseCommand("add /n John Doe /p 98765432 /e johnd@example.com /a 311, Clementi Ave 2, #02-25")
+
+LogicManager -> HitListParser : parseCommand("add /n John Doe /p 98765432 ...")
 activate HitListParser
 
 create AddCommandParser
 HitListParser -> AddCommandParser
 activate AddCommandParser
+
 AddCommandParser --> HitListParser
 deactivate AddCommandParser
 
-HitListParser -> AddCommandParser : parse(" /n John Doe /p 98765432 /e johnd@example.com /a 311, Clementi Ave 2, #02-25")
+HitListParser -> AddCommandParser : parse(" /n John Doe /p 98765432 ...")
 activate AddCommandParser
 
 create AddCommand
 AddCommandParser -> AddCommand
 activate AddCommand
+
 AddCommand --> AddCommandParser : c
 deactivate AddCommand
 
@@ -43,15 +46,17 @@ deactivate HitListParser
 
 LogicManager -> AddCommand : execute()
 activate AddCommand
+
 AddCommand -> Model : addPerson(toAdd)
 activate Model
 Model --> AddCommand
 deactivate Model
+
 AddCommand --> LogicManager : result
 deactivate AddCommand
 AddCommand -[hidden]-> LogicManager
 destroy AddCommand
 
-[<--LogicManager
+[<-- LogicManager
 deactivate LogicManager
 @enduml

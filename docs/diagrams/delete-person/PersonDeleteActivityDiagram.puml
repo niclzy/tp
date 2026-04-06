@@ -8,7 +8,7 @@ start
 if () then ([Command is valid])
   if () then ([Target provided as index])
     :Parse displayed person index;
-  else ([Target provided as /n NAME])
+  else ([Target provided as name])
     :Parse person name;
   endif
 
