@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.model.ModelStub;
+import hitlist.model.company.Company;
 import hitlist.model.company.CompanyName;
 import hitlist.model.company.role.Role;
 import hitlist.model.company.role.RoleDescription;
@@ -49,7 +50,9 @@ public class AddCompanyRoleCommandTest {
                 .withName("Valid Role Name")
                 .withDescription("Valid Role Description")
                 .build();
-        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
+        Company Google = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build();
+        modelStub.addCompany(Google);
+        CompanyName companyName = Google.getName();
 
         CommandResult commandResult = new AddCompanyRoleCommand(validCompanyRole, companyName).execute(modelStub);
 
@@ -68,7 +71,8 @@ public class AddCompanyRoleCommandTest {
                 .withName("Valid Role Name")
                 .withDescription("Valid Role Description")
                 .build();
-        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
+        Company Google = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build();
+        CompanyName companyName = Google.getName();
         AddCompanyRoleCommand addCompanyRoleCommand = new AddCompanyRoleCommand(validCompanyRole, companyName);
         ModelStub modelStub = new ModelStubWithCompanyRole(validCompanyRole, companyName);
 
@@ -143,6 +147,11 @@ public class AddCompanyRoleCommandTest {
         }
 
         @Override
+        public boolean hasCompanyByName(CompanyName companyName) {
+            return this.companyName.equals(companyName);
+        }
+
+        @Override
         public boolean hasCompanyRole(CompanyName companyName, Role role) {
             return this.companyName.equals(companyName) && this.role.isSameRole(role);
         }
@@ -154,12 +163,21 @@ public class AddCompanyRoleCommandTest {
 
         @Override
         public boolean hasCompanyRole(CompanyName companyName, Role role) {
-            return companyNamesAdded.contains(companyName) && companyRolesAdded.contains(role);
+            return companyRolesAdded.contains(role);
+        }
+
+        @Override
+        public boolean hasCompanyByName(CompanyName companyName) {
+            return companyNamesAdded.contains(companyName);
+        }
+
+        @Override
+        public void addCompany(Company company) {
+            companyNamesAdded.add(company.getName());
         }
 
         @Override
         public void addCompanyRole(CompanyName companyName, Role role) {
-            companyNamesAdded.add(companyName);
             companyRolesAdded.add(role);
         }
 
