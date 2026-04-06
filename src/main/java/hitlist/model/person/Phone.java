@@ -9,10 +9,10 @@ import static java.util.Objects.requireNonNull;
  */
 public class Phone {
 
-
     public static final String MESSAGE_CONSTRAINTS =
-            "Invalid Number: The number %1$s is not valid";
+            "Phone numbers should only contain numbers, and it should be at least 3 digits long";
     public static final String VALIDATION_REGEX = "\\d{3,}";
+
     public final String value;
 
     /**
@@ -22,7 +22,7 @@ public class Phone {
      */
     public Phone(String phone) {
         requireNonNull(phone);
-        checkArgument(isValidPhone(phone), String.format(MESSAGE_CONSTRAINTS, phone));
+        checkArgument(isValidPhone(phone), MESSAGE_CONSTRAINTS);
         value = phone;
     }
 
@@ -44,7 +44,6 @@ public class Phone {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof Phone)) {
             return false;
         }
@@ -57,5 +56,4 @@ public class Phone {
     public int hashCode() {
         return value.hashCode();
     }
-
 }
