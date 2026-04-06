@@ -199,12 +199,19 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private boolean intersects(Rectangle2D bounds, double x, double y, double width, double height) {
-        double right = x + width;
-        double bottom = y + height;
-        double boundsRight = bounds.getMaxX();
-        double boundsBottom = bounds.getMaxY();
-        return x < boundsRight && right > bounds.getMinX()
-                && y < boundsBottom && bottom > bounds.getMinY();
+        double MIN_VISIBLE_WIDTH = 100;
+        double MIN_VISIBLE_HEIGHT = 100;
+
+        // Calculate the coordinates of the window's bottom-right corner
+        double windowRight = x + width;
+        double windowBottom = y + height;
+
+        // Calculate the overlapping width and height
+        double overlapWidth = Math.min(windowRight, bounds.getMaxX()) - Math.max(x, bounds.getMinX());
+        double overlapHeight = Math.min(windowBottom, bounds.getMaxY()) - Math.max(y, bounds.getMinY());
+
+        // Check if the overlap meets or exceeds our minimum requirements
+        return overlapWidth >= MIN_VISIBLE_WIDTH && overlapHeight >= MIN_VISIBLE_HEIGHT;
     }
 
     /**
