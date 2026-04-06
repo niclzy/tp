@@ -26,6 +26,8 @@ import javafx.stage.Stage;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
+    private static final double MIN_VISIBLE_WIDTH = 100;
+    private static final double MIN_VISIBLE_HEIGHT = 100;
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -199,9 +201,6 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private boolean intersects(Rectangle2D bounds, double x, double y, double width, double height) {
-        double MIN_VISIBLE_WIDTH = 100;
-        double MIN_VISIBLE_HEIGHT = 100;
-
         // Calculate the coordinates of the window's bottom-right corner
         double windowRight = x + width;
         double windowBottom = y + height;
