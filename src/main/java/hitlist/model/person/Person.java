@@ -98,5 +98,4 @@ public class Person {
                 .add("address", address)
                 .toString();
     }
-
 }
