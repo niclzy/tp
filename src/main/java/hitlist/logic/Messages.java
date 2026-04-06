@@ -71,22 +71,22 @@ public class Messages {
         final StringBuilder builder = new StringBuilder();
         builder.append("Name: ")
                 .append(company.getName())
-                .append("; Description: ")
+                .append("\nDescription: ")
                 .append(company.getDescription());
         return builder.toString();
     }
 
     /**
-    * Formats the {@code role} for display to the user.
-    *
-    * @param role The role to be formatted.
-    * @return A string representation of the role, including its name and description.
-    */
+     * Formats the {@code role} for display to the user.
+     *
+     * @param role The role to be formatted.
+     * @return A string representation of the role, including its name and description.
+     */
     public static String formatCompanyRole(Role role) {
         final StringBuilder builder = new StringBuilder();
         builder.append("Role: ")
                 .append(role.getRoleName())
-                .append("; Description: ")
+                .append("\nDescription: ")
                 .append(role.getRoleDescription());
         return builder.toString();
     }

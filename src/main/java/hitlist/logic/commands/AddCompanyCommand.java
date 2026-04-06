@@ -18,15 +18,16 @@ public class AddCompanyCommand extends Command {
 
     public static final String COMMAND_WORD = "cmpadd";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a company and company description to the company "
-            + "list.\nParameters: \n"
-            + PREFIX_COMPANY + " NAME \n"
-            + PREFIX_COMPANY_DESC + " DESCRIPTION\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_COMPANY + " Google"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a company to the company list.\n"
+            + "Parameters: "
+            + PREFIX_COMPANY + " COMPANY_NAME "
+            + PREFIX_COMPANY_DESC + " COMPANY_DESCRIPTION\n"
+            + "Example:\n"
+            + COMMAND_WORD + " "
+            + PREFIX_COMPANY + " Google "
             + PREFIX_COMPANY_DESC + " A technology company";
 
-    public static final String MESSAGE_SUCCESS = "New Company added: %1$s";
+    public static final String MESSAGE_SUCCESS = "New company added:\n%1$s";
     public static final String MESSAGE_DUPLICATE_COMPANY = "The company %1$s already exists";
 
     private final Company company;

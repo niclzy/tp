@@ -19,12 +19,14 @@ public class DeleteCompanyCommand extends Command {
     public static final String COMMAND_WORD = "cmpdel";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the company identified by the company name used in the displayed company list.\n"
-            + "Parameters: COMPANY_NAME (must already exist in the list)\n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_COMPANY + " Google";
+            + ": Deletes a company identified by its company name.\n"
+            + "Parameters: "
+            + PREFIX_COMPANY + " COMPANY_NAME\n"
+            + "Example:\n"
+            + COMMAND_WORD + " " + PREFIX_COMPANY + " Google";
 
     public static final String MESSAGE_COMPANY_NOT_FOUND = "Company not found: %1$s";
-    public static final String MESSAGE_DELETE_COMPANY_SUCCESS = "Deleted Company: %1$s";
+    public static final String MESSAGE_DELETE_COMPANY_SUCCESS = "Deleted company:\n%1$s";
 
     private final CompanyName companyName;
 
@@ -48,8 +50,8 @@ public class DeleteCompanyCommand extends Command {
         model.deleteCompany(companyToDelete);
 
         return new CommandResult(
-                String.format(MESSAGE_DELETE_COMPANY_SUCCESS,
-                        Messages.formatCompany(companyToDelete)), SHOW_COMPANY_LIST);
+                String.format(MESSAGE_DELETE_COMPANY_SUCCESS, Messages.formatCompany(companyToDelete)),
+                SHOW_COMPANY_LIST);
     }
 
     @Override
