@@ -275,11 +275,11 @@ Format: `cmpdel /c COMPANY_NAME`
 Example:
 * `cmpdel /c Google` deletes a company named `Google` from hitList.
 
-<img width="738" height="601" alt="Deletion of company Google" src="images/ug/Cmpdel_Google" />
+<img width="738" height="601" alt="Deletion of company Google" src="images/ug/Cmpdel_Google.png" />
 
 * `cmpdel /c Meta` deletes a company named `Meta` from hitList.
 
-<img width="738" height="601" alt="Deletion of company Meta" src="images/ug/Cmpdel_Meta" />
+<img width="738" height="601" alt="Deletion of company Meta" src="images/ug/Cmpdel_Meta.png" />
 
 ### Listing all Companies : `cmplist`
 
