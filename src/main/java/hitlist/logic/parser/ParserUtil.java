@@ -28,8 +28,9 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
 
     /**
-     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
-     * trimmed.
+     * Parses {@code oneBasedIndex} into an {@code Index} and returns it.
+     * Leading and trailing whitespaces will be trimmed.
+     *
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
@@ -56,7 +57,7 @@ public class ParserUtil {
     }
 
     /**
-     * Parses {@code Collection<String> names} into a {@code Set<Name>}.
+     * Parses {@code Collection names} into a {@code Set}.
      */
     public static Set<Name> parseNames(Collection<String> names) throws ParseException {
         requireNonNull(names);
@@ -77,7 +78,10 @@ public class ParserUtil {
         requireNonNull(phone);
         String trimmedPhone = phone.trim();
         if (!Phone.isValidPhone(trimmedPhone)) {
-            throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
+            if (trimmedPhone.isEmpty()) {
+                throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
+            }
+            throw new ParseException(String.format(Phone.MESSAGE_INVALID_PHONE, trimmedPhone));
         }
         return new Phone(trimmedPhone);
     }
@@ -110,7 +114,6 @@ public class ParserUtil {
         Address validAddress = address.filter(s -> Address.isValidAddress(s.trim()))
                 .map(s -> new Address(s.trim()))
                 .orElseThrow(() -> new ParseException(Address.MESSAGE_CONSTRAINTS));
-
         return Optional.of(validAddress);
     }
 
@@ -142,7 +145,6 @@ public class ParserUtil {
         Email validEmail = email.filter(s -> Email.isValidEmail(s.trim()))
                 .map(s -> new Email(s.trim()))
                 .orElseThrow(() -> new ParseException(Email.MESSAGE_CONSTRAINTS));
-
         return Optional.of(validEmail);
     }
 

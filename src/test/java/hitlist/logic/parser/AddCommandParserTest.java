@@ -42,6 +42,7 @@ import hitlist.model.person.Phone;
 import hitlist.testutil.PersonBuilder;
 
 public class AddCommandParserTest {
+
     private AddCommandParser parser = new AddCommandParser();
 
     @Test
@@ -49,15 +50,13 @@ public class AddCommandParserTest {
         Person expectedPerson = new PersonBuilder(BOB).build();
 
         // whitespace only preamble
-        assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB, new AddCommand(expectedPerson));
-
+        assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB
+                + EMAIL_DESC_BOB + ADDRESS_DESC_BOB, new AddCommand(expectedPerson));
     }
 
     @Test
     public void parse_repeatedNonTagValue_failure() {
-        String validExpectedPersonString = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB;
+        String validExpectedPersonString = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB;
 
         // multiple names
         assertParseFailure(parser, NAME_DESC_AMY + validExpectedPersonString,
@@ -77,9 +76,10 @@ public class AddCommandParserTest {
 
         // multiple fields repeated
         assertParseFailure(parser,
-                validExpectedPersonString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY
-                        + validExpectedPersonString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME, PREFIX_ADDRESS, PREFIX_EMAIL, PREFIX_PHONE));
+                validExpectedPersonString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY
+                        + ADDRESS_DESC_AMY + validExpectedPersonString,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME, PREFIX_ADDRESS,
+                        PREFIX_EMAIL, PREFIX_PHONE));
 
         // invalid value followed by valid value
 
@@ -122,8 +122,8 @@ public class AddCommandParserTest {
     public void parse_optionalFieldsMissing_success() {
         // zero tags
         Person expectedPerson = new PersonBuilder(AMY).build();
-        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY,
-                new AddCommand(expectedPerson));
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY, new AddCommand(expectedPerson));
     }
 
     @Test
@@ -151,7 +151,7 @@ public class AddCommandParserTest {
 
         // invalid phone
         assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
-                Phone.MESSAGE_CONSTRAINTS);
+                String.format(Phone.MESSAGE_INVALID_PHONE, "911a"));
 
         // invalid email
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB,
@@ -166,8 +166,8 @@ public class AddCommandParserTest {
                 Name.MESSAGE_CONSTRAINTS);
 
         // non-empty preamble
-        assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB ,
+        assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB
+                        + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
     }
 
