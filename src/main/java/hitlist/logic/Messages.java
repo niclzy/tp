@@ -73,7 +73,7 @@ public class Messages {
         builder.append("Name: ")
                 .append(company.getCompanyName())
                 .append("\nDescription: ")
-                .append(company.getDescription());
+                .append(company.getCompanyDescription());
         return builder.toString();
     }
 
