@@ -58,7 +58,7 @@ public class Person {
         }
 
         return otherPerson != null
-                && otherPerson.getPhone().equals(getPhone());
+                && otherPerson.getName().equals(getName());
     }
 
     /**
