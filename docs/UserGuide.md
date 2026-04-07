@@ -291,10 +291,12 @@ Format: `cmplist [/c COMPANY_NAME]`
 
 Example:
 * `cmplist`
+
 <img width="738" height="601" alt="List all companies in HitList" src="images/ug/Cmplist.png" />
 
 * `cmplist /c Google Inc.`
-<img width="738" height="601" alt="List details of company Google in HitList" src="images/ug/Cmplist_Google.png" />
+
+* <img width="738" height="601" alt="List details of company Google in HitList" src="images/ug/Cmplist_Google.png" />
 
 ### Adding a role to a company : `roleadd`
 
