@@ -31,7 +31,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 <img src="images/c4rr0t02.png" width="200px">
 
-[[homepage](sherlena.c4rr0ting.com)]
+[[homepage](https://sherlena.c4rr0ting.com)]
 [[github](https://github.com/C4RR0T02)]
 
 * Role: Developer
