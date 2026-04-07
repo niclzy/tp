@@ -8,7 +8,7 @@ pageNav: 3
 
 HitList is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, HitList can get your contact management tasks done faster than traditional GUI apps.
 
-HitList is targeted at headhunters who need to manage a large number of contacts and companies, but it can be used by anyone who needs to manage their contacts efficiently.
+HitList is targeted towards recruiters and headhunters who need to manage a large number of contacts and companies, but it can be used by anyone who needs to manage their contacts efficiently.
 
 --------------------------------------------------------------------------------------------------------------------
 
