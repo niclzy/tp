@@ -60,8 +60,8 @@ class JsonAdaptedCompany {
      */
     public JsonAdaptedCompany(Company source) {
         // Fix: Use toString() method instead of directly accessing private field
-        name = source.getName().toString();
-        description = source.getDescription().toString();
+        name = source.getCompanyName().toString();
+        description = source.getCompanyDescription().toString();
         roles.addAll(source.getUniqueRoleList().asUnmodifiableObservableList().stream()
                 .map(JsonAdaptedRole::new)
                 .collect(Collectors.toList()));

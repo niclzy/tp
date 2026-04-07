@@ -6,6 +6,7 @@ import static hitlist.ui.UiPaneVisibility.SHOW_COMPANY_LIST;
 import static hitlist.ui.UiPaneVisibility.SHOW_ROLE_LIST;
 import static java.util.Objects.requireNonNull;
 
+import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.model.Model;
 import hitlist.model.company.CompanyName;
 
@@ -17,16 +18,15 @@ public class ListCompanyCommand extends Command {
     public static final String COMMAND_WORD = "cmplist";
 
     public static final String MESSAGE_SUCCESS = "Listed company: %1$s";
-
     public static final String DEFAULT_MESSAGE_SUCCESS = "Listed all companies";
-
     public static final String MESSAGE_NO_COMPANY_FOUND = "No company found with the name: %1$s";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists the company details of the company that matches"
-            + " the searched company. If no company is searched, lists all companies\n"
-            + "Parameters: " + "[" + PREFIX_COMPANY + " COMPANY_NAME]\n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_COMPANY + " Google\n"
-            + "Example: " + COMMAND_WORD;
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Lists all companies, or lists the roles of a specified company.\n"
+            + "Parameters: [" + PREFIX_COMPANY + " COMPANY_NAME]\n"
+            + "Examples:\n"
+            + COMMAND_WORD + "\n"
+            + COMMAND_WORD + " " + PREFIX_COMPANY + " Google";
 
     private final CompanyName name;
 
@@ -34,13 +34,13 @@ public class ListCompanyCommand extends Command {
      * Creates a ListCompanyCommand to list all companies.
      */
     public ListCompanyCommand() {
-        // No-argument constructor for listing all companies
         this.name = null;
     }
 
     /**
      * Creates a ListCompanyCommand to list the specified company.
-     * @param name
+     *
+     * @param name The company name to list roles for.
      */
     public ListCompanyCommand(CompanyName name) {
         requireNonNull(name);
@@ -52,7 +52,7 @@ public class ListCompanyCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         if (isListAllCompanies()) {
             model.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
@@ -61,7 +61,7 @@ public class ListCompanyCommand extends Command {
             model.updateRoleList(name);
             return new CommandResult(String.format(MESSAGE_SUCCESS, name), SHOW_ROLE_LIST);
         } else {
-            return new CommandResult(String.format(MESSAGE_NO_COMPANY_FOUND, name), SHOW_COMPANY_LIST);
+            throw new CommandException(String.format(MESSAGE_NO_COMPANY_FOUND, name));
         }
     }
 }

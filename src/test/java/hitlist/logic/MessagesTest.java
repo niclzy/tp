@@ -26,7 +26,6 @@ public class MessagesTest {
     @Test
     public void getErrorMessageForDuplicatePrefixes_singlePrefix_success() {
         String message = Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME);
-
         assertTrue(message.contains("Multiple values specified for the following single-valued field(s):"));
         assertTrue(message.contains(PREFIX_NAME.toString()));
     }
@@ -34,7 +33,6 @@ public class MessagesTest {
     @Test
     public void getErrorMessageForDuplicatePrefixes_multiplePrefixes_success() {
         String message = Messages.getErrorMessageForDuplicatePrefixes(PREFIX_COMPANY, PREFIX_COMPANY_DESC);
-
         assertTrue(message.contains(PREFIX_COMPANY.toString()));
         assertTrue(message.contains(PREFIX_COMPANY_DESC.toString()));
     }
@@ -49,7 +47,6 @@ public class MessagesTest {
                 .build();
 
         String formatted = Messages.format(person);
-
         assertTrue(formatted.contains("Amy Bee"));
         assertTrue(formatted.contains("88888888"));
         assertTrue(formatted.contains("amy@example.com"));
@@ -59,18 +56,14 @@ public class MessagesTest {
     @Test
     public void formatGroup_validGroup_success() {
         Group group = new Group(new GroupName("Students"));
-
         String formatted = Messages.formatGroup(group);
-
         assertTrue(formatted.contains("Students"));
     }
 
     @Test
     public void formatCompany_validCompany_success() {
         Company company = new Company(new CompanyName("Google"), new CompanyDescription("Tech company"));
-
         String formatted = Messages.formatCompany(company);
-
         assertTrue(formatted.contains("Google"));
         assertTrue(formatted.contains("Tech company"));
     }
@@ -78,11 +71,9 @@ public class MessagesTest {
     @Test
     public void formatCompany_exactOutput_success() {
         Company company = new Company(new CompanyName("Meta"), new CompanyDescription("Social platform"));
-
         String formatted = Messages.formatCompany(company);
-
-        String expectedStart = "Name: Meta; Description: Social platform";
-        assertEquals(expectedStart, formatted);
+        String expected = "Name: Meta\nDescription: Social platform";
+        assertEquals(expected, formatted);
     }
 
     @Test
@@ -93,7 +84,6 @@ public class MessagesTest {
                 .build();
 
         String formatted = Messages.formatCompanyRole(role);
-
         assertTrue(formatted.contains("Software Engineer"));
         assertTrue(formatted.contains("Develops software"));
     }
@@ -106,8 +96,7 @@ public class MessagesTest {
                 .build();
 
         String formatted = Messages.formatCompanyRole(role);
-
-        String expected = "Role: Product Manager; Description: Manages product roadmap";
+        String expected = "Role: Product Manager\nDescription: Manages product roadmap";
         assertEquals(expected, formatted);
     }
 }

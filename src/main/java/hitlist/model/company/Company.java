@@ -13,34 +13,34 @@ import hitlist.model.company.role.UniqueRoleList;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Company {
-    private final CompanyName name;
-    private final CompanyDescription description;
+    public final CompanyName companyName;
+    public final CompanyDescription companyDescription;
     private final UniqueRoleList uniqueRoleList;
 
     /**
      * Constructs a {@code Company} with the given name and description.
      *
-     * @param name The name of the company.
-     * @param description The description of the company.
+     * @param companyName The name of the company.
+     * @param companyDescription The description of the company.
      */
-    public Company(CompanyName name, CompanyDescription description) {
-        requireAllNonNull(name, description);
-        this.name = name;
-        this.description = description;
+    public Company(CompanyName companyName, CompanyDescription companyDescription) {
+        requireAllNonNull(companyName, companyDescription);
+        this.companyName = companyName;
+        this.companyDescription = companyDescription;
         this.uniqueRoleList = new UniqueRoleList();
     }
 
     /**
      * Constructs a {@code Company} with the given name, description and list of roles.
      *
-     * @param name The name of the company.
-     * @param description The description of the company.
+     * @param companyName The name of the company.
+     * @param companyDescription The description of the company.
      * @param uniqueRoleList The list of roles associated with the company.
      */
-    public Company(CompanyName name, CompanyDescription description, UniqueRoleList uniqueRoleList) {
-        requireAllNonNull(name, description, uniqueRoleList);
-        this.name = name;
-        this.description = description;
+    public Company(CompanyName companyName, CompanyDescription companyDescription, UniqueRoleList uniqueRoleList) {
+        requireAllNonNull(companyName, companyDescription, uniqueRoleList);
+        this.companyName = companyName;
+        this.companyDescription = companyDescription;
         this.uniqueRoleList = uniqueRoleList;
     }
 
@@ -49,8 +49,8 @@ public class Company {
      *
      * @return The name of the company.
      */
-    public CompanyName getName() {
-        return this.name;
+    public CompanyName getCompanyName() {
+        return this.companyName;
     }
 
     /**
@@ -58,8 +58,8 @@ public class Company {
      *
      * @return The description of the company.
      */
-    public CompanyDescription getDescription() {
-        return this.description;
+    public CompanyDescription getCompanyDescription() {
+        return this.companyDescription;
     }
 
     /**
@@ -132,7 +132,7 @@ public class Company {
         }
 
         return otherCompany != null
-                && this.name.equals(otherCompany.name);
+                && this.companyName.equals(otherCompany.companyName);
     }
 
     @Override
@@ -146,18 +146,23 @@ public class Company {
         }
 
         Company otherCompany = (Company) other;
-        return this.name.equals(otherCompany.name)
-                && this.description.equals(otherCompany.description)
+        return this.companyName.equals(otherCompany.companyName)
+                && this.companyDescription.equals(otherCompany.companyDescription)
                 && this.uniqueRoleList.equals(otherCompany.uniqueRoleList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, uniqueRoleList);
+        return Objects.hash(companyName, companyDescription, uniqueRoleList);
     }
 
     @Override
     public String toString() {
-        return "companyName=" + name + ", companyDescription=" + description + ", roles=" + uniqueRoleList;
+        return "companyName="
+                + companyName
+                + ", companyDescription="
+                + companyDescription
+                + ", roles="
+                + uniqueRoleList;
     }
 }

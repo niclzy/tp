@@ -20,7 +20,7 @@ public class CompanyName {
      */
     public static final String VALIDATION_REGEX = "^[^\\s/][^/\\v]{1,29}$";
 
-    private final String companyName;
+    public final String companyName;
 
     /**
      * Constructs a {@code CompanyName}.

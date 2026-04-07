@@ -44,8 +44,8 @@ public class CompanyCard extends UiPart<Region> {
         this.displayedIndex = displayedIndex;
 
         id.setText(displayedIndex + ". ");
-        name.setText(company.getName().toString());
-        description.setText(company.getDescription().toString());
+        name.setText(company.getCompanyName().toString());
+        description.setText(company.getCompanyDescription().toString());
 
         UniqueRoleList roleList = company.getUniqueRoleList();
 

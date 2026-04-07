@@ -54,7 +54,7 @@ public class DeleteCompanyCommandTest {
     @Test
     public void execute_validCompanyName_success() throws Exception {
         Company companyToDelete = GOOGLE;
-        DeleteCompanyCommand deleteCompanyCommand = new DeleteCompanyCommand(companyToDelete.getName());
+        DeleteCompanyCommand deleteCompanyCommand = new DeleteCompanyCommand(companyToDelete.getCompanyName());
 
         String expectedMessage = String.format(DeleteCompanyCommand.MESSAGE_DELETE_COMPANY_SUCCESS,
                 Messages.formatCompany(companyToDelete));
@@ -77,14 +77,14 @@ public class DeleteCompanyCommandTest {
 
     @Test
     public void execute_nullModel_throwsNullPointerException() {
-        DeleteCompanyCommand deleteCompanyCommand = new DeleteCompanyCommand(GOOGLE.getName());
+        DeleteCompanyCommand deleteCompanyCommand = new DeleteCompanyCommand(GOOGLE.getCompanyName());
         assertThrows(NullPointerException.class, () -> deleteCompanyCommand.execute(null));
     }
 
     @Test
     public void execute_deleteMicrosoftCompany_success() throws Exception {
         Company companyToDelete = MICROSOFT;
-        DeleteCompanyCommand deleteCompanyCommand = new DeleteCompanyCommand(companyToDelete.getName());
+        DeleteCompanyCommand deleteCompanyCommand = new DeleteCompanyCommand(companyToDelete.getCompanyName());
 
         String expectedMessage = String.format(DeleteCompanyCommand.MESSAGE_DELETE_COMPANY_SUCCESS,
                 Messages.formatCompany(companyToDelete));
@@ -98,7 +98,7 @@ public class DeleteCompanyCommandTest {
     @Test
     public void execute_deleteDellCompany_success() throws Exception {
         Company companyToDelete = DELL;
-        DeleteCompanyCommand deleteCompanyCommand = new DeleteCompanyCommand(companyToDelete.getName());
+        DeleteCompanyCommand deleteCompanyCommand = new DeleteCompanyCommand(companyToDelete.getCompanyName());
 
         String expectedMessage = String.format(DeleteCompanyCommand.MESSAGE_DELETE_COMPANY_SUCCESS,
                 Messages.formatCompany(companyToDelete));
@@ -112,7 +112,7 @@ public class DeleteCompanyCommandTest {
     @Test
     public void execute_deleteMetaCompany_success() throws Exception {
         Company companyToDelete = META;
-        DeleteCompanyCommand deleteCompanyCommand = new DeleteCompanyCommand(companyToDelete.getName());
+        DeleteCompanyCommand deleteCompanyCommand = new DeleteCompanyCommand(companyToDelete.getCompanyName());
 
         String expectedMessage = String.format(DeleteCompanyCommand.MESSAGE_DELETE_COMPANY_SUCCESS,
                 Messages.formatCompany(companyToDelete));
@@ -146,8 +146,8 @@ public class DeleteCompanyCommandTest {
 
     @Test
     public void equals() {
-        CompanyName companyNameGoogle = GOOGLE.getName();
-        CompanyName companyNameMicrosoft = MICROSOFT.getName();
+        CompanyName companyNameGoogle = GOOGLE.getCompanyName();
+        CompanyName companyNameMicrosoft = MICROSOFT.getCompanyName();
 
         DeleteCompanyCommand deleteGoogleCommand = new DeleteCompanyCommand(companyNameGoogle);
         DeleteCompanyCommand deleteMicrosoftCommand = new DeleteCompanyCommand(companyNameMicrosoft);
@@ -171,7 +171,7 @@ public class DeleteCompanyCommandTest {
 
     @Test
     public void toStringMethod() {
-        CompanyName companyName = GOOGLE.getName();
+        CompanyName companyName = GOOGLE.getCompanyName();
         DeleteCompanyCommand deleteCompanyCommand = new DeleteCompanyCommand(companyName);
         String expectedString = DeleteCompanyCommand.class.getCanonicalName()
                 + "{companyName=" + companyName + "}";
@@ -212,7 +212,7 @@ public class DeleteCompanyCommandTest {
         @Override
         public Optional<Company> getCompany(CompanyName companyName) {
             requireNonNull(companyName);
-            if (this.company.getName().equals(companyName)) {
+            if (this.company.getCompanyName().equals(companyName)) {
                 return Optional.of(this.company);
             }
             return Optional.empty();

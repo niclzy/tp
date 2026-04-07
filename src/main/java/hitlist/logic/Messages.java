@@ -20,6 +20,8 @@ public class Messages {
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
     public static final String MESSAGE_PERSON_NOT_FOUND = "The contact %1$s cannot be found";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
+    public static final String MESSAGE_COMPANY_LISTED_OVERVIEW = "%1$d companies listed!";
+    public static final String MESSAGE_NO_COMPANIES_FOUND = "No companies found!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
 
@@ -70,23 +72,23 @@ public class Messages {
     public static String formatCompany(Company company) {
         final StringBuilder builder = new StringBuilder();
         builder.append("Name: ")
-                .append(company.getName())
-                .append("; Description: ")
-                .append(company.getDescription());
+                .append(company.getCompanyName())
+                .append("\nDescription: ")
+                .append(company.getCompanyDescription());
         return builder.toString();
     }
 
     /**
-    * Formats the {@code role} for display to the user.
-    *
-    * @param role The role to be formatted.
-    * @return A string representation of the role, including its name and description.
-    */
+     * Formats the {@code role} for display to the user.
+     *
+     * @param role The role to be formatted.
+     * @return A string representation of the role, including its name and description.
+     */
     public static String formatCompanyRole(Role role) {
         final StringBuilder builder = new StringBuilder();
         builder.append("Role: ")
                 .append(role.getRoleName())
-                .append("; Description: ")
+                .append("\nDescription: ")
                 .append(role.getRoleDescription());
         return builder.toString();
     }

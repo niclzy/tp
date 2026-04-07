@@ -26,11 +26,13 @@ import hitlist.logic.commands.EditCommand;
 import hitlist.logic.commands.EditCommand.EditPersonDescriptor;
 import hitlist.logic.commands.ExitCommand;
 import hitlist.logic.commands.FindCommand;
+import hitlist.logic.commands.FindCompanyCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
 import hitlist.logic.commands.ListCompanyCommand;
 import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.company.Company;
+import hitlist.model.company.CompanyMatchesFindPredicate;
 import hitlist.model.company.role.Role;
 import hitlist.model.company.role.RoleDescription;
 import hitlist.model.company.role.RoleName;
@@ -128,7 +130,17 @@ public class HitListParserTest {
 
         DeleteCompanyCommand commanddel =
                 (DeleteCompanyCommand) parser.parseCommand(CompanyUtil.getDeleteCompanyCommand(company));
-        assertEquals(new DeleteCompanyCommand(company.getName()), commanddel);
+        assertEquals(new DeleteCompanyCommand(company.getCompanyName()), commanddel);
+    }
+
+    @Test
+    public void parseCommand_findCompany() throws Exception {
+        List<String> keywords = Arrays.asList("foo", "bar", "baz");
+        FindCompanyCommand command = (FindCompanyCommand) parser.parseCommand(
+                FindCompanyCommand.COMMAND_WORD
+                        + " "
+                        + keywords.stream().collect(Collectors.joining(" ")));
+        assertEquals(new FindCompanyCommand(new CompanyMatchesFindPredicate(keywords)), command);
     }
 
     @Test
@@ -141,7 +153,7 @@ public class HitListParserTest {
             new Role(
                 new RoleName("Software Engineer"),
                 new RoleDescription("Develops software")),
-                company.getName());
+                company.getCompanyName());
 
         assertEquals(expectedCommand, command);
     }

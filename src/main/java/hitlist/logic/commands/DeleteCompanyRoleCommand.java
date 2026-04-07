@@ -10,6 +10,7 @@ import java.util.List;
 
 import hitlist.commons.core.index.Index;
 import hitlist.commons.util.ToStringBuilder;
+import hitlist.logic.Messages;
 import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.model.Model;
 import hitlist.model.company.Company;
@@ -27,14 +28,14 @@ public class DeleteCompanyRoleCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes a role from a company profile.\n"
-            + "Parameters: (by name) " + PREFIX_ROLE + " ROLE_NAME "
-            + PREFIX_COMPANY + " COMPANY_NAME\n"
-            + "or (by index) INDEX " + PREFIX_COMPANY + " COMPANY_NAME\n"
-            + "Example 1: " + COMMAND_WORD + " " + PREFIX_ROLE + " Software Engineer "
-            + PREFIX_COMPANY + " Google\n"
-            + "Example 2: " + COMMAND_WORD + " 1 " + PREFIX_COMPANY + " Google";
+            + "Parameters:\n"
+            + "(by name) " + PREFIX_ROLE + " ROLE_NAME " + PREFIX_COMPANY + " COMPANY_NAME\n"
+            + "(by index) INDEX " + PREFIX_COMPANY + " COMPANY_NAME\n"
+            + "Examples:\n"
+            + COMMAND_WORD + " " + PREFIX_ROLE + " Software Engineer " + PREFIX_COMPANY + " Google\n"
+            + COMMAND_WORD + " 1 " + PREFIX_COMPANY + " Google";
 
-    public static final String MESSAGE_SUCCESS = "Deleted role: %1$s from company: %2$s";
+    public static final String MESSAGE_SUCCESS = "Deleted role from company: %2$s\n%1$s";
     public static final String MESSAGE_COMPANY_NOT_FOUND = "Company not found: %1$s";
     public static final String MESSAGE_ROLE_INDEX_OUT_OF_BOUNDS = "Invalid role index: %1$d. "
             + "Company %2$s has %3$d role(s).";
@@ -83,8 +84,9 @@ public class DeleteCompanyRoleCommand extends Command {
         company.getUniqueRoleList().remove(roleToDelete);
         model.updateRoleList(companyName);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS,
-                roleToDelete.getRoleName(), company.getName()), SHOW_ROLE_LIST);
+        return new CommandResult(
+                String.format(MESSAGE_SUCCESS, Messages.formatCompanyRole(roleToDelete), company.getCompanyName()),
+                SHOW_ROLE_LIST);
     }
 
     private Role deleteByIndex(Company company) throws CommandException {
@@ -93,7 +95,7 @@ public class DeleteCompanyRoleCommand extends Command {
 
         if (zeroBasedIndex >= roles.size()) {
             throw new CommandException(String.format(MESSAGE_ROLE_INDEX_OUT_OF_BOUNDS,
-                    roleIndex.getOneBased(), company.getName(), roles.size()));
+                    roleIndex.getOneBased(), company.getCompanyName(), roles.size()));
         }
 
         return roles.get(zeroBasedIndex);
@@ -105,7 +107,7 @@ public class DeleteCompanyRoleCommand extends Command {
                 .filter(role -> role.getRoleName().equals(roleName))
                 .findFirst()
                 .orElseThrow(() -> new CommandException(
-                        String.format(MESSAGE_ROLE_NAME_NOT_FOUND, roleName, company.getName())
+                        String.format(MESSAGE_ROLE_NAME_NOT_FOUND, roleName, company.getCompanyName())
                 ));
     }
 

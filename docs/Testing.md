@@ -18,12 +18,11 @@ There are two ways to run tests.
 * **Method 1: Using IntelliJ JUnit test runner**
   * To run all tests, right-click on the `src/test/java` folder and choose `Run 'All Tests'`
   * To run a subset of tests, you can right-click on a test package,
-    test class, or a test and choose `Run 'ABC'`
+    test class, or a test and choose `Run 'ABC'` where `ABC` is the name of the package/class/test you right-clicked on.
 * **Method 2: Using Gradle**
   * Open a console and run the command `gradlew clean test` (Mac/Linux: `./gradlew clean test`)
 
 <box type="info" seamless>
-
 **Link**: Read [this Gradle Tutorial from the se-edu/guides](https://se-education.org/guides/tutorials/gradle.html) to learn more about using Gradle.
 </box>
 

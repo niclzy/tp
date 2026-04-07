@@ -5,10 +5,16 @@
 
 # HitList
 
-[![CI Status](https://github.com/se-edu/addressbook-level3/workflows/Java%20CI/badge.svg)](https://github.com/AY2526S2-CS2103T-W11-2/tp/actions)
-[![codecov](https://codecov.io/gh/se-edu/addressbook-level3/branch/master/graph/badge.svg)](https://app.codecov.io/gh/AY2526S2-CS2103T-W11-2/tp)
+[![CI Status](https://github.com/AY2526S2-CS2103T-W11-2/tp/workflows/Java%20CI/badge.svg)](https://github.com/AY2526S2-CS2103T-W11-2/tp/actions)
+[![codecov](https://codecov.io/gh/AY2526S2-CS2103T-W11-2/tp/graph/badge.svg?token=Y8F23W06X3)](https://codecov.io/gh/AY2526S2-CS2103T-W11-2/tp)
 
-![Ui](images/Ui.png)
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <pic src="/images/Ui.png" alt="Ui"></pic>
+  </div>
+</div>
+
+<br>
 
 **HitList is a desktop application for managing your contact details.** While it has a GUI, most of the user interactions happen using a CLI (Command Line Interface).
 

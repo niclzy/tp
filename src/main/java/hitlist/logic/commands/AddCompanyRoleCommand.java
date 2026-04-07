@@ -8,6 +8,7 @@ import static hitlist.ui.UiPaneVisibility.SHOW_ROLE_LIST;
 import static java.util.Objects.requireNonNull;
 
 import hitlist.commons.util.ToStringBuilder;
+import hitlist.logic.Messages;
 import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.model.Model;
 import hitlist.model.company.CompanyName;
@@ -20,14 +21,18 @@ public class AddCompanyRoleCommand extends Command {
 
     public static final String COMMAND_WORD = "roleadd";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a company role to the company role list.\n"
-            + "Parameters: \n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a role to a company profile.\n"
+            + "Parameters: "
             + PREFIX_ROLE + " ROLE_NAME "
             + PREFIX_ROLE_DESC + " ROLE_DESCRIPTION "
             + PREFIX_COMPANY + " COMPANY_NAME\n"
-            + "Example: " + COMMAND_WORD + " /r Google Software Engineer /d Develops software for Google /c Google";
+            + "Example:\n"
+            + COMMAND_WORD + " "
+            + PREFIX_ROLE + " Software Engineer "
+            + PREFIX_ROLE_DESC + " Develops software for Google "
+            + PREFIX_COMPANY + " Google";
 
-    public static final String MESSAGE_SUCCESS = "New company role added: %1$s";
+    public static final String MESSAGE_SUCCESS = "New company role added:\n%1$s";
     public static final String MESSAGE_DUPLICATE_COMPANY_ROLE = "The company role %1$s already exists";
 
     private final Role role;
@@ -57,7 +62,7 @@ public class AddCompanyRoleCommand extends Command {
         model.addCompanyRole(companyName, role);
         model.updateRoleList(companyName);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, role.getRoleName()), SHOW_ROLE_LIST);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.formatCompanyRole(role)), SHOW_ROLE_LIST);
     }
 
     @Override
