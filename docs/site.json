@@ -2,7 +2,7 @@
   "baseUrl": "",
   "titlePrefix": "",
   "titleSuffix": "HitList",
-  "faviconPath": "images/HitListLogo.png",
+  "faviconPath": "/images/HitListLogo.png",
   "style": {
     "codeTheme": "light"
   },
