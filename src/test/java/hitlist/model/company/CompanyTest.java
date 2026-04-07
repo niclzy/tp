@@ -76,13 +76,13 @@ public class CompanyTest {
     @Test
     public void getName() {
         Company company = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build();
-        assertEquals(company.getName(), new CompanyName("Google Inc."));
+        assertEquals(company.getCompanyName(), new CompanyName("Google Inc."));
     }
 
     @Test
     public void getDescription() {
         Company company = new CompanyBuilder().withDescription("Valid Company Description").build();
-        assertEquals(company.getDescription(), new CompanyDescription("Valid Company Description"));
+        assertEquals(company.getCompanyDescription(), new CompanyDescription("Valid Company Description"));
     }
 
     @Test

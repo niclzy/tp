@@ -23,8 +23,8 @@ public class JsonAdaptedCompanyTest {
     private static final String INVALID_DESCRIPTION = " "; // blank - INVALID
     private static final String INVALID_DESCRIPTION_SLASH = "Description with / slash"; // contains slash - INVALID
 
-    private static final String VALID_NAME = GOOGLE.getName().toString();
-    private static final String VALID_DESCRIPTION = GOOGLE.getDescription().toString();
+    private static final String VALID_NAME = GOOGLE.getCompanyName().toString();
+    private static final String VALID_DESCRIPTION = GOOGLE.getCompanyDescription().toString();
     private static final List<JsonAdaptedRole> VALID_ROLES = GOOGLE.getUniqueRoleList()
             .asUnmodifiableObservableList().stream()
             .map(JsonAdaptedRole::new)

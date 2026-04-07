@@ -118,5 +118,4 @@ public class SampleDataUtil {
 
         return sampleHitList;
     }
-
 }

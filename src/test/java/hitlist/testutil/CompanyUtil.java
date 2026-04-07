@@ -46,7 +46,7 @@ public class CompanyUtil {
         sb.append(AddCompanyRoleCommand.COMMAND_WORD).append(" ")
                 .append(PREFIX_ROLE).append("Software Engineer").append(" ")
                 .append(PREFIX_ROLE_DESC).append("Develops software").append(" ")
-                .append(PREFIX_COMPANY).append(company.getName());
+                .append(PREFIX_COMPANY).append(company.getCompanyName());
         return sb.toString();
     }
 
@@ -59,10 +59,10 @@ public class CompanyUtil {
     public static String getCompanyDetails(Company company) {
         StringBuilder sb = new StringBuilder();
         sb.append(PREFIX_COMPANY)
-                .append(company.getName())
+                .append(company.getCompanyName())
                 .append(" ")
                 .append(PREFIX_COMPANY_DESC)
-                .append(company.getDescription());
+                .append(company.getCompanyDescription());
         return sb.toString();
     }
 
@@ -75,7 +75,7 @@ public class CompanyUtil {
     public static String getCompanyNameDetails(Company company) {
         StringBuilder sb = new StringBuilder();
         sb.append(PREFIX_COMPANY)
-                .append(company.getName());
+                .append(company.getCompanyName());
         return sb.toString();
     }
 }

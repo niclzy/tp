@@ -248,7 +248,7 @@ public class ModelManagerTest {
     public void getCompany_companyExists_returnsCompany() {
         modelManager.addCompany(GOOGLE);
 
-        Optional<Company> result = modelManager.getCompany(GOOGLE.getName());
+        Optional<Company> result = modelManager.getCompany(GOOGLE.getCompanyName());
 
         assertTrue(result.isPresent());
         assertEquals(GOOGLE, result.get());
@@ -287,22 +287,22 @@ public class ModelManagerTest {
 
     @Test
     public void hasCompanyRole_nullRole_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> modelManager.hasCompanyRole(GOOGLE.getName(), null));
+        assertThrows(NullPointerException.class, () -> modelManager.hasCompanyRole(GOOGLE.getCompanyName(), null));
     }
 
     @Test
     public void hasCompanyRole_roleNotInCompany_returnsFalse() {
         modelManager.addCompany(GOOGLE);
         Role role = new RoleBuilder().withName("MM_HasRole_NotInCompany").withDescription("desc").build();
-        assertFalse(modelManager.hasCompanyRole(GOOGLE.getName(), role));
+        assertFalse(modelManager.hasCompanyRole(GOOGLE.getCompanyName(), role));
     }
 
     @Test
     public void hasCompanyRole_roleInCompany_returnsTrue() {
         modelManager.addCompany(GOOGLE);
         Role role = new RoleBuilder().withName("MM_HasRole_InCompany").withDescription("desc").build();
-        modelManager.addCompanyRole(GOOGLE.getName(), role);
-        assertTrue(modelManager.hasCompanyRole(GOOGLE.getName(), role));
+        modelManager.addCompanyRole(GOOGLE.getCompanyName(), role);
+        assertTrue(modelManager.hasCompanyRole(GOOGLE.getCompanyName(), role));
     }
 
     @Test
@@ -314,7 +314,7 @@ public class ModelManagerTest {
     @Test
     public void addCompanyRole_nullRole_throwsNullPointerException() {
         modelManager.addCompany(GOOGLE);
-        assertThrows(NullPointerException.class, () -> modelManager.addCompanyRole(GOOGLE.getName(), null));
+        assertThrows(NullPointerException.class, () -> modelManager.addCompanyRole(GOOGLE.getCompanyName(), null));
     }
 
     @Test
@@ -322,9 +322,9 @@ public class ModelManagerTest {
         modelManager.addCompany(GOOGLE);
         Role role = new RoleBuilder().withName("MM_AddRole_Success").withDescription("desc").build();
 
-        modelManager.addCompanyRole(GOOGLE.getName(), role);
+        modelManager.addCompanyRole(GOOGLE.getCompanyName(), role);
 
-        assertTrue(modelManager.hasCompanyRole(GOOGLE.getName(), role));
+        assertTrue(modelManager.hasCompanyRole(GOOGLE.getCompanyName(), role));
     }
 
     @Test
@@ -336,16 +336,16 @@ public class ModelManagerTest {
     @Test
     public void getCompanyRole_nullRoleName_throwsNullPointerException() {
         modelManager.addCompany(GOOGLE);
-        assertThrows(NullPointerException.class, () -> modelManager.getCompanyRole(GOOGLE.getName(), null));
+        assertThrows(NullPointerException.class, () -> modelManager.getCompanyRole(GOOGLE.getCompanyName(), null));
     }
 
     @Test
     public void getCompanyRole_roleExists_returnsRole() {
         modelManager.addCompany(GOOGLE);
         Role role = new RoleBuilder().withName("MM_GetRole_Exists").withDescription("desc").build();
-        modelManager.addCompanyRole(GOOGLE.getName(), role);
+        modelManager.addCompanyRole(GOOGLE.getCompanyName(), role);
 
-        Optional<Role> result = modelManager.getCompanyRole(GOOGLE.getName(), "MM_GetRole_Exists");
+        Optional<Role> result = modelManager.getCompanyRole(GOOGLE.getCompanyName(), "MM_GetRole_Exists");
 
         assertTrue(result.isPresent());
         assertEquals(role, result.get());
@@ -355,9 +355,9 @@ public class ModelManagerTest {
     public void getCompanyRole_roleDoesNotExist_returnsEmptyOptional() {
         modelManager.addCompany(GOOGLE);
         Role existingRole = new RoleBuilder().withName("MM_GetRole_Base").withDescription("desc").build();
-        modelManager.addCompanyRole(GOOGLE.getName(), existingRole);
+        modelManager.addCompanyRole(GOOGLE.getCompanyName(), existingRole);
 
-        Optional<Role> result = modelManager.getCompanyRole(GOOGLE.getName(), "MM_GetRole_Missing");
+        Optional<Role> result = modelManager.getCompanyRole(GOOGLE.getCompanyName(), "MM_GetRole_Missing");
 
         assertFalse(result.isPresent());
     }
@@ -381,7 +381,7 @@ public class ModelManagerTest {
         modelManager.addCompany(GOOGLE);
         Role edited = new RoleBuilder().withName("MM_SetRole_NullTarget_Edited").withDescription("desc").build();
         assertThrows(NullPointerException.class, ()
-                -> modelManager.setCompanyRole(GOOGLE.getName(), null, edited));
+                -> modelManager.setCompanyRole(GOOGLE.getCompanyName(), null, edited));
     }
 
     @Test
@@ -389,7 +389,7 @@ public class ModelManagerTest {
         modelManager.addCompany(GOOGLE);
         Role target = new RoleBuilder().withName("MM_SetRole_NullEdited_Target").withDescription("desc").build();
         assertThrows(NullPointerException.class, ()
-                -> modelManager.setCompanyRole(GOOGLE.getName(), target, null));
+                -> modelManager.setCompanyRole(GOOGLE.getCompanyName(), target, null));
     }
 
     @Test
@@ -397,12 +397,12 @@ public class ModelManagerTest {
         modelManager.addCompany(GOOGLE);
         Role target = new RoleBuilder().withName("MM_SetRole_Target").withDescription("desc").build();
         Role edited = new RoleBuilder().withName("MM_SetRole_Edited").withDescription("desc").build();
-        modelManager.addCompanyRole(GOOGLE.getName(), target);
+        modelManager.addCompanyRole(GOOGLE.getCompanyName(), target);
 
-        modelManager.setCompanyRole(GOOGLE.getName(), target, edited);
+        modelManager.setCompanyRole(GOOGLE.getCompanyName(), target, edited);
 
-        assertFalse(modelManager.hasCompanyRole(GOOGLE.getName(), target));
-        assertTrue(modelManager.hasCompanyRole(GOOGLE.getName(), edited));
+        assertFalse(modelManager.hasCompanyRole(GOOGLE.getCompanyName(), target));
+        assertTrue(modelManager.hasCompanyRole(GOOGLE.getCompanyName(), edited));
     }
 
     @Test
@@ -412,7 +412,7 @@ public class ModelManagerTest {
         Role edited = new RoleBuilder().withName("MM_SetRole_TargetMissing_Edited").withDescription("desc").build();
 
         assertThrows(hitlist.model.company.role.exceptions.RoleNotFoundException.class, ()
-                -> modelManager.setCompanyRole(GOOGLE.getName(), missingTarget, edited));
+                -> modelManager.setCompanyRole(GOOGLE.getCompanyName(), missingTarget, edited));
     }
 
     @Test
@@ -424,11 +424,11 @@ public class ModelManagerTest {
                 .withDescription("another")
                 .build();
 
-        modelManager.addCompanyRole(GOOGLE.getName(), target);
-        modelManager.addCompanyRole(GOOGLE.getName(), exists);
+        modelManager.addCompanyRole(GOOGLE.getCompanyName(), target);
+        modelManager.addCompanyRole(GOOGLE.getCompanyName(), exists);
 
         assertThrows(hitlist.model.company.role.exceptions.DuplicateRoleException.class, ()
-                -> modelManager.setCompanyRole(GOOGLE.getName(), target, editedSameIdentity));
+                -> modelManager.setCompanyRole(GOOGLE.getCompanyName(), target, editedSameIdentity));
     }
 
     @Test
@@ -449,18 +449,18 @@ public class ModelManagerTest {
     @Test
     public void deleteCompanyRole_nullRole_throwsNullPointerException() {
         modelManager.addCompany(GOOGLE);
-        assertThrows(NullPointerException.class, () -> modelManager.deleteCompanyRole(GOOGLE.getName(), null));
+        assertThrows(NullPointerException.class, () -> modelManager.deleteCompanyRole(GOOGLE.getCompanyName(), null));
     }
 
     @Test
     public void deleteCompanyRole_validParameters_success() {
         modelManager.addCompany(GOOGLE);
         Role role = new RoleBuilder().withName("MM_DeleteRole_Success").withDescription("desc").build();
-        modelManager.addCompanyRole(GOOGLE.getName(), role);
+        modelManager.addCompanyRole(GOOGLE.getCompanyName(), role);
 
-        modelManager.deleteCompanyRole(GOOGLE.getName(), role);
+        modelManager.deleteCompanyRole(GOOGLE.getCompanyName(), role);
 
-        assertFalse(modelManager.hasCompanyRole(GOOGLE.getName(), role));
+        assertFalse(modelManager.hasCompanyRole(GOOGLE.getCompanyName(), role));
     }
 
     @Test
@@ -491,7 +491,7 @@ public class ModelManagerTest {
         modelManager.addCompany(GOOGLE);
         modelManager.addCompany(META);
 
-        modelManager.updateFilteredCompanyList(company -> company.getName().toString().contains("Google"));
+        modelManager.updateFilteredCompanyList(company -> company.getCompanyName().toString().contains("Google"));
 
         assertEquals(1, modelManager.getFilteredCompanyList().size());
         assertEquals(GOOGLE, modelManager.getFilteredCompanyList().get(0));
@@ -502,10 +502,10 @@ public class ModelManagerTest {
         modelManager.addCompany(GOOGLE);
 
         Role role = new RoleBuilder().withName("Engineer").withDescription("desc").build();
-        modelManager.addCompanyRole(GOOGLE.getName(), role);
+        modelManager.addCompanyRole(GOOGLE.getCompanyName(), role);
 
         // populate roleList initially
-        modelManager.updateRoleList(GOOGLE.getName());
+        modelManager.updateRoleList(GOOGLE.getCompanyName());
         assertFalse(modelManager.getRoleList().isEmpty());
 
         // use a non-existing company

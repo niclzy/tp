@@ -233,22 +233,22 @@ public class HitListTest {
     @Test
     public void hasCompanyRole_nullRole_throwsNullPointerException() {
         hitList.addCompany(GOOGLE);
-        assertThrows(NullPointerException.class, () -> hitList.hasCompanyRole(GOOGLE.getName(), null));
+        assertThrows(NullPointerException.class, () -> hitList.hasCompanyRole(GOOGLE.getCompanyName(), null));
     }
 
     @Test
     public void hasCompanyRole_roleNotInCompany_returnsFalse() {
         Role role = new RoleBuilder().withName("Role_NotInCompany_Unique").withDescription("desc").build();
         hitList.addCompany(GOOGLE);
-        assertFalse(hitList.hasCompanyRole(GOOGLE.getName(), role));
+        assertFalse(hitList.hasCompanyRole(GOOGLE.getCompanyName(), role));
     }
 
     @Test
     public void hasCompanyRole_roleInCompany_returnsTrue() {
         Role role = new RoleBuilder().withName("Role_InCompany_Unique").withDescription("desc").build();
         hitList.addCompany(GOOGLE);
-        hitList.addCompanyRole(GOOGLE.getName(), role);
-        assertTrue(hitList.hasCompanyRole(GOOGLE.getName(), role));
+        hitList.addCompanyRole(GOOGLE.getCompanyName(), role);
+        assertTrue(hitList.hasCompanyRole(GOOGLE.getCompanyName(), role));
     }
 
     @Test
@@ -261,15 +261,15 @@ public class HitListTest {
     @Test
     public void addCompanyRole_nullRole_throwsNullPointerException() {
         hitList.addCompany(GOOGLE);
-        assertThrows(NullPointerException.class, () -> hitList.addCompanyRole(GOOGLE.getName(), null));
+        assertThrows(NullPointerException.class, () -> hitList.addCompanyRole(GOOGLE.getCompanyName(), null));
     }
 
     @Test
     public void addCompanyRole_validRole_success() {
         Role role = new RoleBuilder().withName("Role_AddValid_Unique").withDescription("desc").build();
         hitList.addCompany(GOOGLE);
-        hitList.addCompanyRole(GOOGLE.getName(), role);
-        assertTrue(hitList.hasCompanyRole(GOOGLE.getName(), role));
+        hitList.addCompanyRole(GOOGLE.getCompanyName(), role);
+        assertTrue(hitList.hasCompanyRole(GOOGLE.getCompanyName(), role));
     }
 
     @Test
@@ -342,10 +342,10 @@ public class HitListTest {
     public void addCompanyRole_duplicateRole_throwsDuplicateRoleException() {
         Role role = new RoleBuilder().withName("Role_AddDuplicate_Unique").withDescription("desc").build();
         hitList.addCompany(GOOGLE);
-        hitList.addCompanyRole(GOOGLE.getName(), role);
+        hitList.addCompanyRole(GOOGLE.getCompanyName(), role);
 
         assertThrows(hitlist.model.company.role.exceptions.DuplicateRoleException.class, ()
-                -> hitList.addCompanyRole(GOOGLE.getName(), role));
+                -> hitList.addCompanyRole(GOOGLE.getCompanyName(), role));
     }
 
     @Test
@@ -357,16 +357,16 @@ public class HitListTest {
     @Test
     public void getCompanyRole_nullRoleName_throwsNullPointerException() {
         hitList.addCompany(GOOGLE);
-        assertThrows(NullPointerException.class, () -> hitList.getCompanyRole(GOOGLE.getName(), null));
+        assertThrows(NullPointerException.class, () -> hitList.getCompanyRole(GOOGLE.getCompanyName(), null));
     }
 
     @Test
     public void getCompanyRole_roleExists_returnsRole() {
         Role role = new RoleBuilder().withName("Role_GetExists_Unique").withDescription("desc").build();
         hitList.addCompany(GOOGLE);
-        hitList.addCompanyRole(GOOGLE.getName(), role);
+        hitList.addCompanyRole(GOOGLE.getCompanyName(), role);
 
-        Optional<Role> result = hitList.getCompanyRole(GOOGLE.getName(), "Role_GetExists_Unique");
+        Optional<Role> result = hitList.getCompanyRole(GOOGLE.getCompanyName(), "Role_GetExists_Unique");
 
         assertTrue(result.isPresent());
         assertEquals(role, result.get());
@@ -376,9 +376,9 @@ public class HitListTest {
     public void getCompanyRole_roleDoesNotExist_returnsEmptyOptional() {
         Role existingRole = new RoleBuilder().withName("Role_GetMissing_Base").withDescription("desc").build();
         hitList.addCompany(GOOGLE);
-        hitList.addCompanyRole(GOOGLE.getName(), existingRole);
+        hitList.addCompanyRole(GOOGLE.getCompanyName(), existingRole);
 
-        Optional<Role> result = hitList.getCompanyRole(GOOGLE.getName(), "Role_Not_There");
+        Optional<Role> result = hitList.getCompanyRole(GOOGLE.getCompanyName(), "Role_Not_There");
 
         assertFalse(result.isPresent());
     }
@@ -395,14 +395,14 @@ public class HitListTest {
     public void setCompanyRole_nullTargetRole_throwsNullPointerException() {
         Role edited = new RoleBuilder().withName("Role_SetNullTarget_Edited").withDescription("desc").build();
         hitList.addCompany(GOOGLE);
-        assertThrows(NullPointerException.class, () -> hitList.setCompanyRole(GOOGLE.getName(), null, edited));
+        assertThrows(NullPointerException.class, () -> hitList.setCompanyRole(GOOGLE.getCompanyName(), null, edited));
     }
 
     @Test
     public void setCompanyRole_nullEditedRole_throwsNullPointerException() {
         Role target = new RoleBuilder().withName("Role_SetNullEdited_Target").withDescription("desc").build();
         hitList.addCompany(GOOGLE);
-        assertThrows(NullPointerException.class, () -> hitList.setCompanyRole(GOOGLE.getName(), target, null));
+        assertThrows(NullPointerException.class, () -> hitList.setCompanyRole(GOOGLE.getCompanyName(), target, null));
     }
 
     @Test
@@ -410,12 +410,12 @@ public class HitListTest {
         Role target = new RoleBuilder().withName("Role_SetValid_Target").withDescription("desc").build();
         Role edited = new RoleBuilder().withName("Role_SetValid_Edited").withDescription("desc").build();
         hitList.addCompany(GOOGLE);
-        hitList.addCompanyRole(GOOGLE.getName(), target);
+        hitList.addCompanyRole(GOOGLE.getCompanyName(), target);
 
-        hitList.setCompanyRole(GOOGLE.getName(), target, edited);
+        hitList.setCompanyRole(GOOGLE.getCompanyName(), target, edited);
 
-        assertFalse(hitList.hasCompanyRole(GOOGLE.getName(), target));
-        assertTrue(hitList.hasCompanyRole(GOOGLE.getName(), edited));
+        assertFalse(hitList.hasCompanyRole(GOOGLE.getCompanyName(), target));
+        assertTrue(hitList.hasCompanyRole(GOOGLE.getCompanyName(), edited));
     }
 
     @Test
@@ -425,7 +425,7 @@ public class HitListTest {
         hitList.addCompany(GOOGLE);
 
         assertThrows(hitlist.model.company.role.exceptions.RoleNotFoundException.class, ()
-                -> hitList.setCompanyRole(GOOGLE.getName(), target, edited));
+                -> hitList.setCompanyRole(GOOGLE.getCompanyName(), target, edited));
     }
 
     @Test
@@ -436,11 +436,11 @@ public class HitListTest {
                 new RoleBuilder().withName("Role_SetDup_Exists").withDescription("another desc").build();
 
         hitList.addCompany(GOOGLE);
-        hitList.addCompanyRole(GOOGLE.getName(), target);
-        hitList.addCompanyRole(GOOGLE.getName(), alreadyExists);
+        hitList.addCompanyRole(GOOGLE.getCompanyName(), target);
+        hitList.addCompanyRole(GOOGLE.getCompanyName(), alreadyExists);
 
         assertThrows(hitlist.model.company.role.exceptions.DuplicateRoleException.class, ()
-                -> hitList.setCompanyRole(GOOGLE.getName(), target, editedSameIdentityAsExisting));
+                -> hitList.setCompanyRole(GOOGLE.getCompanyName(), target, editedSameIdentityAsExisting));
     }
 
     @Test
@@ -453,18 +453,18 @@ public class HitListTest {
     @Test
     public void removeCompanyRole_nullRole_throwsNullPointerException() {
         hitList.addCompany(GOOGLE);
-        assertThrows(NullPointerException.class, () -> hitList.removeCompanyRole(GOOGLE.getName(), null));
+        assertThrows(NullPointerException.class, () -> hitList.removeCompanyRole(GOOGLE.getCompanyName(), null));
     }
 
     @Test
     public void removeCompanyRole_validParameters_success() {
         Role role = new RoleBuilder().withName("Role_RemoveValid_Unique").withDescription("desc").build();
         hitList.addCompany(GOOGLE);
-        hitList.addCompanyRole(GOOGLE.getName(), role);
+        hitList.addCompanyRole(GOOGLE.getCompanyName(), role);
 
-        hitList.removeCompanyRole(GOOGLE.getName(), role);
+        hitList.removeCompanyRole(GOOGLE.getCompanyName(), role);
 
-        assertFalse(hitList.hasCompanyRole(GOOGLE.getName(), role));
+        assertFalse(hitList.hasCompanyRole(GOOGLE.getCompanyName(), role));
     }
 
     @Test
@@ -473,7 +473,7 @@ public class HitListTest {
         hitList.addCompany(GOOGLE);
 
         assertThrows(hitlist.model.company.role.exceptions.RoleNotFoundException.class, ()
-                -> hitList.removeCompanyRole(GOOGLE.getName(), role));
+                -> hitList.removeCompanyRole(GOOGLE.getCompanyName(), role));
     }
 
     @Test

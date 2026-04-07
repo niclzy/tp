@@ -177,7 +177,7 @@ public class ModelManager implements Model {
     public boolean hasCompanyByName(CompanyName companyName) {
         requireNonNull(companyName);
         return hitList.getCompanyList().stream()
-                .anyMatch(company -> company.getName().equals(companyName));
+                .anyMatch(company -> company.getCompanyName().equals(companyName));
     }
 
     @Override
@@ -191,7 +191,7 @@ public class ModelManager implements Model {
         requireNonNull(companyName);
         List<Company> companyList = hitList.getCompanyList();
         for (Company company : companyList) {
-            if (company.getName().equals(companyName)) {
+            if (company.getCompanyName().equals(companyName)) {
                 return Optional.of(company);
             }
         }

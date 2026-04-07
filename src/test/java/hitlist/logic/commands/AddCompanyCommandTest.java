@@ -70,7 +70,8 @@ public class AddCompanyCommandTest {
         AddCompanyCommand addCompanyCommand = new AddCompanyCommand(validCompany);
         ModelStub modelStub = new ModelStubWithCompany(validCompany);
 
-        String expectedMessage = String.format(AddCompanyCommand.MESSAGE_DUPLICATE_COMPANY, validCompany.getName());
+        String expectedMessage =
+                String.format(AddCompanyCommand.MESSAGE_DUPLICATE_COMPANY, validCompany.getCompanyName());
 
         assertThrows(CommandException.class, expectedMessage, () -> addCompanyCommand.execute(modelStub));
     }

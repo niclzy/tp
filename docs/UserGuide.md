@@ -148,7 +148,8 @@ Format: `find [KEYWORD]...`
 * Name search is case-insensitive.
   e.g. `han` matches `Hans`
 * Name search uses prefix matching.
-  e.g. `Han` matches `Hans`
+  e.g. `Ha` matches `Hans`
+  e.g. `an` does not match `Hans`
 * If multiple name keywords are given, a contact matching any one of them is returned.
 
 Examples:
@@ -291,6 +292,39 @@ Format: `cmplist`
 
 <img width="738" height="601" alt="List all companies in HitList" src="images/ug/Cmplist.png" />
 
+### Locating companies : `cmpfind`
+
+Finds companies whose names match any given substring.
+
+Format: `cmpfind [KEYWORD]...`
+
+* Company name search is case-insensitive.
+  e.g. `google` matches `Google`
+* Company name search uses substring matching.
+  e.g. `fli` matches `Netflix`
+* If multiple company name keywords are given, a Company matching any one of them is returned.
+
+Examples:
+* `cmpfind inc` returns all companies with `inc` in their name, such as `Google Inc.`, `Meta Platforms, Inc.`, and `Apple Inc.`
+
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Finding Inc" src="images/ug/Find_Inc.png" />
+  </div>
+</div>
+
+<br>
+
+* `cmpfind google flix` returns `Google`, `Netflix` 
+
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Find Google and Netflix in HitList" src="images/ug/Find_Google_Netflix.png" />
+  </div>
+</div>
+
+<br>
+
 ### Adding a role to a company : `roleadd`
 
 Adds a role to a specified existing company in the HitList.
@@ -324,7 +358,7 @@ Format: `roledel /r ROLE_NAME /c COMPANY_NAME` or `roledel INDEX /c COMPANY_NAME
 * The company name typed must be the exact company name registered in HitList.
 
 Examples:
-* `roledel /r "Quality Assurance Engineer" /c Google Inc.` deletes the role named `Quality Assurance Engineer` from the company `Google Inc.`
+* `roledel /r Quality Assurance Engineer /c Google Inc.` deletes the role named `Quality Assurance Engineer` from the company `Google Inc.`
 
 <img width="738" height="601" alt="Deletion of Quality Assurance Engineer role from company Google Inc." src="images/ug/Roledel_QualityAssurance.png" />
 
@@ -338,9 +372,10 @@ Clears all entries from the HitList.
 
 Format: `clear`
 
-> [!CAUTION]
-> This command deletes all contacts, contact groups, companies, and roles from the HitList. Use with caution.
-> The action is irreversible and there is no confirmation prompt before the action is executed.
+<box theme="danger" header="**CAUTION**">
+    This command deletes all contacts, contact groups, companies, and roles from the HitList. Use with caution.
+    The action is irreversible and there is no confirmation prompt before the action is executed.
+</box>
 
 ### Exiting the program : `exit`
 
@@ -384,24 +419,25 @@ _Details coming soon ..._
 
 ## Command summary
 
-| Action                      | Format                                                           | Examples                                                                              |
-|-----------------------------|------------------------------------------------------------------|---------------------------------------------------------------------------------------|
-| **Getting Help**            | `help`                                                           | `help`                                                                                |
-| **Add contact**             | `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`            | `add /n Betsy Crowe /p 87654321 /e betsy.crowe@gmail.com /a 321, Clementi Rd, 123465` |
-| **Delete contact**          | `delete INDEX`\n`delete /n NAME`                                 | `delete 3`\n`delete /n David Li`                                                      |
-| **Edit contact**            | `edit INDEX [/n NAME] [/p PHONE_NUMBER] [/e EMAIL] [/a ADDRESS]` | `edit 2 /n James Lee /e jameslee@example.com`                                         |
-| **List contacts**           | `list`                                                           | `list`                                                                                |
-| **Find contact(s)**         | `find [KEYWORD]...`                                              | `find John`                                                                           |
-| **Add contact group**       | `grpadd /g GROUP_NAME`                                           | `grpadd /g Students`                                                                  |
-| **Delete contact group**    | `grpdel /g GROUP_NAME`                                           | `grpdel /g Students`                                                                  |
-| **List contact groups**     | `grplist`                                                        | `grplist`                                                                             |
-| **List contacts in group**  | `grplist /g GROUP_NAME`                                          | `grplist /g Students`                                                                 |
-| **Assign contact to group** | `grpassign /n NAME /g GROUP_NAME`                                | `grpassign /n Alex Yeoh /g Students`                                                  |
-| **Unassign contact from group** | `grpunassign /n NAME /g GROUP_NAME`                          | `grpunassign /n Alex Yeoh /g Students`                                                |
-| **Add Company**             | `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`                  | `cmpadd /c Google /d Tech giant`                                                      |
-| **Delete Company**          | `cmpdel /c COMPANY_NAME`                                         | `cmpdel /c Google`                                                                    |
-| **List Companies**          | `cmplist`                                                        | `cmplist`                                                                             |
-| **Add Role to Company**     | `roleadd /r ROLE_NAME /d ROLE_DESCRIPTION /c COMPANY_NAME`       | `roleadd /r Software Tester /d Tests provided software /c Google Inc.`                |
-| **Delete Role from Company** | `roledel /r ROLE_NAME /c COMPANY_NAME` or `roledel INDEX /c COMPANY_NAME` | `roledel /r "Software Engineer" /c Google Inc.`<br>`roledel 1 /c Google Inc.` |
-| **Clear**                   | `clear`                                                          | `clear`                                                                               |
-| **Exit**                    | `exit`                                                           | `exit`                                                                                |
+| Action                          | Format                                                                          | Examples                                                                              |
+|---------------------------------|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| **Getting Help**                | `help`                                                                          | `help`                                                                                |
+| **Add contact**                 | `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`                           | `add /n Betsy Crowe /p 87654321 /e betsy.crowe@gmail.com /a 321, Clementi Rd, 123465` |
+| **Delete contact**              | `delete INDEX`<br>or<br>`delete /n NAME`                                        | `delete 3`<br>or<br>`delete /n David Li`                                              |
+| **Edit contact**                | `edit INDEX [/n NAME] [/p PHONE_NUMBER] [/e EMAIL] [/a ADDRESS]`                | `edit 2 /n James Lee /e jameslee@example.com`                                         |
+| **List contacts**               | `list`                                                                          | `list`                                                                                |
+| **Find contact(s)**             | `find [KEYWORD]...`                                                             | `find John`                                                                           |
+| **Add contact group**           | `grpadd /g GROUP_NAME`                                                          | `grpadd /g Students`                                                                  |
+| **Delete contact group**        | `grpdel /g GROUP_NAME`                                                          | `grpdel /g Students`                                                                  |
+| **List contact groups**         | `grplist`                                                                       | `grplist`                                                                             |
+| **List contacts in group**      | `grplist /g GROUP_NAME`                                                         | `grplist /g Students`                                                                 |
+| **Assign contact to group**     | `grpassign /n NAME /g GROUP_NAME`                                               | `grpassign /n Alex Yeoh /g Students`                                                  |
+| **Unassign contact from group** | `grpunassign /n NAME /g GROUP_NAME`                                             | `grpunassign /n Alex Yeoh /g Students`                                                |
+| **Add Company**                 | `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`                                 | `cmpadd /c Google /d Tech giant`                                                      |
+| **Delete Company**              | `cmpdel /c COMPANY_NAME`                                                        | `cmpdel /c Google`                                                                    |
+| **List Companies**              | `cmplist`                                                                       | `cmplist`                                                                             |
+| **Find Company**                | `cmpfind [KEYWORD]...`                                                          | `cmpfind inc`                                                                         |
+| **Add Role to Company**         | `roleadd /r ROLE_NAME /d ROLE_DESCRIPTION /c COMPANY_NAME`                      | `roleadd /r Software Tester /d Tests provided software /c Google Inc.`                |
+| **Delete Role from Company**    | `roledel /r ROLE_NAME /c COMPANY_NAME`<br>or<br>`roledel INDEX /c COMPANY_NAME` | `roledel /r "Software Engineer" /c Google Inc.`<br>or<br>`roledel 1 /c Google Inc.`   |
+| **Clear**                       | `clear`                                                                         | `clear`                                                                               |
+| **Exit**                        | `exit`                                                                          | `exit`                                                                                |

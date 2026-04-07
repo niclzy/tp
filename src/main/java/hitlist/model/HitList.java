@@ -183,7 +183,7 @@ public class HitList implements ReadOnlyHitList {
      */
     private Company findCompanyOrThrow(CompanyName companyName) {
         return companies.asUnmodifiableObservableList().stream()
-                .filter(company -> company.getName().equals(companyName))
+                .filter(company -> company.getCompanyName().equals(companyName))
                 .findFirst()
                 .orElseThrow(() -> new CompanyNotFoundException(
                         String.format("Company not found: %s", companyName)));

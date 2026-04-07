@@ -30,7 +30,7 @@ public class AddCompanyRoleCommandTest {
 
     @Test
     public void constructor_nullRole_throwsNullPointerException() {
-        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
+        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getCompanyName();
         assertThrows(NullPointerException.class, () -> new AddCompanyRoleCommand(null, companyName));
     }
 
@@ -50,7 +50,7 @@ public class AddCompanyRoleCommandTest {
                 .withName("Valid Role Name")
                 .withDescription("Valid Role Description")
                 .build();
-        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
+        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getCompanyName();
 
         CommandResult commandResult = new AddCompanyRoleCommand(validCompanyRole, companyName).execute(modelStub);
 
@@ -70,7 +70,7 @@ public class AddCompanyRoleCommandTest {
                 .withName("Valid Role Name")
                 .withDescription("Valid Role Description")
                 .build();
-        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
+        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getCompanyName();
         AddCompanyRoleCommand addCompanyRoleCommand = new AddCompanyRoleCommand(validCompanyRole, companyName);
         ModelStub modelStub = new ModelStubWithCompanyRole(validCompanyRole, companyName);
 
@@ -91,8 +91,8 @@ public class AddCompanyRoleCommandTest {
                 .withDescription(VALID_ROLE_DESCRIPTION_PRODUCT_MANAGER)
                 .build();
 
-        CompanyName companyA = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
-        CompanyName companyB = new CompanyBuilder().withName(VALID_COMPANY_NAME_META).build().getName();
+        CompanyName companyA = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getCompanyName();
+        CompanyName companyB = new CompanyBuilder().withName(VALID_COMPANY_NAME_META).build().getCompanyName();
 
         AddCompanyRoleCommand addRoleACommand = new AddCompanyRoleCommand(roleA, companyA);
         AddCompanyRoleCommand addRoleBCommand = new AddCompanyRoleCommand(roleB, companyA);
@@ -116,7 +116,7 @@ public class AddCompanyRoleCommandTest {
                 .withName(VALID_ROLE_NAME_SOFTWARE_ENGINEER)
                 .withDescription(VALID_ROLE_DESCRIPTION_SOFTWARE_ENGINEER)
                 .build();
-        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
+        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getCompanyName();
 
         AddCompanyRoleCommand addCompanyRoleCommand = new AddCompanyRoleCommand(role, companyName);
 
