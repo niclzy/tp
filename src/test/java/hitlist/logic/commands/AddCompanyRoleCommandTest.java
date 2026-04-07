@@ -50,9 +50,9 @@ public class AddCompanyRoleCommandTest {
                 .withName("Valid Role Name")
                 .withDescription("Valid Role Description")
                 .build();
-        Company Google = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build();
-        modelStub.addCompany(Google);
-        CompanyName companyName = Google.getName();
+        Company google = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build();
+        modelStub.addCompany(google);
+        CompanyName companyName = google.getName();
 
         CommandResult commandResult = new AddCompanyRoleCommand(validCompanyRole, companyName).execute(modelStub);
 
@@ -71,8 +71,7 @@ public class AddCompanyRoleCommandTest {
                 .withName("Valid Role Name")
                 .withDescription("Valid Role Description")
                 .build();
-        Company Google = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build();
-        CompanyName companyName = Google.getName();
+        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
         AddCompanyRoleCommand addCompanyRoleCommand = new AddCompanyRoleCommand(validCompanyRole, companyName);
         ModelStub modelStub = new ModelStubWithCompanyRole(validCompanyRole, companyName);
 
