@@ -62,7 +62,7 @@ public class DeleteCompanyRoleCommandTest {
         String expectedMessage = String.format(
                 DeleteCompanyRoleCommand.MESSAGE_SUCCESS,
                 Messages.formatCompanyRole(testRole1),
-                modelCompany.getName());
+                modelCompany.getCompanyName());
 
         CommandResult result = deleteRoleCommand.execute(model);
 
