@@ -305,11 +305,23 @@ Format: `cmpfind [KEYWORD]...`
 Examples:
 * `cmpfind inc` returns all companies with `inc` in their name, such as `Google Inc.`, `Meta Platforms, Inc.`, and `Apple Inc.`
 
-<img width="738" height="601" alt="Finding Inc" src="images/ug/Find_Inc.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Finding Inc" src="images/ug/Find_Inc.png" />
+  </div>
+</div>
+
+<br>
 
 * `cmpfind google flix` returns `Google`, `Netflix` 
 
-<img width="738" height="601" alt="Find Google and Netflix in HitList" src="images/ug/Find_Google_Netflix.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Find Google and Netflix in HitList" src="images/ug/Find_Google_Netflix.png" />
+  </div>
+</div>
+
+<br>
 
 ### Adding a role to a company : `roleadd`
 
