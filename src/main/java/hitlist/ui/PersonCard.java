@@ -56,9 +56,18 @@ public class PersonCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().map(a -> a.value).orElse(""));
-        email.setText(person.getEmail().map(e -> e.value).orElse(""));
 
+        if (person.getAddress().isPresent()) {
+            address.setText(person.getAddress().get().value);
+        } else {
+            address.setVisible(false);
+        }
+
+        if (person.getEmail().isPresent()) {
+            email.setText(person.getEmail().get().value);
+        } else {
+            email.setVisible(false);
+        }
 
         groupList.stream()
             .filter(group -> group.hasMember(person))
