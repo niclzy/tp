@@ -31,6 +31,11 @@ public class FindCompanyCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredCompanyList(predicate);
+
+        if (model.getFilteredCompanyList().isEmpty()) {
+            return new CommandResult(Messages.MESSAGE_NO_COMPANIES_FOUND, SHOW_COMPANY_LIST);
+        }
+
         return new CommandResult(
             String.format(Messages.MESSAGE_COMPANY_LISTED_OVERVIEW,
                     model.getFilteredCompanyList().size()), SHOW_COMPANY_LIST);

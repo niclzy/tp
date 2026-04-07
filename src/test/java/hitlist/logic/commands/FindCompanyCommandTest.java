@@ -1,6 +1,7 @@
 package hitlist.logic.commands;
 
 import static hitlist.logic.Messages.MESSAGE_COMPANY_LISTED_OVERVIEW;
+import static hitlist.logic.Messages.MESSAGE_NO_COMPANIES_FOUND;
 import static hitlist.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static hitlist.testutil.TypicalCompanies.GOOGLE;
 import static hitlist.testutil.TypicalCompanies.META;
@@ -48,14 +49,13 @@ public class FindCompanyCommandTest {
 
     @Test
     public void execute_noMatchingKeyword_noCompanyFound() {
-        String expectedMessage = String.format(MESSAGE_COMPANY_LISTED_OVERVIEW, 0);
         CompanyMatchesFindPredicate predicate = preparePredicate("nomatch");
 
         FindCompanyCommand command = new FindCompanyCommand(predicate);
         expectedModel.updateFilteredCompanyList(predicate);
 
         CommandResult expectedCommandResult = new CommandResult(
-                expectedMessage, UiPaneVisibility.SHOW_COMPANY_LIST);
+                MESSAGE_NO_COMPANIES_FOUND, UiPaneVisibility.SHOW_COMPANY_LIST);
 
         assertCommandSuccess(command, model, expectedCommandResult, expectedModel);
         assertEquals(Collections.emptyList(), model.getFilteredCompanyList());
