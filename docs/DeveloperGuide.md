@@ -255,7 +255,9 @@ The following sequence diagram shows how an AddPerson operation goes through the
 
 <puml src="diagrams/add-person/PersonAddSequenceDiagram-Logic.puml" alt="PersonAddSequenceDiagramLogic" />
 
+<box type="info" seamless>
 **Note:** The lifeline for `AddCommand` and `AddCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</box>
 
 The following activity diagram summarizes what happens when a user executes the `add` command:
 
@@ -303,7 +305,9 @@ The following sequence diagram shows how a DeletePerson operation goes through t
 
 <puml src="diagrams/delete-person/PersonDeleteSequenceDiagram-Logic.puml" alt="PersonDeleteSequenceDiagramLogic" />
 
+<box type="info" seamless>
 **Note:** The lifeline for `DeleteCommand` and `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</box>
 
 The following activity diagram summarizes what happens when a user executes the `delete` command:
 
@@ -389,7 +393,9 @@ The following sequence diagram shows how an AddGroup operation goes through the 
 
 <puml src="diagrams/add-group/GroupAddSequenceDiagram-Logic.puml" alt="GroupAddSequenceDiagramLogic" />
 
+<box type="info" seamless>
 **Note:** The lifeline for `AddGroupCommand` and `AddGroupCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</box>
 
 The following activity diagram summarizes what happens when a user executes the `grpadd` command:
 
@@ -437,7 +443,9 @@ The following sequence diagram shows how a DeleteGroup operation goes through th
 
 <puml src="diagrams/delete-group/GroupDeleteSequenceDiagram-Logic.puml" alt="GroupDeleteSequenceDiagramLogic" />
 
+<box type="info" seamless>
 **Note:** The lifeline for `DeleteGroupCommand` and `DeleteGroupCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</box>
 
 The following activity diagram summarizes what happens when a user executes the `grpdel` command:
 
