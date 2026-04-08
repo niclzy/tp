@@ -3,7 +3,9 @@
 
 # HitList
 
-![Ui](docs/images/ug/Ui.png)
+<p align="center">
+  <img src="docs/images/ug/Ui.png" alt="Ui of HitList" width="80%">
+</p>
 
 # About
 
