@@ -72,8 +72,13 @@ public class HitListParserTest {
     public void parseCommand_edit() throws Exception {
         Person person = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
-        EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
+        // Get the edit command details which should already have proper spacing
+        String editDetails = PersonUtil.getEditPersonDescriptorDetails(descriptor);
+        // Ensure the edit details have proper spacing (the utility method should handle this)
+        String editCommandStr = EditCommand.COMMAND_WORD + " "
+                + INDEX_FIRST_PERSON.getOneBased() + " "
+                + editDetails;
+        EditCommand command = (EditCommand) parser.parseCommand(editCommandStr);
         assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
     }
 

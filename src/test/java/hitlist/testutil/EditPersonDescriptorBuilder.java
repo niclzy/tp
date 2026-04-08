@@ -69,6 +69,22 @@ public class EditPersonDescriptorBuilder {
         return this;
     }
 
+    /**
+     * Sets the clear email flag of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withClearEmail(boolean clearEmail) {
+        descriptor.setClearEmail(clearEmail);
+        return this;
+    }
+
+    /**
+     * Sets the clear address flag of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withClearAddress(boolean clearAddress) {
+        descriptor.setClearAddress(clearAddress);
+        return this;
+    }
+
     public EditPersonDescriptor build() {
         return descriptor;
     }

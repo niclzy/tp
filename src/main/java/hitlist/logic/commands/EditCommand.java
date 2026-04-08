@@ -38,9 +38,11 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + " PHONE] "
             + "[" + PREFIX_EMAIL + " EMAIL] "
             + "[" + PREFIX_ADDRESS + " ADDRESS] "
+            + "Note: Use " + PREFIX_EMAIL + " or " + PREFIX_ADDRESS + " without a value to clear the field.\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + " 91234567 "
-            + PREFIX_EMAIL + " johndoe@example.com";
+            + PREFIX_EMAIL + " johndoe@example.com\n"
+            + "Example to clear email: " + COMMAND_WORD + " 1 " + PREFIX_EMAIL;
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -91,10 +93,26 @@ public class EditCommand extends Command {
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-        Optional<Email> updatedEmail = editPersonDescriptor.getEmail().isPresent()
-                ? editPersonDescriptor.getEmail() : personToEdit.getEmail();
-        Optional<Address> updatedAddress = editPersonDescriptor.getAddress().isPresent()
-                ? editPersonDescriptor.getAddress() : personToEdit.getAddress();
+
+        // Handle email: if clearEmail flag is true, set to empty; otherwise use provided value or keep existing
+        Optional<Email> updatedEmail;
+        if (editPersonDescriptor.isClearEmail()) {
+            updatedEmail = Optional.empty();
+        } else if (editPersonDescriptor.getEmail().isPresent()) {
+            updatedEmail = editPersonDescriptor.getEmail();
+        } else {
+            updatedEmail = personToEdit.getEmail();
+        }
+
+        // Handle address: if clearAddress flag is true, set to empty; otherwise use provided value or keep existing
+        Optional<Address> updatedAddress;
+        if (editPersonDescriptor.isClearAddress()) {
+            updatedAddress = Optional.empty();
+        } else if (editPersonDescriptor.getAddress().isPresent()) {
+            updatedAddress = editPersonDescriptor.getAddress();
+        } else {
+            updatedAddress = personToEdit.getAddress();
+        }
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress);
     }
@@ -132,25 +150,28 @@ public class EditCommand extends Command {
         private Phone phone;
         private Email email;
         private Address address;
+        private boolean clearEmail = false;
+        private boolean clearAddress = false;
 
         public EditPersonDescriptor() {}
 
         /**
          * Copy constructor.
-         * A defensive copy of {@code tags} is used internally.
          */
         public EditPersonDescriptor(EditPersonDescriptor toCopy) {
             setName(toCopy.name);
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
+            setClearEmail(toCopy.clearEmail);
+            setClearAddress(toCopy.clearAddress);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address) || clearEmail || clearAddress;
         }
 
         public void setName(Name name) {
@@ -185,6 +206,22 @@ public class EditCommand extends Command {
             return Optional.ofNullable(address);
         }
 
+        public void setClearEmail(boolean clearEmail) {
+            this.clearEmail = clearEmail;
+        }
+
+        public boolean isClearEmail() {
+            return clearEmail;
+        }
+
+        public void setClearAddress(boolean clearAddress) {
+            this.clearAddress = clearAddress;
+        }
+
+        public boolean isClearAddress() {
+            return clearAddress;
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -200,7 +237,9 @@ public class EditCommand extends Command {
             return Objects.equals(name, otherEditPersonDescriptor.name)
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
-                    && Objects.equals(address, otherEditPersonDescriptor.address);
+                    && Objects.equals(address, otherEditPersonDescriptor.address)
+                    && clearEmail == otherEditPersonDescriptor.clearEmail
+                    && clearAddress == otherEditPersonDescriptor.clearAddress;
         }
 
         @Override
@@ -210,6 +249,8 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("email", email)
                     .add("address", address)
+                    .add("clearEmail", clearEmail)
+                    .add("clearAddress", clearAddress)
                     .toString();
         }
     }
