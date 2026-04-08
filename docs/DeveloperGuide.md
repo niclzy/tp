@@ -43,9 +43,9 @@ pageNav: 3
         * [User stories](#user-stories)
         * [Use cases](#use-cases)
         * [Non-Functional Requirements](#non-functional-requirements)
-        * [Contact Non-Functional Requirements](#contact-non-functional-requirements)
-        * [Contact Group Non-Functional Requirements](#contact-group-non-functional-requirements)
-        * [Company Profile Non-Functional Requirements](#company-profile-non-functional-requirements)
+          * [Contact Non-Functional Requirements](#contact-non-functional-requirements)
+          * [Contact Group Non-Functional Requirements](#contact-group-non-functional-requirements)
+          * [Company Profile Non-Functional Requirements](#company-profile-non-functional-requirements)
         * [Glossary](#glossary)
     * [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
         * [Launch and shutdown](#launch-and-shutdown)
@@ -907,7 +907,7 @@ Similar to Use case 4 (List contacts), except the user requests to list all comp
 
     Use case ends.
 
-*{More to be added}*
+---
 
 ### Non-Functional Requirements
 
@@ -919,17 +919,17 @@ Similar to Use case 4 (List contacts), except the user requests to list all comp
 6. The system should remain responsive while processing invalid user commands and should return an appropriate error message.
 7. The system should be able to support case-insensitive unique identifiers for contacts, contact groups and company profiles.
 
-### Contact Non-Functional Requirements
+#### Contact Non-Functional Requirements
 
 1. The system should be able to support up to 1000 contacts without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of contacts.
 2. The system should be able to support at least 10 contact groups for a contact without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of contact groups for a contact.
 
-### Contact Group Non-Functional Requirements
+#### Contact Group Non-Functional Requirements
 
 1. The system should be able to support at least 500 contact groups without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of contact groups.
 2. The system should be able to support at least 100 contacts in a contact group without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of contact group members.
 
-### Company Profile Non-Functional Requirements
+#### Company Profile Non-Functional Requirements
 
 1. The system should support at least 100 company profiles without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of company profiles.
 2. The system should support at least 50 roles in a company profile without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of company roles.
