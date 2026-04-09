@@ -32,7 +32,6 @@ import hitlist.commons.core.index.Index;
 import hitlist.logic.Messages;
 import hitlist.logic.commands.EditCommand;
 import hitlist.logic.commands.EditCommand.EditPersonDescriptor;
-import hitlist.model.person.Address;
 import hitlist.model.person.Email;
 import hitlist.model.person.Name;
 import hitlist.model.person.Phone;
@@ -74,21 +73,25 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_invalidValue_failure() {
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
+        // invalid name
+        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS);
 
+        // invalid phone
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC,
-                String.format(Phone.MESSAGE_INVALID_PHONE, "911a")); // invalid phone
+                String.format(Phone.MESSAGE_INVALID_PHONE, "911a"));
 
-        assertParseFailure(parser, "1" + INVALID_EMAIL_DESC, Email.MESSAGE_CONSTRAINTS); // invalid email
+        // invalid email
+        assertParseFailure(parser, "1 /e invalidemail", Email.MESSAGE_CONSTRAINTS);
 
-        assertParseFailure(parser, "1" + INVALID_ADDRESS_DESC, Address.MESSAGE_CONSTRAINTS); // invalid address
+        // Address validation only rejects empty string or whitespace-starting strings.
+        // Empty string is now valid for clearing, so skip invalid address test.
 
         // invalid phone followed by valid email
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC + EMAIL_DESC_AMY,
                 String.format(Phone.MESSAGE_INVALID_PHONE, "911a"));
 
         // multiple invalid values, but only the first invalid value is captured
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC
+        assertParseFailure(parser, "1" + INVALID_NAME_DESC + " /e invalidemail"
                 + VALID_ADDRESS_AMY + VALID_PHONE_AMY, Name.MESSAGE_CONSTRAINTS);
     }
 
@@ -134,15 +137,83 @@ public class EditCommandParserTest {
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // email
-        userInput = targetIndex.getOneBased() + EMAIL_DESC_AMY;
+        userInput = targetIndex.getOneBased() + " /e " + VALID_EMAIL_AMY;
         descriptor = new EditPersonDescriptorBuilder().withEmail(VALID_EMAIL_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // address
-        userInput = targetIndex.getOneBased() + ADDRESS_DESC_AMY;
+        userInput = targetIndex.getOneBased() + " /a " + VALID_ADDRESS_AMY;
         descriptor = new EditPersonDescriptorBuilder().withAddress(VALID_ADDRESS_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_clearEmailOnly_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + " /e";
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withClearEmail(true)
+                .build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_clearAddressOnly_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + " /a";
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withClearAddress(true)
+                .build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_clearBothEmailAndAddress_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + " /e /a";
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withClearEmail(true)
+                .withClearAddress(true)
+                .build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_updatePhoneAndClearEmail_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + " /e";
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPhone(VALID_PHONE_BOB)
+                .withClearEmail(true)
+                .build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_updateNameAndClearAddress_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + NAME_DESC_AMY + " /a";
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(VALID_NAME_AMY)
+                .withClearAddress(true)
+                .build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
@@ -160,7 +231,7 @@ public class EditCommandParserTest {
         userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + INVALID_PHONE_DESC;
         assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
 
-        // mulltiple valid fields repeated
+        // multiple valid fields repeated
         userInput = targetIndex.getOneBased() + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY
                 + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY
                 + PHONE_DESC_BOB + ADDRESS_DESC_BOB + EMAIL_DESC_BOB;

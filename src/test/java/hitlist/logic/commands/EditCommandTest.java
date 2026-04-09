@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 
 import hitlist.commons.core.index.Index;
@@ -23,7 +25,9 @@ import hitlist.model.HitList;
 import hitlist.model.Model;
 import hitlist.model.ModelManager;
 import hitlist.model.UserPrefs;
+import hitlist.model.person.Name;
 import hitlist.model.person.Person;
+import hitlist.model.person.Phone;
 import hitlist.testutil.EditPersonDescriptorBuilder;
 import hitlist.testutil.PersonBuilder;
 
@@ -79,6 +83,137 @@ public class EditCommandTest {
         Model expectedModel = new ModelManager(new HitList(model.getHitList()), new UserPrefs());
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_clearEmailOnly_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        // Create edited person with empty email using constructor
+        Person editedPerson = new Person(
+                personToEdit.getName(),
+                personToEdit.getPhone(),
+                Optional.empty(),
+                personToEdit.getAddress()
+        );
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withClearEmail(true)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+
+        Model expectedModel = new ModelManager(new HitList(model.getHitList()), new UserPrefs());
+        expectedModel.setPerson(personToEdit, editedPerson);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        assertTrue(editedPerson.getEmail().isEmpty());
+    }
+
+    @Test
+    public void execute_clearAddressOnly_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        // Create edited person with empty address using constructor
+        Person editedPerson = new Person(
+                personToEdit.getName(),
+                personToEdit.getPhone(),
+                personToEdit.getEmail(),
+                Optional.empty()
+        );
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withClearAddress(true)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+
+        Model expectedModel = new ModelManager(new HitList(model.getHitList()), new UserPrefs());
+        expectedModel.setPerson(personToEdit, editedPerson);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        assertTrue(editedPerson.getAddress().isEmpty());
+    }
+
+    @Test
+    public void execute_clearBothEmailAndAddress_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        // Create edited person with empty email and address using constructor
+        Person editedPerson = new Person(
+                personToEdit.getName(),
+                personToEdit.getPhone(),
+                Optional.empty(),
+                Optional.empty()
+        );
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withClearEmail(true)
+                .withClearAddress(true)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+
+        Model expectedModel = new ModelManager(new HitList(model.getHitList()), new UserPrefs());
+        expectedModel.setPerson(personToEdit, editedPerson);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        assertTrue(editedPerson.getEmail().isEmpty());
+        assertTrue(editedPerson.getAddress().isEmpty());
+    }
+
+    @Test
+    public void execute_updatePhoneAndClearEmail_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        // Create edited person with updated phone and empty email
+        Person editedPerson = new Person(
+                personToEdit.getName(),
+                new Phone(VALID_PHONE_BOB),
+                Optional.empty(),
+                personToEdit.getAddress()
+        );
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPhone(VALID_PHONE_BOB)
+                .withClearEmail(true)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+
+        Model expectedModel = new ModelManager(new HitList(model.getHitList()), new UserPrefs());
+        expectedModel.setPerson(personToEdit, editedPerson);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        assertEquals(VALID_PHONE_BOB, editedPerson.getPhone().value);
+        assertTrue(editedPerson.getEmail().isEmpty());
+    }
+
+    @Test
+    public void execute_updateNameAndClearAddress_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        // Create edited person with updated name and empty address
+        Person editedPerson = new Person(
+                new Name(VALID_NAME_BOB),
+                personToEdit.getPhone(),
+                personToEdit.getEmail(),
+                Optional.empty()
+        );
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(VALID_NAME_BOB)
+                .withClearAddress(true)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+
+        Model expectedModel = new ModelManager(new HitList(model.getHitList()), new UserPrefs());
+        expectedModel.setPerson(personToEdit, editedPerson);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        assertEquals(VALID_NAME_BOB, editedPerson.getName().fullName);
+        assertTrue(editedPerson.getAddress().isEmpty());
     }
 
     @Test
@@ -180,4 +315,65 @@ public class EditCommandTest {
         assertEquals(expected, editCommand.toString());
     }
 
+    @Test
+    public void equals_sameClearFlags_returnsTrue() {
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withClearEmail(true)
+                .withClearAddress(true)
+                .build();
+        EditCommand editCommand1 = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+        EditCommand editCommand2 = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+
+        assertTrue(editCommand1.equals(editCommand2));
+    }
+
+    @Test
+    public void equals_differentClearEmailFlags_returnsFalse() {
+        EditPersonDescriptor descriptor1 = new EditPersonDescriptorBuilder()
+                .withClearEmail(true)
+                .build();
+        EditPersonDescriptor descriptor2 = new EditPersonDescriptorBuilder()
+                .withClearEmail(false)
+                .build();
+
+        EditCommand editCommand1 = new EditCommand(INDEX_FIRST_PERSON, descriptor1);
+        EditCommand editCommand2 = new EditCommand(INDEX_FIRST_PERSON, descriptor2);
+
+        assertFalse(editCommand1.equals(editCommand2));
+    }
+
+    @Test
+    public void equals_differentClearAddressFlags_returnsFalse() {
+        EditPersonDescriptor descriptor1 = new EditPersonDescriptorBuilder()
+                .withClearAddress(true)
+                .build();
+        EditPersonDescriptor descriptor2 = new EditPersonDescriptorBuilder()
+                .withClearAddress(false)
+                .build();
+
+        EditCommand editCommand1 = new EditCommand(INDEX_FIRST_PERSON, descriptor1);
+        EditCommand editCommand2 = new EditCommand(INDEX_FIRST_PERSON, descriptor2);
+
+        assertFalse(editCommand1.equals(editCommand2));
+    }
+
+    @Test
+    public void equals_sameFieldsDifferentClearFlags_returnsFalse() {
+        EditPersonDescriptor descriptor1 = new EditPersonDescriptorBuilder()
+                .withName(VALID_NAME_BOB)
+                .withPhone(VALID_PHONE_BOB)
+                .build();
+        descriptor1.setClearEmail(true);
+
+        EditPersonDescriptor descriptor2 = new EditPersonDescriptorBuilder()
+                .withName(VALID_NAME_BOB)
+                .withPhone(VALID_PHONE_BOB)
+                .build();
+        descriptor2.setClearEmail(false);
+
+        EditCommand editCommand1 = new EditCommand(INDEX_FIRST_PERSON, descriptor1);
+        EditCommand editCommand2 = new EditCommand(INDEX_FIRST_PERSON, descriptor2);
+
+        assertFalse(editCommand1.equals(editCommand2));
+    }
 }

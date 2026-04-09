@@ -24,6 +24,7 @@ public class EditCommandParser implements Parser<EditCommand> {
      */
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
+
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
 
@@ -45,11 +46,29 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
             editPersonDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
         }
+
+        // Handle email: check if the prefix is present
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            editPersonDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
+            String emailValue = argMultimap.getValue(PREFIX_EMAIL).get();
+            if (emailValue.isBlank()) {
+                // Empty email value means clear the email field
+                editPersonDescriptor.setClearEmail(true);
+            } else {
+                // Non-empty email value means set the email
+                editPersonDescriptor.setEmail(ParserUtil.parseEmail(emailValue));
+            }
         }
+
+        // Handle address: check if the prefix is present
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
+            String addressValue = argMultimap.getValue(PREFIX_ADDRESS).get();
+            if (addressValue.isBlank()) {
+                // Empty address value means clear the address field
+                editPersonDescriptor.setClearAddress(true);
+            } else {
+                // Non-empty address value means set the address
+                editPersonDescriptor.setAddress(ParserUtil.parseAddress(addressValue));
+            }
         }
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
