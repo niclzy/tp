@@ -1317,13 +1317,13 @@ The following activity diagram summarizes what happens when a user executes the 
 
 #### Design considerations for Roles Parameters:
 
-**Aspect: Company Field Requirements:**
+**Aspect: Role Field Requirements:**
 * **Alternative 1 (current choice):** Both role name and role description are required fields.
   * Pros: Ensures that all roles have a minimum level of information, which can be useful for the headhunter to quickly identify the requirements of clients request.
   * Cons: May be too restrictive for users who want to quickly add a role without the description first and fill in the details later.
-* **Alternative 2:** Only the company name is required, while the description is optional.
-  * Pros: Provides more flexibility for users to add company profiles with minimal information and update them later as needed.
-  * Cons: May lead to incomplete company profiles that lack important information, making it harder for the headhunter to manage their client base effectively.
+* **Alternative 2:** Only the role name is required, while the description is optional.
+  * Pros: Provides more flexibility for users to add roles without description and update them later as needed.
+  * Cons: May lead to incomplete roles that lack important descriptions, making it harder for the headhunter to manage their client base effectively.
 
 **Aspect: Validation of Role Names**
 * **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
@@ -1344,7 +1344,7 @@ The following activity diagram summarizes what happens when a user executes the 
 #### Design considerations for Roles Commands:
 
 **Aspect: Command Format for Parameters:**
-* **Alternative 1 (current choice):** Use prefixes to indicate parameters (e.g., `/c` for role name, `/d` for role description).
+* **Alternative 1 (current choice):** Use prefixes to indicate parameters (e.g., `/r` for role name, `/d` for role description).
   * Pros: Clear and unambiguous parsing of parameters, especially when there are multiple parameters.
   * Cons: Requires users to remember and use specific prefixes.
 * **Alternative 2:** Use a fixed order of parameters without prefixes (e.g., `roleadd Software Engineer Develops Software`).
