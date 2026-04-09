@@ -21,27 +21,31 @@ pageNav: 3
         * [Storage component](#storage-component)
         * [Common classes](#common-classes)
     * [Implementation](#implementation)
-        * [Person](#person)
+      * [Person](#person)
           * [Design considerations for Person Parameters:](#design-considerations-for-person-parameters)
           * [Design considerations for Person Commands:](#design-considerations-for-person-commands)
           * [Adding a person](#adding-a-person)
           * [Deleting a person](#deleting-a-person)
-        * [Group](#group)
-            * [Design considerations for Group Parameters:](#design-considerations-for-group-parameters)
-            * [Design considerations for Group Commands:](#design-considerations-for-group-commands)
-            * [Adding a group](#adding-a-group)
-            * [Deleting a group](#deleting-a-group)
-        * [Company Profile](#company-profile)
-            * [Design considerations for Company Parameters:](#design-considerations-for-company-parameters)
-            * [Design considerations for Company Commands:](#design-considerations-for-company-commands)
-            * [Adding a company](#adding-a-company)
-            * [Deleting a company](#deleting-a-company)
-            * [Listing company profiles](#listing-company-profiles)
-            * [Finding company profiles](#finding-company-profiles)
-            * [Design considerations for Roles Parameters:](#design-considerations-for-roles-parameters)
-            * [Design considerations for Roles Commands:](#design-considerations-for-roles-commands)
-            * [Adding a role to a specified company](#adding-a-role-to-a-specified-company)
-            * [Deleting a role from a specified company](#deleting-a-role-from-a-specified-company)
+      * [Group](#group)
+          * [Design considerations for Group Parameters:](#design-considerations-for-group-parameters)
+          * [Design considerations for Group Commands:](#design-considerations-for-group-commands)
+          * [Adding a group](#adding-a-group)
+          * [Deleting a group](#deleting-a-group)
+          * [Listing groups](#listing-groups)
+          * [Finding groups](#finding-groups)
+          * [Assigning a contact to a group](#assigning-a-contact-to-a-group)
+          * [Removing a contact from a group](#removing-a-contact-from-a-group)
+      * [Company Profile](#company-profile)
+          * [Design considerations for Company Parameters:](#design-considerations-for-company-parameters)
+          * [Design considerations for Company Commands:](#design-considerations-for-company-commands)
+          * [Adding a company](#adding-a-company)
+          * [Deleting a company](#deleting-a-company)
+          * [Listing company profiles](#listing-company-profiles)
+          * [Finding company profiles](#finding-company-profiles)
+          * [Design considerations for Roles Parameters:](#design-considerations-for-roles-parameters)
+          * [Design considerations for Roles Commands:](#design-considerations-for-roles-commands)
+          * [Adding a role to a specified company](#adding-a-role-to-a-specified-company)
+          * [Deleting a role from a specified company](#deleting-a-role-from-a-specified-company)
         * [\[Proposed\] Undo/redo feature](#proposed-undoredo-feature)
             * [Proposed Implementation](#proposed-implementation)
             * [Design considerations:](#design-considerations)
@@ -428,8 +432,6 @@ The following activity diagram summarizes what happens when a user executes the 
 
 <br>
 
-
-
 ### Group
 
 A `Group` object represents a contact group in HitList. It has the following details:
@@ -449,11 +451,11 @@ A `Group` object represents a contact group in HitList. It has the following det
 
 **Aspect: Validation of Group Names**
 * **Alternative 1 (current choice):** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
-    * **Pros:** Enforces clean, predictable group names, preventing users from accidentally entering malformed data or using symbols that might break the CLI formatting.
-    * **Cons:** Overly restrictive. It prevents users from creating perfectly valid group names that rely on standard punctuation (e.g., `C++ Developers`, `Front-end Techs`, or `R&D Team`).
+  * Pros: Enforces clean, predictable group names, preventing users from accidentally entering malformed data or using symbols that might break the CLI formatting.
+  * Cons: Overly restrictive. It prevents users from creating perfectly valid group names that rely on standard punctuation (e.g., `C++ Developers`, `Front-end Techs`, or `R&D Team`).
 * **Alternative 2:** Use a custom regex `^[^\s/][^/\v]{1,49}$` (Must not start with a space, cannot contain '/' or newlines, and must be between 2 and 50 characters in length).
-    * **Pros:** Highly flexible, allowing users to naturally categorize contacts using helpful symbols like hyphens, ampersands, or brackets (e.g., "Interns (2025)").
-    * **Cons:** Too permissive; it could allow users to create completely nonsensical group names consisting entirely of random punctuation, like `!!!` or `???`.
+  * Pros: Highly flexible, allowing users to naturally categorize contacts using helpful symbols like hyphens, ampersands, or brackets (e.g., "Interns (2025)").
+  * Cons: Too permissive; it could allow users to create completely nonsensical group names consisting entirely of random punctuation, like `!!!` or `???`.
 
 #### Design considerations for Group Commands:
 
@@ -469,11 +471,11 @@ A `Group` object represents a contact group in HitList. It has the following det
 **Aspect: Handling Duplicate Groups:**
 
 * **Alternative 1 (current choice):** Reject duplicates based on group name.
-    * Pros: Prevents users from creating multiple groups with the same purpose and display name.
-    * Cons: Different groups that intentionally share a name cannot coexist.
+  * Pros: Prevents users from creating multiple groups with the same purpose and display name.
+  * Cons: Different groups that intentionally share a name cannot coexist.
 * **Alternative 2:** Allow duplicate group names and rely on the user to manage them manually.
-    * Pros: More flexible.
-    * Cons: Makes group operations such as deletion and listing more error-prone.
+  * Pros: More flexible.
+  * Cons: Makes group operations such as deletion and listing more error-prone.
 
 #### Adding a group
 
@@ -603,6 +605,62 @@ The following activity diagram summarizes what happens when a user executes the 
 
 <br>
 
+#### Listing groups
+
+The ListGroups mechanism is facilitated by `ListGroupsCommand` and its associated parser `ListGroupsCommandParser`. It allows users to list all existing contact groups in HitList. The feature implements the following key operations:
+
+* `ListGroupsCommandParser#parse()` — Parses the user input to ensure it matches the expected format for listing groups.
+* `ListGroupsCommand#execute()` — Executes the logic to retrieve all groups from the model and prepare them for display.
+* `Model#getGroupList()` — Provides access to the complete list of groups stored in the Model.
+
+Step 1. The user launches the application and types `grplist` into the command box.
+
+Step 2. The `LogicManager` intercepts the user input and calls `HitListParser#parseCommand("grplist")`.
+
+Step 3. Recognizing the `grplist` command word, the `HitListParser` instantiates a `ListGroupsCommandParser`.
+
+Step 4. The `HitListParser` calls the `parse()` method of the newly created `ListGroupsCommandParser`. The parser checks the arguments:
+
+If no argument is provided: It creates a `ListGroupCommand` with the default behaviour.
+
+If an argument is provided: It extracts the group name and creates a `ListGroupCommand` containing the group name of target group.
+
+<div class="text-center">
+    <puml src="diagrams/list-groups/GroupListParsing.puml" alt="GroupListParsing" />
+</div>
+
+<br>
+
+Step 5. The `ListGroupsCommand` is returned to the `LogicManager`, and the `ListGroupsCommandParser` is subsequently destroyed.
+
+<div class="text-center">
+    <puml src="diagrams/list-groups/GroupListExecution.puml" alt="GroupListExecution" />
+</div>
+
+<br>
+
+Step 6. `LogicManager` calls `ListGroupsCommand#execute()`. The command calls `Model#getGroupList()` to retrieve the list of groups from the internal HitList state, or sends `toList` to the model.
+
+Step 7. Since the underlying data was not modified, `Storage` does not need to save anything to the hard disk. The `LogicManager` returns the `CommandResult` containing the list of groups to the UI to display to the user.
+
+<div class="text-center">
+    <puml src="diagrams/list-groups/GroupListSequenceDiagram-Logic.puml" alt="GroupListSequenceDiagramLogic" />
+</div>
+
+<br>
+
+<info type="info" seamless header="Note">
+The lifeline for `ListGroupsCommand` and `ListGroupsCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</info>
+
+The following activity diagram summarizes what happens when a user executes the `grplist` command:
+
+<div class="text-center">
+    <puml src="diagrams/list-groups/GroupListActivityDiagram.puml" alt="GroupListActivityDiagram" />
+</div>
+
+<br>
+
 ### Company Profile
 
 A `Company` object represents a company profile. It has the following details:
@@ -629,19 +687,19 @@ A `Role` object represents a role that the headhunter is recruiting for within a
 
 **Aspect: Validation of Company Names**
 * **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
-    * **Pros:** Enforces clean data entry and prevents users from accidentally entering malformed data or symbols that might break CLI formatting.
-    * **Cons:** Overly restrictive. It prevents users from adding companies with perfectly valid punctuation in their registered names (e.g., `Macy's`, `AT&T`, or `LEAK X'PRESS PLUMBING & CONSTRUCTION`).
+  * Pros: Enforces clean data entry and prevents users from accidentally entering malformed data or symbols that might break CLI formatting.
+  * Cons: Overly restrictive. It prevents users from adding companies with perfectly valid punctuation in their registered names (e.g., `Macy's`, `AT&T`, or `LEAK X'PRESS PLUMBING & CONSTRUCTION`).
 * **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,29}$` (Must not start with a space, cannot contain `/` or newlines, and must be between 2 and 30 characters).
-    * **Pros:** Highly flexible, allowing users to accurately input diverse company names exactly as they are legally registered, including standard punctuation.
-    * **Cons:** Too permissive; it could allow users to create completely nonsensical company names consisting entirely of random punctuation marks like `!!!` or `???`.
+  * Pros: Highly flexible, allowing users to accurately input diverse company names exactly as they are legally registered, including standard punctuation.
+  * Cons: Too permissive; it could allow users to create completely nonsensical company names consisting entirely of random punctuation marks like `!!!` or `???`.
 
 **Aspect: Validation of Company Description**
 * **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
-    * **Pros:** Prevents users from accidentally entering malformed data or using symbols that might break the CLI or JSON storage formatting.
-    * **Cons:** Extremely restrictive for a text-heavy field. It prevents users from using basic, necessary punctuation to write readable sentences (e.g., blocking commas, periods, and hyphens in a description like "A fast-growing B2B startup, founded in 2023.").
+  * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI or JSON storage formatting.
+  * Cons: Extremely restrictive for a text-heavy field. It prevents users from using basic, necessary punctuation to write readable sentences (e.g., blocking commas, periods, and hyphens in a description like "A fast-growing B2B startup, founded in 2023.").
 * **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,999}$` (Must not start with a space, cannot contain `/` or newlines, and must be between 2 and 1000 characters).
-    * **Pros:** Highly flexible, allowing users to write detailed, naturally formatted descriptions using full sentences and helpful punctuation.
-    * **Cons:** Extremely permissive; it could allow users to enter unhelpful or completely nonsensical descriptions (like `!!!` or a string of random symbols) as long as it doesn't violate the basic exclusion rules.
+  * Pros: Highly flexible, allowing users to write detailed, naturally formatted descriptions using full sentences and helpful punctuation.
+  * Cons: Extremely permissive; it could allow users to enter unhelpful or completely nonsensical descriptions (like `!!!` or a string of random symbols) as long as it doesn't violate the basic exclusion rules.
 
 #### Design considerations for Company Commands:
 
@@ -990,19 +1048,19 @@ The following activity diagram summarizes what happens when a user executes the 
 
 **Aspect: Validation of Role Names**
 * **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
-    * **Pros:** Enforces clean data entry, preventing users from accidentally entering malformed data or symbols that might disrupt CLI parsing.
-    * **Cons:** Too restrictive. It prevents users from adding perfectly valid roles that rely on standard industry punctuation (e.g., "Front-end Developer", "C++ Engineer", or "UI/UX Designer").
+  * Pros: Enforces clean data entry, preventing users from accidentally entering malformed data or symbols that might disrupt CLI parsing.
+  * Cons: Too restrictive. It prevents users from adding perfectly valid roles that rely on standard industry punctuation (e.g., "Front-end Developer", "C++ Engineer", or "UI/UX Designer").
 * **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,49}$` (Must not start with a space, cannot contain `/` or newlines, and must be between 2 and 50 characters).
-    * **Pros:** Highly flexible, allowing users to accurately input diverse job titles exactly as they appear in the market, including standard punctuation.
-    * **Cons:** Extremely permissive; it could allow users to create completely nonsensical role titles consisting entirely of random punctuation marks like `!!!` or `???`.
+  * Pros: Highly flexible, allowing users to accurately input diverse job titles exactly as they appear in the market, including standard punctuation.
+  * Cons: Extremely permissive; it could allow users to create completely nonsensical role titles consisting entirely of random punctuation marks like `!!!` or `???`.
 
 **Aspect: Validation of Role Description**
 * **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
-    * **Pros:** Prevents users from accidentally entering malformed data or using symbols that might break the CLI or JSON storage formatting.
-    * **Cons:** Highly impractical for a descriptive field. It prevents users from writing natural sentences and using basic punctuation (e.g., blocking commas, periods, and symbols like `+` or `&` in a description such as `Requires 5+ years of experience in C++ & Python.`).
+  * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI or JSON storage formatting.
+    * Cons: Highly impractical for a descriptive field. It prevents users from writing natural sentences and using basic punctuation (e.g., blocking commas, periods, and symbols like `+` or `&` in a description such as `Requires 5+ years of experience in C++ & Python.`).
 * **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,999}$` (Must not start with a space, cannot contain `/` or newlines, and must be between 2 and 1000 characters).
-    * **Pros:** Maximum flexibility, allowing users to write detailed, naturally formatted role requirements and descriptions.
-    * **Cons:** Too permissive; it could allow users to enter unhelpful or completely nonsensical descriptions (like `!!!` or a string of random symbols) as long as it doesn't violate the basic exclusion rules.
+  * Pros: Maximum flexibility, allowing users to write detailed, naturally formatted role requirements and descriptions.
+  * Cons: Too permissive; it could allow users to enter unhelpful or completely nonsensical descriptions (like `!!!` or a string of random symbols) as long as it doesn't violate the basic exclusion rules.
 
 #### Design considerations for Roles Commands:
 
