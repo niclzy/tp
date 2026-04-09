@@ -397,23 +397,33 @@ Step 7. Finally, `Storage` saves the updated HitList to the hard disk, and the `
 
 The following object diagram shows the important objects created during parsing:
 
-<puml src="diagrams/edit-person/PersonEditParsing.puml" alt="PersonEditParsing" />
+<div class="text-center">
+  <puml src="diagrams/edit-person/PersonEditParsing.puml" alt="PersonEditParsing" />
+</div>
 
 The following object diagram shows the important objects involved during execution:
 
-<puml src="diagrams/edit-person/PersonEditExecution.puml" alt="PersonEditExecution" />
+<div class="text-center">
+  <puml src="diagrams/edit-person/PersonEditExecution.puml" alt="PersonEditExecution" />
+</div>
 
 The following object diagram shows the model state after successful execution:
 
-<puml src="diagrams/edit-person/PersonEditPostExecution.puml" alt="PersonEditPostExecution" />
+<div class="text-center">
+  <puml src="diagrams/edit-person/PersonEditPostExecution.puml" alt="PersonEditPostExecution" />
+</div>
 
 The following sequence diagram shows how an EditPerson operation goes through the Logic component:
 
-<puml src="diagrams/edit-person/PersonEditSequenceDiagram-Logic.puml" alt="PersonEditSequenceDiagramLogic" />
+<div class="text-center">
+  <puml src="diagrams/edit-person/PersonEditSequenceDiagram-Logic.puml" alt="PersonEditSequenceDiagramLogic" />
+</div>
 
 The following activity diagram summarizes what happens when a user executes the `edit` command:
 
-<puml src="diagrams/edit-person/PersonEditActivityDiagram.puml" alt="PersonEditActivityDiagram" />
+<div class="text-center">
+  <puml src="diagrams/edit-person/PersonEditActivityDiagram.puml" alt="PersonEditActivityDiagram" />
+</div>
 
 #### Finding a person
 
@@ -452,24 +462,33 @@ Step 7. Finally, the `LogicManager` returns the `CommandResult` to the UI to dis
 
 The following object diagram shows the important objects created during parsing:
 
-<puml src="diagrams/find-person/PersonFindParsing.puml" alt="PersonFindParsing" />
+<div class="text-center">
+  <puml src="diagrams/find-person/PersonFindParsing.puml" alt="PersonFindParsing" />
+</div>
 
 The following object diagram shows the important objects involved during execution:
 
-<puml src="diagrams/find-person/PersonFindExecution.puml" alt="PersonFindExecution" />
+<div class="text-center">
+  <puml src="diagrams/find-person/PersonFindExecution.puml" alt="PersonFindExecution" />
+</div>
 
 The following object diagram shows the model state after successful execution:
 
-<puml src="diagrams/find-person/PersonFindPostExecution.puml" alt="PersonFindPostExecution" />
+<div class="text-center">
+  <puml src="diagrams/find-person/PersonFindPostExecution.puml" alt="PersonFindPostExecution" />
+</div>
 
 The following sequence diagram shows how a FindPerson operation goes through the Logic component:
 
-<puml src="diagrams/find-person/PersonFindSequenceDiagram-Logic.puml" alt="PersonFindSequenceDiagramLogic" />
+<div class="text-center">
+  <puml src="diagrams/find-person/PersonFindSequenceDiagram-Logic.puml" alt="PersonFindSequenceDiagramLogic" />
+</div>
 
 The following activity diagram summarizes what happens when a user executes the `find` command:
 
-<puml src="diagrams/find-person/PersonFindActivityDiagram.puml" alt="PersonFindActivityDiagram" />
-
+<div class="text-center">
+  <puml src="diagrams/find-person/PersonFindActivityDiagram.puml" alt="PersonFindActivityDiagram" />
+</div>
 
 ### Group
 
