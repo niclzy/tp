@@ -93,12 +93,6 @@ public class EditCommandParserTest {
         // multiple invalid values, but only the first invalid value is captured
         assertParseFailure(parser, "1" + INVALID_NAME_DESC + " /e invalidemail"
                 + VALID_ADDRESS_AMY + VALID_PHONE_AMY, Name.MESSAGE_CONSTRAINTS);
-
-        // Test concatenated prefix with value (no space) - should fail
-        assertParseFailure(parser, "1 /eabc@example.com", MESSAGE_INVALID_FORMAT);
-        assertParseFailure(parser, "1 /a123Street", MESSAGE_INVALID_FORMAT);
-        assertParseFailure(parser, "1 /nJohnDoe", MESSAGE_INVALID_FORMAT);
-        assertParseFailure(parser, "1 /p91234567", MESSAGE_INVALID_FORMAT);
     }
 
     @Test

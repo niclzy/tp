@@ -25,24 +25,6 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
 
-        // Check for invalid format where prefix is concatenated with value (no space)
-        // Look for patterns like "/eabc", "/a123", "/nJohn", "/p9123" that are not followed by space or end
-        // But allow "/e" (clear), "/a" (clear), "/e " (space after), etc.
-        String trimmedArgs = args.trim();
-
-        // Check each token for invalid prefix-value concatenation
-        String[] tokens = trimmedArgs.split("\\s+");
-        for (int i = 1; i < tokens.length; i++) { // Skip first token (index)
-            String token = tokens[i];
-            // Check if token starts with a prefix and has more characters than just the prefix
-            if ((token.startsWith("/n") || token.startsWith("/p") || token.startsWith("/e") || token.startsWith("/a"))
-                    && token.length() > 2) {
-                // The token has the prefix plus extra characters with no space
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                        EditCommand.MESSAGE_USAGE));
-            }
-        }
-
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
 
