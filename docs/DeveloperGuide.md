@@ -197,6 +197,60 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Deleting a person
 
+#### Editing a person
+
+The **EditPerson mechanism** is facilitated by `EditCommand` and its associated parser `EditCommandParser`. It allows users to modify the details of an existing person in HitList by specifying the displayed index in the UI and providing new field values.
+
+The feature implements the following key operations:
+
+* `EditCommandParser#parse()` — Parses the user input to extract the target index and the fields to edit. It constructs an `EditPersonDescriptor` that encapsulates the new values.
+* `EditCommand#execute()` — Executes the logic to verify the target’s existence, apply the edits, and update the model.
+* `Model#setPerson()` — Updates the HitList within the Model state by replacing the specified person with the edited version.
+
+---
+
+Given below is an example usage scenario and how the EditPerson mechanism behaves at each step.
+
+<box seamless>
+    The full command is `edit 1 /n John Doe /p 98765432 /e johnd@example.com /a 311, Clementi Ave 2, #02-25`
+</box>
+
+Step 1. The user launches the application and types `edit 1 /n John Doe /p 98765432 ...` into the command box.
+
+Step 2. The `LogicManager` intercepts the user input and calls `HitListParser#parseCommand("edit 1 /n John Doe /p 98765432 ...")`.
+
+Step 3. Recognizing the `edit` command word, the `HitListParser` instantiates an `EditCommandParser`.
+
+Step 4. The `HitListParser` calls the `parse(" 1 /n John Doe /p 98765432 ...")` method of the newly created `EditCommandParser`.  
+The parser extracts the target index and new field values, creates an `EditPersonDescriptor`, then constructs a new `EditCommand` targeting the person at index `1`.
+
+Step 5. The `EditCommand` is returned to the `LogicManager`, and the `EditCommandParser` is subsequently destroyed.
+
+Step 6. `LogicManager` calls `EditCommand#execute()`. The command retrieves the target person, applies the edits using the `EditPersonDescriptor`, and calls `Model#setPerson(personToEdit, editedPerson)` to update the internal HitList state.
+
+Step 7. Finally, `Storage` saves the updated HitList to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
+
+The following object diagram shows the important objects created during parsing:
+
+<puml src="diagrams/edit-person/PersonEditParsing.puml" alt="PersonEditParsing" />
+
+The following object diagram shows the important objects involved during execution:
+
+<puml src="diagrams/edit-person/PersonEditExecution.puml" alt="PersonEditExecution" />
+
+The following object diagram shows the model state after successful execution:
+
+<puml src="diagrams/edit-person/PersonEditPostExecution.puml" alt="PersonEditPostExecution" />
+
+The following sequence diagram shows how an EditPerson operation goes through the Logic component:
+
+<puml src="diagrams/edit-person/PersonEditSequenceDiagram-Logic.puml" alt="PersonEditSequenceDiagramLogic" />
+
+The following activity diagram summarizes what happens when a user executes the `edit` command:
+
+<puml src="diagrams/edit-person/PersonEditActivityDiagram.puml" alt="PersonEditActivityDiagram" />
+
+
 ### Company Profile
 
 A `Company` object represents a company profile. It has the following details:
