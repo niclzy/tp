@@ -33,6 +33,16 @@ pageNav: 3
             * [Design considerations for Roles Commands:](#design-considerations-for-roles-commands)
             * [Adding a role to a specified company](#adding-a-role-to-a-specified-company)
             * [Deleting a role from a specified company](#deleting-a-role-from-a-specified-company)
+        * [Groups](#groups)
+            * [Design considerations for Group Parameters:](#design-considerations-for-group-parameters)
+            * [Design considerations for Group Commands:](#design-considerations-for-group-commands)
+            * [Adding a group](#adding-a-group)
+            * [Deleting a group](#deleting-a-group)
+            * [Listing all groups](#listing-all-groups)
+            * [Finding a group](#finding-a-group)
+            * [Assigning a contact to a group](#adding-a-contact-to-a-group)
+            * [Removing a contact from a group](#removing-a-contact-from-a-group)
+            * [Listing all contacts in a group](#listing-all-contacts-in-a-group)
         * [\[Proposed\] Undo/redo feature](#proposed-undoredo-feature)
             * [Proposed Implementation](#proposed-implementation)
             * [Design considerations:](#design-considerations)
@@ -485,6 +495,110 @@ The following sequence diagram shows how a DeleteRole operation goes through the
 The following activity diagram summarizes what happens when a user executes the `roledel` command:
 
 <puml src="diagrams/delete-role/RoleDeleteActivityDiagram.puml" />
+
+### Groups
+
+A `Group` object represents a set of `Person` objects. It has the following details:
+* `groupName` (required): The name of the group.
+* `UniquePersonList` (required): A list of `Person` objects that belong to the group.
+
+#### Design considerations for Group Parameters:
+
+**Aspect: Validation of Group Names:**
+* **Alternative 1 (current choice):** Use a custom regex `[\p{Alnum}][\p{Alnum} ]*` to only allow alphanumeric characters and spaces.
+    * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI formatting.
+    * Cons: Prevents users from creating groups with symbols in their names (e.g., "Post-grads (NUS)").
+
+* **Alternative 2:** Use a more flexible regex `^[^\s/][^/\v]*$` (Must not start with a space, contain / or have newlines).
+    * Pros: Allows users to create groups with a wider variety of names, including those with symbols.
+    * Cons: Could allow completely nonsensical contact group names like !!! or ???.
+
+#### Design considerations for Group Commands:
+
+**Aspect: Command Format for Parameters:**
+
+* **Alternative 1 (current choice):** Use prefixes to indicate parameters (e.g., /g for group name, /n for contact name).
+    * Pros: Clear and unambiguous parsing of parameters, especially when there are multiple parameters.
+    * Cons: Requires users to remember and use specific prefixes.
+
+* **Alternative 2:** Use a fixed order of parameters without prefixes (e.g., grpadd Students Betsy Crowe).
+    * Pros: Simpler command format, less typing for users.
+    * Cons: Parsing can be more error-prone, especially if parameters can contain spaces or if there are optional parameters.
+
+#### Adding a group
+
+The AddGroup mechanism is facilitated by `AddGroupCommand` and its associated parser `AddGroupCommandParser`. It allows users to create a new contact group in the HitList.
+The feature implements the following key operations:
+
+* `AddGroupCommandParser#parse()` — Parses the user input to extract the group name (indicated by the `/g` prefix) and creates a new `Group` object with an empty `UniquePersonList`.
+* `AddGroupCommand#execute()` — Executes the logic to add the parsed group to the model.
+* `Model#addGroup()` — Updates the HitList within the Model state by adding the new group.
+
+Given below is an example usage scenario and how the AddGroup mechanism behaves at each step.
+
+Step 1. The user launches the application and types `grpadd /g Students` into the command box.
+
+Step 2. The `LogicManager` intercepts the user input and calls `HitListParser#parseCommand("grpadd /g Students")`.
+
+Step 3. Recognizing the `grpadd` command word, the `HitListParser` instantiates an `AddGroupCommandParser`.
+
+Step 4. The `HitListParser` calls the `parse(" /g Students")` method of the newly created `AddGroupCommandParser`. The parser extracts the group name, creates a new Group object (representing "Students"), and passes it into the constructor of a new `AddGroupCommand`.
+
+<div class="text-center">
+    <puml src="diagrams/add-group/GroupAddParsing.puml" alt="GroupAddObjectDiagram" />
+</div>
+
+<br>
+
+Step 5. The `AddGroupCommand` is returned to the `LogicManager`, and the `AddGroupCommandParser` is subsequently destroyed.
+
+<div class="text-center">
+    <puml src="diagrams/add-group/GroupAddExecution.puml" alt="GroupAddObjectDiagram" />
+</div>
+
+<br>
+
+Step 6. `LogicManager` calls `AddGroupCommand#execute()`. This command calls `Model#addGroup(groupToAdd)`, passing the parsed group object to update the internal `HitList` state.
+
+Step 7. Finally, `Storage` saves the updated `HitList` to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
+
+<div class="text-center">
+    <puml src="diagrams/add-group/GroupAddPostExecution.puml" alt="GroupAddObjectDiagram" />
+</div>
+
+<br>
+
+The following sequence diagram shows how an AddGroup operation goes through the Logic component:
+
+<div class="text-center">
+    <puml src="diagrams/add-group/GroupAddSequenceDiagramLogic.puml" alt="GroupAddSequenceDiagram" />
+</div>
+
+<br>
+
+<box type="info" seamless>
+**Note:** The lifeline for `AddGroupCommand` and `AddGroupCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</box>
+
+The following activity diagram summarizes what happens when a user executes the `grpadd` command:
+
+<div class="text-center">
+    <puml src="diagrams/add-group/GroupAddActivityDiagram.puml" alt="GroupAddActivityDiagram" />
+</div>
+
+<br>
+
+#### Deleting a contact group
+
+#### Listing all contact groups
+
+#### Finding a contact group
+
+#### Assigning a contact to a contact group
+
+#### Removing a contact from a contact group
+
+#### Listing all contacts in a contact group
 
 ### \[Proposed\] Undo/redo feature
 

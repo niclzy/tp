@@ -1,0 +1,25 @@
+@startuml group-add-post-execution /' Renames the file to kebab-case when exported as an image.'/
+!include ../style.puml
+skinparam ArrowFontStyle plain
+
+skinparam shadowing false
+skinparam ObjectFontColor #FFFFFF
+skinparam ObjectAttributeFontColor #FFFFFF
+skinparam ObjectBorderColor #FFFFFF
+
+show objects
+show members
+
+object "<u>:ModelManager</u>" as ModelManager MODEL_COLOR
+object "<u>:HitList</u>" as HitList MODEL_COLOR
+object "<u>:UniqueGroupList</u>" as UniqueGroupList MODEL_COLOR
+object "<u>:Group</u>" as Group MODEL_COLOR
+object "<u>:UniquePersonList</u>" as UniquePersonList MODEL_COLOR
+
+ModelManager --> HitList
+HitList --> UniqueGroupList
+UniqueGroupList --> Group : contains >
+Group *--> UniquePersonList : contains >
+
+Group : groupName = "Students"
+@enduml
