@@ -63,6 +63,81 @@ public class EditPersonDescriptorTest {
     }
 
     @Test
+    public void equals_sameClearFlags_returnsTrue() {
+        EditPersonDescriptor descriptor1 = new EditPersonDescriptor();
+        descriptor1.setClearEmail(true);
+        descriptor1.setClearAddress(true);
+
+        EditPersonDescriptor descriptor2 = new EditPersonDescriptor();
+        descriptor2.setClearEmail(true);
+        descriptor2.setClearAddress(true);
+
+        assertTrue(descriptor1.equals(descriptor2));
+    }
+
+    @Test
+    public void equals_differentClearEmailFlag_returnsFalse() {
+        EditPersonDescriptor descriptor1 = new EditPersonDescriptor();
+        descriptor1.setClearEmail(true);
+
+        EditPersonDescriptor descriptor2 = new EditPersonDescriptor();
+        descriptor2.setClearEmail(false);
+
+        assertFalse(descriptor1.equals(descriptor2));
+    }
+
+    @Test
+    public void equals_differentClearAddressFlag_returnsFalse() {
+        EditPersonDescriptor descriptor1 = new EditPersonDescriptor();
+        descriptor1.setClearAddress(true);
+
+        EditPersonDescriptor descriptor2 = new EditPersonDescriptor();
+        descriptor2.setClearAddress(false);
+
+        assertFalse(descriptor1.equals(descriptor2));
+    }
+
+    @Test
+    public void equals_sameFieldsDifferentClearFlags_returnsFalse() {
+        EditPersonDescriptor descriptor1 = new EditPersonDescriptorBuilder()
+                .withName(VALID_NAME_BOB)
+                .withPhone(VALID_PHONE_BOB)
+                .build();
+        descriptor1.setClearEmail(true);
+
+        EditPersonDescriptor descriptor2 = new EditPersonDescriptorBuilder()
+                .withName(VALID_NAME_BOB)
+                .withPhone(VALID_PHONE_BOB)
+                .build();
+        descriptor2.setClearEmail(false);
+
+        assertFalse(descriptor1.equals(descriptor2));
+    }
+
+    @Test
+    public void equals_bothHaveSameClearFlagsAndSameFields_returnsTrue() {
+        EditPersonDescriptor descriptor1 = new EditPersonDescriptorBuilder()
+                .withName(VALID_NAME_BOB)
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .withAddress(VALID_ADDRESS_BOB)
+                .build();
+        descriptor1.setClearEmail(true);
+        descriptor1.setClearAddress(true);
+
+        EditPersonDescriptor descriptor2 = new EditPersonDescriptorBuilder()
+                .withName(VALID_NAME_BOB)
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .withAddress(VALID_ADDRESS_BOB)
+                .build();
+        descriptor2.setClearEmail(true);
+        descriptor2.setClearAddress(true);
+
+        assertTrue(descriptor1.equals(descriptor2));
+    }
+
+    @Test
     public void isAnyFieldEdited_withClearEmailOnly_returnsTrue() {
         EditPersonDescriptor descriptor = new EditPersonDescriptor();
         descriptor.setClearEmail(true);
