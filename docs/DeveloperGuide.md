@@ -570,6 +570,136 @@ The following activity diagram summarizes what happens when a user executes the 
 
 <br>
 
+#### Assigning a contact to a group
+
+The AssignGroup mechanism is facilitated by `AssignGroupCommand` and its associated parser `AssignGroupCommandParser`. It allows users to add an existing contact to an existing group in HitList. The feature implements the following key operations:
+
+* `AssignGroupCommandParser#parse()` — Parses the user input to extract the contact name (indicated by the `/n` prefix) and the group name (indicated by the `/g` prefix).
+* `AssignGroupCommand#execute()` — Executes the logic to verify both the contact and group exist, checks that the contact is not already a member, and adds the contact to the group.
+* `Group#addMember()` — Updates the group within the HitList state by adding the specified contact to the group's member list.
+* `Model#updateFilteredPersonList()` — Updates the filtered person list to show only members of the target group after the operation.
+
+Given below is an example usage scenario and how the AssignGroup mechanism behaves at each step.
+
+Step 1. The user launches the application and types `grpassign /n Alex Yeoh /g Students` into the command box.
+
+Step 2. The `LogicManager` intercepts the user input and calls `HitListParser#parseCommand("grpassign /n Alex Yeoh /g Students")`.
+
+Step 3. Recognizing the `grpassign` command word, the `HitListParser` instantiates an `AssignGroupCommandParser`.
+
+Step 4. The `HitListParser` calls the `parse(" /n Alex Yeoh /g Students")` method of the newly created `AssignGroupCommandParser`. The parser extracts the contact name and group name, creates a new `AssignGroupCommand` targeting the specified contact and group, and returns it.
+
+<div class="text-center">
+  <puml src="diagrams/assign-group/GroupAssignParsing.puml" alt="GroupAssignObjectDiagram-Parsing" />
+</div>
+
+<br>
+
+Step 5. The `AssignGroupCommand` is returned to the `LogicManager`, and the `AssignGroupCommandParser` is subsequently destroyed.
+
+<div class="text-center">
+  <puml src="diagrams/assign-group/GroupAssignExecution.puml" alt="GroupAssignObjectDiagram-Execution" />
+</div>
+
+<br>
+
+Step 6. `LogicManager` calls `AssignGroupCommand#execute()`. The command retrieves the target contact and group, verifies they exist and that the contact is not already a member, then calls `Group#addMember(contact)` to add the contact to the group.
+
+Step 7. Finally, `Storage` saves the updated `HitList` to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
+
+<div class="text-center">
+  <puml src="diagrams/assign-group/GroupAssignPostExecution.puml" alt="GroupAssignObjectDiagram-PostExecution" />
+</div>
+
+<br>
+
+The following sequence diagram shows how an AssignGroup operation goes through the Logic component:
+
+<div class="text-center">
+  <puml src="diagrams/assign-group/GroupAssignSequenceDiagram.puml" alt="GroupAssignSequenceDiagram" />
+</div>
+
+<br>
+
+<box type="info" seamless>
+
+**Note:** The lifeline for `AssignGroupCommand` and `AssignGroupCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+</box>
+
+The following activity diagram summarizes what happens when a user executes the `grpassign` command:
+
+<div class="text-center">
+  <puml src="diagrams/assign-group/GroupAssignActivityDiagram.puml" alt="GroupAssignActivityDiagram" />
+</div>
+
+<br>
+
+#### Unassigning a contact from a group
+
+The UnassignGroup mechanism is facilitated by `UnassignGroupCommand` and its associated parser `UnassignGroupCommandParser`. It allows users to remove an existing contact from an existing group in HitList. The feature implements the following key operations:
+
+* `UnassignGroupCommandParser#parse()` — Parses the user input to extract the contact name (indicated by the `/n` prefix) and the group name (indicated by the `/g` prefix).
+* `UnassignGroupCommand#execute()` — Executes the logic to verify both the contact and group exist, checks that the contact is currently a member of the group, and removes the contact from the group.
+* `Group#removeMember()` — Updates the group within the HitList state by removing the specified contact from the group's member list.
+* `Model#updateFilteredPersonList()` — Updates the filtered person list to show only members of the target group after the operation.
+
+Given below is an example usage scenario and how the UnassignGroup mechanism behaves at each step.
+
+Step 1. The user launches the application and types `grpunassign /n Alex Yeoh /g Students` into the command box.
+
+Step 2. The `LogicManager` intercepts the user input and calls `HitListParser#parseCommand("grpunassign /n Alex Yeoh /g Students")`.
+
+Step 3. Recognizing the `grpunassign` command word, the `HitListParser` instantiates an `UnassignGroupCommandParser`.
+
+Step 4. The `HitListParser` calls the `parse(" /n Alex Yeoh /g Students")` method of the newly created `UnassignGroupCommandParser`. The parser extracts the contact name and group name, creates a new `UnassignGroupCommand` targeting the specified contact and group, and returns it.
+
+<div class="text-center">
+  <puml src="diagrams/unassign-group/GroupUnassignParsing.puml" alt="GroupUnassignObjectDiagram-Parsing" />
+</div>
+
+<br>
+
+Step 5. The `UnassignGroupCommand` is returned to the `LogicManager`, and the `UnassignGroupCommandParser` is subsequently destroyed.
+
+<div class="text-center">
+  <puml src="diagrams/unassign-group/GroupUnassignExecution.puml" alt="GroupUnassignObjectDiagram-Execution" />
+</div>
+
+<br>
+
+Step 6. `LogicManager` calls `UnassignGroupCommand#execute()`. The command retrieves the target contact and group, verifies they exist and that the contact is currently a member, then calls `Group#removeMember(contact)` to remove the contact from the group.
+
+Step 7. Finally, `Storage` saves the updated `HitList` to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
+
+<div class="text-center">
+  <puml src="diagrams/unassign-group/GroupUnassignPostExecution.puml" alt="GroupUnassignObjectDiagram-PostExecution" />
+</div>
+
+<br>
+
+The following sequence diagram shows how an UnassignGroup operation goes through the Logic component:
+
+<div class="text-center">
+  <puml src="diagrams/unassign-group/GroupUnassignSequenceDiagram.puml" alt="GroupUnassignSequenceDiagram" />
+</div>
+
+<br>
+
+<box type="info" seamless>
+
+**Note:** The lifeline for `UnassignGroupCommand` and `UnassignGroupCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+</box>
+
+The following activity diagram summarizes what happens when a user executes the `grpunassign` command:
+
+<div class="text-center">
+  <puml src="diagrams/unassign-group/GroupUnassignActivityDiagram.puml" alt="GroupUnassignActivityDiagram" />
+</div>
+
+<br>
+
 ### Company Profile
 
 A `Company` object represents a company profile. It has the following details:
