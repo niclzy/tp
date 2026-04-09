@@ -384,6 +384,60 @@ The following activity diagram summarizes what happens when a user executes the 
 
 <puml src="diagrams/edit-person/PersonEditActivityDiagram.puml" alt="PersonEditActivityDiagram" />
 
+#### Finding a person
+
+The **FindPerson mechanism** is facilitated by `FindCommand` and its associated parser `FindCommandParser`. It allows users to search for people in HitList by specifying keywords that match attributes such as name, phone number, or email.
+
+The feature implements the following key operations:
+
+* `HitListParser#parseCommand()` — Intercepts the user input and determines that the command word is `find`.
+* `FindCommandParser#parse()` — Parses the remaining input string (e.g., `"Alex Lee"`) and constructs a `PersonMatchesFindPredicate` object that encapsulates the search condition.
+* `FindCommand#execute()` — Executes the logic by applying the predicate to the model’s person list and updating the filtered list.
+* `Model#updateFilteredPersonList()` — Updates the internal state of the HitList to only show persons that match the predicate.
+
+---
+
+Given below is an example usage scenario and how the FindPerson mechanism behaves at each step.
+
+<box seamless>
+    The full command is <code>find Alex Lee</code>
+</box>
+
+Step 1. The user launches the application and types `find Alex Lee` into the command box.
+
+Step 2. The `LogicManager` intercepts the user input and calls `HitListParser#parseCommand("find Alex Lee")`.
+
+Step 3. Recognizing the `find` command word, the `HitListParser` instantiates a `FindCommandParser`.
+
+Step 4. The `HitListParser` calls the `parse(" Alex Lee")` method of the newly created `FindCommandParser`.  
+The parser constructs a `PersonMatchesFindPredicate` object based on the keywords `"Alex"` and `"Lee"`, then creates a new `FindCommand` with this predicate.
+
+Step 5. The `FindCommand` is returned to the `LogicManager`, and the `FindCommandParser` is subsequently destroyed.
+
+Step 6. `LogicManager` calls `FindCommand#execute()`. The command applies the predicate to the model’s person list, filtering out only those that match `"Alex"` or  `"Lee"`.  
+The `Model#updateFilteredPersonList(predicate)` method updates the internal HitList state accordingly.
+
+Step 7. Finally, the `LogicManager` returns the `CommandResult` to the UI to display the filtered list of persons to the user.
+
+The following object diagram shows the important objects created during parsing:
+
+<puml src="diagrams/find-person/PersonFindParsing.puml" alt="PersonFindParsing" />
+
+The following object diagram shows the important objects involved during execution:
+
+<puml src="diagrams/find-person/PersonFindExecution.puml" alt="PersonFindExecution" />
+
+The following object diagram shows the model state after successful execution:
+
+<puml src="diagrams/find-person/PersonFindPostExecution.puml" alt="PersonFindPostExecution" />
+
+The following sequence diagram shows how a FindPerson operation goes through the Logic component:
+
+<puml src="diagrams/find-person/PersonFindSequenceDiagram-Logic.puml" alt="PersonFindSequenceDiagramLogic" />
+
+The following activity diagram summarizes what happens when a user executes the `find` command:
+
+<puml src="diagrams/find-person/PersonFindActivityDiagram.puml" alt="PersonFindActivityDiagram" />
 
 
 ### Group
