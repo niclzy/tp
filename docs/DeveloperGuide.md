@@ -827,19 +827,19 @@ The following activity diagram summarizes what happens when a user executes the 
 
 #### Listing groups
 
-The ListGroups mechanism is facilitated by `ListGroupsCommand` and its associated parser `ListGroupsCommandParser`. It allows users to list all existing contact groups in HitList. The feature implements the following key operations:
+The ListGroups mechanism is facilitated by `ListGroupCommand` and its associated parser `ListGroupCommandParser`. It allows users to list all existing contact groups in HitList. The feature implements the following key operations:
 
-* `ListGroupsCommandParser#parse()` — Parses the user input to ensure it matches the expected format for listing groups.
-* `ListGroupsCommand#execute()` — Executes the logic to retrieve all groups from the model and prepare them for display.
+* `ListGroupCommandParser#parse()` — Parses the user input to ensure it matches the expected format for listing groups.
+* `ListGroupCommand#execute()` — Executes the logic to retrieve all groups from the model and prepare them for display.
 * `Model#getGroupList()` — Provides access to the complete list of groups stored in the Model.
 
 Step 1. The user launches the application and types `grplist` into the command box.
 
 Step 2. The `LogicManager` intercepts the user input and calls `HitListParser#parseCommand("grplist")`.
 
-Step 3. Recognizing the `grplist` command word, the `HitListParser` instantiates a `ListGroupsCommandParser`.
+Step 3. Recognizing the `grplist` command word, the `HitListParser` instantiates a `ListGroupCommandParser`.
 
-Step 4. The `HitListParser` calls the `parse()` method of the newly created `ListGroupsCommandParser`. The parser checks the arguments:
+Step 4. The `HitListParser` calls the `parse()` method of the newly created `ListGroupCommandParser`. The parser checks the arguments:
 
 If no argument is provided: It creates a `ListGroupCommand` with the default behaviour.
 
@@ -851,7 +851,7 @@ If an argument is provided: It extracts the group name and creates a `ListGroupC
 
 <br>
 
-Step 5. The `ListGroupsCommand` is returned to the `LogicManager`, and the `ListGroupsCommandParser` is subsequently destroyed.
+Step 5. The `ListGroupCommand` is returned to the `LogicManager`, and the `ListGroupCommandParser` is subsequently destroyed.
 
 <div class="text-center">
     <puml src="diagrams/list-groups/GroupListExecution.puml" alt="GroupList-Execution" />
@@ -859,7 +859,7 @@ Step 5. The `ListGroupsCommand` is returned to the `LogicManager`, and the `List
 
 <br>
 
-Step 6. `LogicManager` calls `ListGroupsCommand#execute()`. The command calls `Model#getGroupList()` to retrieve the list of groups from the internal HitList state, or sends `toList` to the model.
+Step 6. `LogicManager` calls `ListGroupCommand#execute()`. The command calls `Model#getGroupList()` to retrieve the list of groups from the internal HitList state, or sends `toList` to the model.
 
 Step 7. Since the underlying data was not modified, `Storage` does not need to save anything to the hard disk. The `LogicManager` returns the `CommandResult` containing the list of groups to the UI to display to the user.
 
