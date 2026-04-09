@@ -869,9 +869,9 @@ Step 7. Since the underlying data was not modified, `Storage` does not need to s
 
 <br>
 
-<info type="info" seamless header="Note">
+<box type="info" seamless header="Note">
 The lifeline for <code>ListGroupCommand</code> and <code>ListGroupCommandParser</code> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-</info>
+</box>
 
 The following activity diagram summarizes what happens when a user executes the `grplist` command:
 
