@@ -472,6 +472,12 @@ The following sequence diagram shows how a ListCompany operation goes through th
 
 <br>
 
+<box type="info" seamless>
+
+**Note:** The lifeline for `ListCompanyCommand` and `ListCompanyCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+</box>
+
 The following activity diagram summarizes what happens when a user executes the `cmplist` command, highlighting the branching logic based on user input:
 
 <div class="text-center">
@@ -529,6 +535,12 @@ The following sequence diagram shows how a FindCompany operation goes through th
 </div>
 
 <br>
+
+<box type="info" seamless>
+
+**Note:** The lifeline for `FindCompanyCommand` and `FindCompanyCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+</box>
 
 The following activity diagram summarizes what happens when a user executes the `cmpfind` command:
 
