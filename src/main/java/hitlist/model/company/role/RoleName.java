@@ -17,8 +17,9 @@ public class RoleName {
      * The first character of the role name must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      * Forward slashes (/) are not allowed to prevent command parser conflicts.
+     * Banned hidden whitespace characters
      */
-    public static final String VALIDATION_REGEX = "^[^\\s/][^/\\v]{1,49}$";
+    public static final String VALIDATION_REGEX = "^[^/\\s\\p{C}][^/\\v\\p{C}]{1,49}$";
 
     private final String roleName;
 
