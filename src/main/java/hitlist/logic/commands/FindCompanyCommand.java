@@ -7,6 +7,7 @@ import hitlist.commons.util.ToStringBuilder;
 import hitlist.logic.Messages;
 import hitlist.model.Model;
 import hitlist.model.company.CompanyMatchesFindPredicate;
+import hitlist.model.company.CompanyName;
 
 /**
  * Finds and lists all companies in HitList whose company name contains any of the argument keywords.
@@ -25,6 +26,12 @@ public class FindCompanyCommand extends Command {
     public static final String MESSAGE_INVALID_KEYWORD = "Invalid search keyword: '%s'\n"
             + "Search keywords must be valid company names. %s\n"
             + "Example: " + COMMAND_WORD + " Google";
+
+    public static final String SEARCH_KEYWORD_CONSTRAINTS =
+            "Search keywords must follow the same format as company names, "
+                    + "with the exception that single characters are allowed.\n"
+                    + CompanyName.MESSAGE_CONSTRAINTS
+                    + " (single characters are allowed for search)";
 
     private final CompanyMatchesFindPredicate predicate;
 

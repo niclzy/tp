@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import hitlist.logic.commands.FindCompanyCommand;
 import hitlist.model.company.CompanyMatchesFindPredicate;
-import hitlist.model.company.CompanyName;
 
 public class FindCompanyCommandParserTest {
 
@@ -21,7 +20,7 @@ public class FindCompanyCommandParserTest {
      */
     private String getExpectedErrorMessage(String invalidKeyword) {
         return String.format(FindCompanyCommand.MESSAGE_INVALID_KEYWORD, invalidKeyword,
-                CompanyName.MESSAGE_CONSTRAINTS);
+                FindCompanyCommand.SEARCH_KEYWORD_CONSTRAINTS);
     }
 
     @Test
@@ -80,14 +79,37 @@ public class FindCompanyCommandParserTest {
     }
 
     @Test
-    public void parse_invalidKeywordTooShort_throwsParseException() {
-        // Single character keywords (less than 2 characters) should fail
+    public void parse_singleCharacterAlphanumericKeyword_returnsFindCompanyCommand() {
+        // Single character alphanumeric searches are now allowed
+        FindCompanyCommand expectedCommand =
+                new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("X")));
+        assertParseSuccess(parser, "X", expectedCommand);
+
+        expectedCommand = new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("a")));
+        assertParseSuccess(parser, "a", expectedCommand);
+
+        expectedCommand = new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("1")));
+        assertParseSuccess(parser, "1", expectedCommand);
+
+        expectedCommand = new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("Z")));
+        assertParseSuccess(parser, "Z", expectedCommand);
+    }
+
+    @Test
+    public void parse_invalidSingleCharacterNonAlphanumeric_throwsParseException() {
+        // Single character non-alphanumeric (symbols) should fail
         assertParseFailure(parser, "=", getExpectedErrorMessage("="));
         assertParseFailure(parser, "{", getExpectedErrorMessage("{"));
         assertParseFailure(parser, "[", getExpectedErrorMessage("["));
         assertParseFailure(parser, "@", getExpectedErrorMessage("@"));
         assertParseFailure(parser, "&", getExpectedErrorMessage("&"));
-        assertParseFailure(parser, "a", getExpectedErrorMessage("a"));
+        assertParseFailure(parser, "!", getExpectedErrorMessage("!"));
+        assertParseFailure(parser, "?", getExpectedErrorMessage("?"));
+        assertParseFailure(parser, "*", getExpectedErrorMessage("*"));
+        assertParseFailure(parser, "(", getExpectedErrorMessage("("));
+        assertParseFailure(parser, ")", getExpectedErrorMessage(")"));
+        assertParseFailure(parser, "+", getExpectedErrorMessage("+"));
+        assertParseFailure(parser, "=", getExpectedErrorMessage("="));
     }
 
     @Test
@@ -97,16 +119,23 @@ public class FindCompanyCommandParserTest {
         assertParseFailure(parser, "n/", getExpectedErrorMessage("n/"));
         assertParseFailure(parser, "/c", getExpectedErrorMessage("/c"));
         assertParseFailure(parser, "Google/Meta", getExpectedErrorMessage("Google/Meta"));
-        assertParseFailure(parser, "Google/Meta", getExpectedErrorMessage("Google/Meta"));
     }
 
     @Test
     public void parse_mixedValidAndInvalidKeywords_throwsParseException() {
         // When there are multiple keywords, the first invalid one causes the error
+        // Single character non-alphanumeric
         assertParseFailure(parser, "Google = Meta", getExpectedErrorMessage("="));
         assertParseFailure(parser, "= Google Meta", getExpectedErrorMessage("="));
         assertParseFailure(parser, "Google Meta =", getExpectedErrorMessage("="));
+
+        // Contains forward slash
         assertParseFailure(parser, "Google /n Meta", getExpectedErrorMessage("/n"));
+
+        // Single character alphanumeric is now valid, so these should pass
+        FindCompanyCommand expectedCommand =
+                new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("Google", "X", "Meta")));
+        assertParseSuccess(parser, "Google X Meta", expectedCommand);
     }
 
     @Test
@@ -141,7 +170,7 @@ public class FindCompanyCommandParserTest {
 
     @Test
     public void parse_validKeywordWithSpecialCharacters_returnsFindCompanyCommand() {
-        // These are valid as long as length >= 2 and no forward slash
+        // For 2+ characters, special characters are allowed (except /)
         FindCompanyCommand expectedCommand =
                 new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("Google$Meta")));
         assertParseSuccess(parser, "Google$Meta", expectedCommand);
@@ -151,5 +180,32 @@ public class FindCompanyCommandParserTest {
 
         expectedCommand = new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("Google*Meta")));
         assertParseSuccess(parser, "Google*Meta", expectedCommand);
+
+        expectedCommand = new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("Google+Meta")));
+        assertParseSuccess(parser, "Google+Meta", expectedCommand);
+
+        expectedCommand = new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("Google=Meta")));
+        assertParseSuccess(parser, "Google=Meta", expectedCommand);
+    }
+
+    @Test
+    public void parse_mixedLengthKeywords_returnsFindCompanyCommand() {
+        // Mix of single character and multi-character keywords
+        FindCompanyCommand expectedCommand =
+                new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("X", "Google", "Y", "Meta")));
+
+        assertParseSuccess(parser, "X Google Y Meta", expectedCommand);
+    }
+
+    @Test
+    public void parse_caseInsensitiveSingleCharacter_returnsFindCompanyCommand() {
+        // Case shouldn't matter for single characters
+        FindCompanyCommand expectedCommandLower =
+                new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("x")));
+        FindCompanyCommand expectedCommandUpper =
+                new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("X")));
+
+        assertParseSuccess(parser, "x", expectedCommandLower);
+        assertParseSuccess(parser, "X", expectedCommandUpper);
     }
 }
