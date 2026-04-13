@@ -719,7 +719,7 @@ Step 4. The `HitListParser` calls the `parse(" /g Students /n Alex Yeoh /n Berni
 
 Step 5. The `AddGroupCommand` is returned to the `LogicManager`, and the `AddGroupCommandParser` is subsequently destroyed.
 
-Step 6. `LogicManager` calls `AddGroupCommand#execute()`. This command calls `Model#addGroup(toAdd)` to add the group to the internal HitList state, and then resolves each provided member name against existing contacts before adding the matched `Person` objects to the group.
+Step 6. `LogicManager` calls `AddGroupCommand#execute()`. The command first resolves each provided member name against existing contacts and adds the matched `Person` objects to the group. After all members are successfully resolved, it calls `Model#addGroup(toAdd)` to add the fully populated group to the internal HitList state.
 
 <div class="text-center">
   <puml src="diagrams/add-group/GroupAddExecution.puml" alt="GroupAdd-Execution" />
