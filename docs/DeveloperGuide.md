@@ -576,7 +576,7 @@ The following activity diagram summarizes what happens when a user executes the 
 
 #### Finding a person
 
-The **FindPerson mechanism** is facilitated by `FindCommand` and its associated parser `FindCommandParser`. It allows users to search for people in HitList by specifying keywords that match attributes such as name, phone number, or email.
+The **FindPerson mechanism** is facilitated by `FindCommand` and its associated parser `FindCommandParser`. It allows users to search for people in HitList by specifying keywords that match the person's name.
 
 The feature implements the following key operations:
 
