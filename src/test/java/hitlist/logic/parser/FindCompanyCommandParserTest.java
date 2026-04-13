@@ -3,7 +3,10 @@ package hitlist.logic.parser;
 import static hitlist.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static hitlist.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static hitlist.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
@@ -21,6 +24,16 @@ public class FindCompanyCommandParserTest {
     private String getExpectedErrorMessage(String invalidKeyword) {
         return String.format(FindCompanyCommand.MESSAGE_INVALID_KEYWORD, invalidKeyword,
                 FindCompanyCommand.SEARCH_KEYWORD_CONSTRAINTS);
+    }
+
+    /**
+     * Uses reflection to invoke the private isValidSearchKeyword method directly,
+     * so that all internal validation branches can be covered.
+     */
+    private boolean invokeIsValidSearchKeyword(String keyword) throws Exception {
+        Method method = FindCompanyCommandParser.class.getDeclaredMethod("isValidSearchKeyword", String.class);
+        method.setAccessible(true);
+        return (boolean) method.invoke(parser, keyword);
     }
 
     @Test
@@ -266,12 +279,10 @@ public class FindCompanyCommandParserTest {
 
     @Test
     public void parse_mixedValidAndInvalidKeywords_throwsParseException() {
-        // First invalid keyword (forward slash)
         assertParseFailure(parser, "Google /n Meta", getExpectedErrorMessage("/n"));
         assertParseFailure(parser, "/n Google Meta", getExpectedErrorMessage("/n"));
         assertParseFailure(parser, "Google Meta /n", getExpectedErrorMessage("/n"));
 
-        // Single character special symbols are valid, so these should pass
         FindCompanyCommand expectedCommand =
                 new FindCompanyCommand(new CompanyMatchesFindPredicate(Arrays.asList("Google", "@", "Meta")));
         assertParseSuccess(parser, "Google @ Meta", expectedCommand);
@@ -378,20 +389,15 @@ public class FindCompanyCommandParserTest {
     }
 
     @Test
-    public void parse_keywordWithControlCharacters_throwsParseException() {
-        // Control characters are forbidden by CompanyName.VALIDATION_REGEX (\p{C})
-        // The parser should reject them with MESSAGE_INVALID_COMMAND_FORMAT
-        // because the token splitting still works but the keyword is invalid
+    public void parse_keywordWithEmbeddedControlCharacter_throwsParseException() {
+        String invalidKeyword = "Go\u0007ogle";
+        assertParseFailure(parser, invalidKeyword, getExpectedErrorMessage(invalidKeyword));
+    }
 
-        // Test with BEL character
-        String belChar = "\u0007";
-        assertParseFailure(parser, belChar,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCompanyCommand.MESSAGE_USAGE));
-
-        // Test with SOH character
-        String sohChar = "\u0001";
-        assertParseFailure(parser, sohChar,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCompanyCommand.MESSAGE_USAGE));
+    @Test
+    public void parse_keywordWithEmbeddedForwardSlash_throwsParseException() {
+        String invalidKeyword = "Go/ogle";
+        assertParseFailure(parser, invalidKeyword, getExpectedErrorMessage(invalidKeyword));
     }
 
     @Test
@@ -410,5 +416,53 @@ public class FindCompanyCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCompanyCommand.MESSAGE_USAGE));
         assertParseFailure(parser, " \t \n ",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCompanyCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void isValidSearchKeyword_null_returnsFalse() throws Exception {
+        assertFalse(invokeIsValidSearchKeyword(null));
+    }
+
+    @Test
+    public void isValidSearchKeyword_emptyString_returnsFalse() throws Exception {
+        assertFalse(invokeIsValidSearchKeyword(""));
+    }
+
+    @Test
+    public void isValidSearchKeyword_trimmedEmpty_returnsFalse() throws Exception {
+        assertFalse(invokeIsValidSearchKeyword("   "));
+        assertFalse(invokeIsValidSearchKeyword("\t  \n"));
+    }
+
+    @Test
+    public void isValidSearchKeyword_forwardSlash_returnsFalse() throws Exception {
+        assertFalse(invokeIsValidSearchKeyword("/"));
+        assertFalse(invokeIsValidSearchKeyword("abc/def"));
+    }
+
+    @Test
+    public void isValidSearchKeyword_controlCharacter_returnsFalse() throws Exception {
+        assertFalse(invokeIsValidSearchKeyword("Go\u0007ogle"));
+    }
+
+    @Test
+    public void isValidSearchKeyword_verticalWhitespace_returnsFalse() throws Exception {
+        assertFalse(invokeIsValidSearchKeyword("abc\u000Bdef")); // vertical tab
+        assertFalse(invokeIsValidSearchKeyword("abc\fdef")); // form feed
+    }
+
+    @Test
+    public void isValidSearchKeyword_singleCharacter_returnsTrue() throws Exception {
+        assertTrue(invokeIsValidSearchKeyword("X"));
+        assertTrue(invokeIsValidSearchKeyword("@"));
+        assertTrue(invokeIsValidSearchKeyword("7"));
+    }
+
+    @Test
+    public void isValidSearchKeyword_generalValidKeyword_returnsTrue() throws Exception {
+        assertTrue(invokeIsValidSearchKeyword("Google"));
+        assertTrue(invokeIsValidSearchKeyword("AT&T"));
+        assertTrue(invokeIsValidSearchKeyword("T-Mobile"));
+        assertTrue(invokeIsValidSearchKeyword("café"));
     }
 }
