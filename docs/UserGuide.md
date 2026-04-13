@@ -652,7 +652,10 @@ HitList data are saved automatically as a JSON file `[JAR file location]/data/hi
 
 Advanced users are welcome to update data directly by editing that data file.
 
-**Caution:** If your changes to the data file make its format invalid, HitList will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.
+<box theme="danger" header="**CAUTION: Manual Modification**">
+    If your changes to the data file make its format invalid, HitList will discard all data and start with an empty data file at the next run. 
+    Hence, it is recommended to take a backup of the file before editing it.
+</box>
 
 Furthermore, certain edits can cause HitList to behave in unexpected ways, for example, if a value entered is outside the acceptable range. Therefore, edit the data file only if you are confident that you can update it correctly.
 
