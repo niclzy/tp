@@ -308,11 +308,11 @@ A `Person` object represents a contact in the HitList. It has the following deta
 
 **Aspect: Handling Duplicate Persons:**
 * **Alternative 1 (current choice):** Reject duplicates based on the contact's name and phone number.
-    * Pros: A phone number is a strong practical identifier for recruiter workflows and prevents obvious duplicates.
-    * Cons: It does not handle the edge case where the users have more than one number or when users have the same name.
-* **Alternative 2:** Reject duplicates based on the full set of person fields.
-    * Pros: Allows multiple entries that share the same phone number and name.
-    * Cons: Makes duplicate detection harder and increases the chance of cluttering HitList with repeated contacts.
+  * Pros: A phone number is a strong practical identifier for recruiter workflows and prevents obvious duplicates.
+  * Cons: It does not handle the edge case where the users have more than one number or when users have the same name.
+* **Alternative 2:** Reject duplicates based on phone number and email.
+  * Pros: Disallows multiple entries that share the same phone number and email.
+  * Cons: Complicates CLI logic for edit and delete commands. If two distinct contacts share the same name, targeting them by the name field becomes ambiguous for the user and the parser.
 
 #### Adding a person
 
@@ -720,7 +720,7 @@ Step 4. The `HitListParser` calls the `parse(" /g Students /n Alex Yeoh /n Berni
 
 Step 5. The `AddGroupCommand` is returned to the `LogicManager`, and the `AddGroupCommandParser` is subsequently destroyed.
 
-Step 6. `LogicManager` calls `AddGroupCommand#execute()`. This command calls `Model#addGroup(toAdd)` to add the group to the internal HitList state, and then resolves each provided member name against existing contacts before adding the matched `Person` objects to the group.
+Step 6. `LogicManager` calls `AddGroupCommand#execute()`. The command first resolves each provided member name against existing contacts and adds the matched `Person` objects to the group. After all members are successfully resolved, it calls `Model#addGroup(toAdd)` to add the fully populated group to the internal HitList state.
 
 <div class="text-center">
   <puml src="diagrams/add-group/GroupAddExecution.puml" alt="GroupAdd-Execution" />
@@ -2032,20 +2032,20 @@ These instructions only provide a starting point for testers to work on; testers
 
 ### Deleting a person
 
-1. Deleting a person while a filtered list of persons is being shown (Index Deletion)
+1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+1. Deleting a person while a list of persons is being shown (Index Deletion)
 
-   2. Test case: `delete 1`<br>
+   1. Test case: `delete 1`<br>
       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
 
-   3. Test case: `delete 0`<br>
+   2. Test case: `delete 0`<br>
       Expected: No person is deleted. Error details shown in the status message.
 
-   4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the filtered list size)<br>
+   3. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the filtered list size)<br>
       Expected: Invalid command format error details shown in the status message.
 
-3. Deleting a person while a filtered list of persons is being shown (Name Deletion)
+3. Deleting a person while a list of persons is being shown (Name Deletion)
 
     1. Test case: `delete /n Alice`<br>
         Expected: Contact with name "Alice" is deleted from the HitList. Details of the deleted contact shown in the status message.
