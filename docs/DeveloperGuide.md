@@ -2020,7 +2020,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 1. Prerequisites: List all persons using the `list` command, or find persons using the `find` command. Multiple persons in the list.
 
-1. Deleting a person while a filtered list of persons is being shown (Index Deletion)
+1. Deleting a person while a list of persons is being shown (Index Deletion)
 
    1. Test case: `delete 1`<br>
       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
@@ -2031,7 +2031,7 @@ These instructions only provide a starting point for testers to work on; testers
    3. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the filtered list size)<br>
       Expected: Invalid command format error details shown in the status message.
 
-3. Deleting a person while a filtered list of persons is being shown (Name Deletion)
+3. Deleting a person while a list of persons is being shown (Name Deletion)
 
     1. Test case: `delete /n Alice`<br>
         Expected: Contact with name "Alice" is deleted from the HitList. Details of the deleted contact shown in the status message.
